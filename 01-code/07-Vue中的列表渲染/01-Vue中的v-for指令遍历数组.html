@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>每天都被自己帅醒!</title>
+  <link rel="stylesheet" href="">
+  <script type="text/javascript" src="../js/vue.js"></script>
+</head>
+
+<body>
+  <div id="app">
+    <fieldset>
+      <legend>遍历数组</legend>
+      <ol>
+        <li v-for="(item,index) in persons" :key="index">
+          索引:{{index}}---id:{{item.id}}---名字:{{item.name}}---性别:{{item.gender}}---年龄:{{item.age}}
+        </li>
+      </ol>
+      <hr>
+      <ul>
+        <li v-for="item in persons" :key="item.id">
+          id:{{item.id}}---名字:{{item.name}}---性别:{{item.gender}}---年龄:{{item.age}}
+        </li>
+
+      </ul>
+    </fieldset>
+    <hr>
+    <fieldset>
+      <legend>遍历对象</legend>
+      <ul>
+        <li v-for="(val,key,index) in obj">
+          {{key}}----{{val}}---{{index}}
+        </li>
+      </ul>
+    </fieldset>
+  </div>
+  <script type="text/javascript">
+    const vm = new Vue({
+      el: '#app',
+      data: {
+        persons: [
+          { id: 1, name: '华哥', age: 38, gender: '女' },
+          { id: 2, name: '健哥', age: 28, gender: '男' },
+          { id: 3, name: '禹哥', age: 35, gender: '女' },
+          { id: 4, name: '铭哥', age: 40, gender: '男' },
+          { id: 5, name: '猫哥', age: 52, gender: '女' }
+        ],
+        obj:{
+          name:'大禹',
+          gender:'男',
+          age:30
+        }
+      }
+    })
+
+    /*
+
+      遍历数据: 通过v-for指令遍历vm中的data中的相关数据
+
+
+
+      v-for指令:遍历数据的
+
+      遍历数组的两种写法:
+      v-for指令的写法1: (item,index) in 数组名字  item--->数组中的每一项数据,index--->索引
+      v-for指令的写法2:item in 数组名字 item--->数组中的每一项数据
+      遍历对象的写法:
+      (value,key,index) in 对象名字
+      key----->对象中的键(属性)
+      value--->对象中属性的值
+      index--->索引(意义不大)
+      总结:key一般情况最好使用的是唯一标识,一般用id的方式比较多,如果平时就是普通的遍历显示,那么可以直接使用索引,讲课的过程中多数都是演示知识,所以使用索引多一些,项目中使用id比较多
+    
+    
+     */
+  </script>
+</body>
+
+</html>

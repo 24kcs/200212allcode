@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>每天都被自己帅醒!</title>
+	<link rel="stylesheet" href="">
+	<script type="text/javascript" src="../js/vue.js"></script>
+	<style type="text/css">
+		.cls1 {
+			width: 200px;
+			height: 100px;
+			background-color: green
+		}
+
+		.cls2 {
+			width: 100px;
+			height: 50px;
+			background-color: pink;
+		}
+	</style>
+</head>
+
+<body>
+	<div id="app">
+		<h2>事件修饰符</h2>
+		<!-- <a href="http://www.baidu.com" @click="toBaiDu1">百度</a>
+		<a href="http://www.baidu.com" @click.prevent="toBaiDu2">百度</a>
+		<div class="cls1" @click="showMessage1">
+			<p class="cls2" @click="showMessage2"></p>
+		</div>
+		<div class="cls1" @click="showMessage3">
+			<p class="cls2" @click.stop="showMessage4"></p>
+		</div> -->
+
+
+		<a href="http://www.baidu.com" @click="goBaiDu1">百度</a>
+		<a href="http://www.baidu.com" @click.prevent="goBaiDu2">百度</a>
+		<div class="cls1" @click="showMsg1">
+			<p class="cls2" @click="showMsg2"></p>
+		</div>
+		<div class="cls1" @click="showMsg3">
+			<p class="cls2" @click.stop="showMsg4"></p>
+		</div>
+	</div>
+	<script type="text/javascript">
+		const vm = new Vue({
+			el: '#app',
+			data: {
+
+			},
+			methods: {
+				goBaiDu1(e) {
+					e.preventDefault()
+					console.log('去百度1')
+				},
+				goBaiDu2() {
+					console.log('去百度2')
+				},
+				showMsg1(){
+					console.log('外面的div')
+				},
+				showMsg2(e){
+					console.log('里面的p')
+					e.stopPropagation()
+				},
+				showMsg3(){
+					console.log('外面的div2')
+				},
+				showMsg4(){
+					console.log('里面的p2')
+				}
+			
+			}
+		})
+	
+		/**
+		 *
+		 * 事件修饰符,在事件名字的后面.prevent----->阻止默认跳转行为
+		 * .prevent---->阻止默认行为跳转
+		 * .stop--->阻止事件冒泡
+		 *
+		 */
+	</script>
+</body>
+
+</html>

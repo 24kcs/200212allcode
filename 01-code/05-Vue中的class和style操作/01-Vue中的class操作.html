@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>每天都被自己帅醒!</title>
+	<link rel="stylesheet" href="">
+	<script type="text/javascript" src="../js/vue.js"></script>
+	<style type="text/css">
+		#app {
+			width: 600px;
+			border: 1px solid red;
+			margin: 0 auto;
+		}
+
+		.cls {
+			color: green;
+		}
+
+		.cls1 {
+			color: deeppink;
+		}
+
+		.cls2 {
+			font-size: 30px;
+		}
+
+		.cls3 {
+			font-family: '全新硬笔行书简'
+		}
+	</style>
+</head>
+
+<body>
+	<div id="app">
+		<fieldset>
+			<legend>class绑定:直接设置class值</legend>
+			<p :class="myClass">这是一个P</p>
+			<button @click="myClass='cls1'">改变样式</button>
+		</fieldset>
+		<fieldset>
+			<legend>class绑定:使用对象的方式(cls是类名,固定的写法(写的肯定是类名,后面跟的是布尔值))</legend>
+			<p :class="{cls:isFlag}">不乱于心,不困于情</p>
+			<button @click="isFlag=!isFlag">改变样式</button>
+		</fieldset>
+		<fieldset>
+			<legend>class绑定:使用数组方式([]里面是动态的属性,需要在data中定义)</legend>
+			<p :class="[clsA,clsB,clsC]">不念过去,不畏将来</p>
+		</fieldset>
+		<fieldset>
+			<legend>class绑定:动态绑定和静态绑定结合</legend>
+			<p class="cls" :class="clsC">不念过去,不畏将来</p>
+		</fieldset>
+		<fieldset>
+			<legend>class绑定:静态绑定,使用动态的方式绑定数据,同时内部使用静态值</legend>
+			<p :class="['cls1','cls2','cls3']">不念过去,不畏将来</p>
+		</fieldset>
+	</div>
+	<script type="text/javascript">
+		const vm = new Vue({
+			el: '#app',
+			data: {
+				myClass: 'cls',
+				isFlag: false,
+				clsA: 'cls1',
+				clsB: 'cls2',
+				clsC: 'cls3',
+			}
+		})
+
+		/**
+		 Vue中的样式操作,有两种方式:
+		 1.class的方式
+		 		1.直接使用表达式的方式,:class="myClass"
+		    2.使用对象的方式,:class="{cls1:isCls1}" cls1是类样式的名字,isCls1是表达式(该表达式内部的值要么是true要么是false),如果为true,那么标签就会应用cls1类样式,如果为false就不会应用cls1类样式
+		    3.使用数组的方式,:class="[clsA,clsB,clsC]",数组中的内容都是表达式,是动态的
+		    4. class="cls2" :class="myClass"---在项目中用的比较多
+		    5.:class="['cls1','cls2','cls3']"
+		 */
+	</script>
+
+</body>
+
+</html>

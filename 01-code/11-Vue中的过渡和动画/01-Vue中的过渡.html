@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>每天都被自己帅醒!</title>
+	<link rel="stylesheet" href="">
+	<script type="text/javascript" src="../js/vue.js"></script>
+	<style type="text/css">
+		/* 过渡的样式 */
+
+		.fade-enter-active,
+		.fade-leave-action {
+			transition: opacity .5s
+		}
+
+		.fade-enter,
+		.fade-leave-to {
+			opacity: 0;
+		}
+	</style>
+</head>
+
+<body>
+	<div id="app">
+		<!-- <button @click="isOk=!isOk">切换效果</button>
+		<transition name="fade">
+			<p v-show="isOk">我是一个p</p>
+		</transition> -->
+		<button @click="isOk=!isOk">切换效果</button>
+		<transition name="fade">
+				<p v-show="isOk">我是一个p标签</p>
+		</transition>
+	</div>
+
+	<script type="text/javascript">
+		const vm = new Vue({
+			el: '#app',
+			data: {
+				isOk: false
+			}
+		})
+	</script>
+</body>
+
+</html>

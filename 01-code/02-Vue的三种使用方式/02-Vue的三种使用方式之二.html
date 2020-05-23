@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>玉树临风美少年，揽镜自顾夜不眠 </title>
+  <!--第二种:github搜索Vue,然后找到源码,找到里面的dist目录,下载里面的vue.js文件,通过本地引入:-->
+  <script src="../js/vue.js"></script>
+</head>
+
+<body>
+  <div id="app">
+    <h2>{{content}}</h2>
+  </div>
+  <script type="text/javascript">
+    // 实例化Vue
+    const vm = new Vue({
+      el: '#app',
+      data: {
+        content:'冰激淋和冰箱谈恋爱,有一天分手了,然后冰激淋走了,离开了冰箱,发现,天太热,开始融化,后悔了,此时回来找冰箱,冰箱只是很淡定说了一句:上来,自己冻'
+      }
+    })
+  </script>
+</body>
+
+</html>

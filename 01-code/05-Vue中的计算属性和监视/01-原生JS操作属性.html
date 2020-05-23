@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>玉树临风美少年，揽镜自顾夜不眠 </title>
+  <script type="text/javascript" src="../js/vue.js"></script>
+</head>
+
+<body>
+
+  <script type="text/javascript">
+    // 需求:某个属性的值改变,相关联的属性的值会自动发生改变----vue中的计算属性
+
+    // 定义一个对象
+    const person = {
+      firstName: '东方', // 姓氏
+      lastName: '不败' // 名字
+    }
+    // Object对象下的某个方法,让这些属性相关联起来
+    /*
+      该方法的作用:为某个对象添加一个属性,并且可以设置该属性的值的操作
+      参数1:某个对象,为某一个对象添加什么属性,这里的对象就是第一个参数
+      参数2:要添加的属性的名字----字符串类型
+      参数3:配置对象(可以设置该属性的相关的操作的配置)
+
+    */
+    Object.defineProperty(person, 'fullName', {
+      configurable: false, //默认值是false,表示的是该属性是否可以被修改
+      enumerable: false, // 默认值是false,表示的上司该属性是否可以被枚举(遍历的意思)
+      // value:'真_香' ,  // 该属性的默认值
+      // writable:true, // 默认是false,表示的是该属性的值是否可以被修改
+      get() {
+        return this.firstName + '_' + this.lastName
+      }, // 获取该属性值的操作方法
+      set(val) {
+        // 外部的代码如下:
+        // person.fullName='杨帆_起航' person.firstName--->杨帆   person.lastName--->起航
+        const name = val.split('_')
+        this.firstName = name[0]
+        this.lastName = name[1]
+      } // 设置该属性值的操作方法
+
+    })
+
+
+    // 显示姓名(姓氏和名字)
+    person.fullName = person.firstName + '_' + person.lastName
+    console.log(person.fullName)
+    // 修改姓氏
+    person.firstName = '诸葛'
+    // 修改名字
+    person.lastName = '孔明'
+    // 显示姓名
+    console.log(person.fullName)
+    // 直接修改姓名,查看姓氏和名字是否改变
+    person.fullName = '欧阳_华哥'
+    console.log(person.firstName, person.lastName)
+
+
+
+
+  </script>
+
+</body>
+
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>每天都被自己帅醒!</title>
+	<link rel="stylesheet" href="">
+	<script type="text/javascript" src="../js/vue.js"></script>
+</head>
+
+<body>
+	<div id="app">
+		<h2>显示格式化的日期时间</h2>
+		<h2>{{time}}</h2>
+		<h2>{{time|formatTime}}</h2>
+		<h2>{{time|formatTime2}}</h2>
+	</div>
+
+	<script src="https://cdn.bootcss.com/moment.js/2.24.0/moment.js"></script>
+	<script type="text/javascript">
+		/**
+		 * Vue1.0中有自己的过滤器:filter
+		 * Vue2.0中所有过滤器全部被干掉,如果需要则自己定义
+		 * 过滤器:对要显示的数据进行特定格式化再显示
+		 * 1.定义 过滤器:
+		 * Vue.Filter(filterName,function(value,[arg1,arg2,...]){
+		 * return newValue
+		 * })
+		 * 2.使用 过滤器:
+		 * <div>{{myData|filterName}}</div>
+		 * <div>{{myData|filterName(arg)}}</div>
+		 * 
+		 * 去下面的网址找moment.js
+		 *  https://www.bootcdn.cn/
+		 * 或者这个网址
+		 * https://www.bootcdn.cn/moment.js/
+		 * 把 https://cdn.bootcss.com/moment.js/2.24.0/moment.js 通过script标签引入到当前的页面
+		 * 
+		 * http://momentjs.cn/ 官网
+		 * 
+		 * 
+		*/
+		//定义过滤器:
+
+		Vue.filter('formatTime', value => {
+			return moment(value).format('YYYY-MM-DD hh:mm:ss')
+		})
+		Vue.filter('formatTime2',(value,formatString='YYYY-MM-DD hh:mm:ss')=>{
+			return moment(value).format(formatString)
+		})
+		const vm = new Vue({
+			el: '#app',
+			data: {
+				time: Date.now()
+			}
+		})
+
+		// Vue.filter('formatTime1', (value) => {
+		// 	return moment(value).format('YYYY-MM-DD hh:mm:ss');
+		// })
+		// Vue.filter('formatTime2', (value, formatString = 'YYYY-MM-DD HH:mm:ss') => {
+		// 	return moment(value).format(formatString);
+		// })
+		// Vue.filter('formatTime3', (value, formatString) => {
+		// 	return moment(value).format(formatString || 'YYYY-MM-DD hh:mm:ss');
+		// })
+		// const vm = new Vue({
+		// 	el: '#app',
+		// 	data: {
+		// 		time: Date.now() - 1000
+		// 	}
+		// })
+	</script>
+</body>
+
+</html>

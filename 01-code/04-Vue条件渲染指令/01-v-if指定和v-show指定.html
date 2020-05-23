@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>玉树临风美少年，揽镜自顾夜不眠 </title>
+  <script src="../js/vue.js"></script>
+
+</head>
+
+<body>
+  <div id="app">
+    <!--方式1:使用v-if指令实现-->
+    <button @click="changeSeen">切换显示内容</button>
+    <button @click="isSeen=!isSeen">切换显示内容2</button>
+    <p v-if="isSeen">我喜欢男人</p>
+    <p v-else>男人喜欢我</p>
+    <hr>
+    <!--方式2:使用v-show指令实现-->
+    <button @click="isShow=!isShow">强哥切换</button>
+    <p v-show="isShow">我喜欢皮带</p>
+  </div>
+
+  <script type="text/javascript">
+    // 需求:点击按钮,切换两对p标签的显示和隐藏操作
+    // 实例化Vue 
+    const vm = new Vue({
+      el: '#app',
+      // 定义数据的
+      data: {
+        isSeen: false, // 默认不显示
+        isShow: false  // 默认不显示
+      },
+      // 写方法的
+      methods: {
+        changeSeen() {
+          // 这里的this就是Vue的实例对象
+          // 修改表达式的值
+          this.isSeen = !this.isSeen
+        }
+      }
+    })
+
+
+
+    /*
+
+      Vue中的条件渲染指令
+      v-if指令:
+      语法:
+      v-if="表达式"
+      作用:设置应用了该指令的标签显示或者隐藏,里面的表达式的值是布尔类型,为true则显示该标签,为false,则该标签不显示(DOM树中是不存在)
+      v-else指令通常配置v-if指令使用,不单独使用,(可以联想js基础中的分支语句来理解)
+      v-if指令可以单独使用
+      v-if指令和v-else指令作用:就是设置html标签显示或者不显示的(隐藏)
+
+
+      v-show指令:
+      语法:
+      v-show="表达式"
+      作用:设置应用了该指令的标签显示或者隐藏,里面的表达式的值是布尔类型,为true则显示该标签,为false则隐藏该标签(DOM树中一直存在),显示和隐藏的控制主要是在操作该标签的style属性中的display:none 的方式
+
+
+      总结v-if指令和v-show指令的区别:使用了v-if指令的标签在DOM树中可能是不存在,使用了v-show指令的标签,在DOM树中一直存在
+
+      注意:什么使用使用v-if,什么使用使用v-show,一般如果该标签需要一直在DOM树中存在则使用v-show,否则使用v-if(这一点,暂时不理解没关系,应用场景我们在项目中体现)
+
+
+
+
+
+     1. 为什么每次new Vue的时候前面的变量名字都是用vm来表示?---MVVM就理解了
+     2. 为什么在methods对象的回调函数中可以直接通过this访问data对象内部的属性,并且修改值?
+     3. 什么时候在事件的监听中使用回调函数,或者不使用回调函数?
+     4. html容器的html模版的标签内部,访问表达式的时候为什么不使用this?
+
+
+
+    */
+  </script>
+</body>
+
+</html>

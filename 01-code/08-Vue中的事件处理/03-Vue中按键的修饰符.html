@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>每天都被自己帅醒!</title>
+	<link rel="stylesheet" href="">
+	<script type="text/javascript" src="../js/vue.js"></script>
+</head>
+
+<body>
+	<div id="app">
+	<input type="text" v-model="msg" @keyup="keyupHandle" />
+	<input type="text" v-model="msg" @keyup.13="keyupHandle2" />
+	<input type="text" v-model="msg" @keyup.enter="keyupHandle3" />
+
+	</div>
+	<script type="text/javascript">
+		const vm = new Vue({
+			el:'#app',
+			data:{
+				msg:'', // 用来保存文本框中输入的数据
+			},
+			methods: {
+				keyupHandle(e){
+					if(e.keyCode===13){
+						console.log(this.msg)
+					}
+				},
+				keyupHandle2(){
+					console.log(this.msg)
+				},
+				keyupHandle3(){
+					console.log(this.msg)
+				}
+			}
+		})
+
+		/**
+		 * 按键修饰符:
+		 * .enter----只要按下了回车就会触发该事件的回调函数
+		 * .13同上
+		 * 
+		 */
+	</script>
+</body>
+
+</html>

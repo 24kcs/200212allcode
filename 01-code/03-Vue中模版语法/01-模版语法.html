@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>玉树临风美少年，揽镜自顾夜不眠 </title>
+  <script type="text/javascript" src="../js/vue.js"></script>
+</head>
+
+<body>
+  <div id="app">
+    <!--插值语法:-->
+    <h2>{{msg}}</h2>
+    <h2>{{msg.toUpperCase()}}</h2>
+    <h2>{{msg.split(' ').reverse().join(' ')}}</h2>
+    <h2>{{msg+'==='+'好帅哦'}}</h2>
+    <hr>
+    <!--强制数据绑定-->
+    <a v-bind:href="url">B站</a>
+    <!--强制数据绑定的这个指令的简写方式:-->
+    <a :href="url">B站</a>
+    <!--额外赠送个小例子-->
+    <input type="text" :value="text1">
+    <hr>
+    <!--绑定事件监听-->
+    <button v-on:click="clickHandle1">华哥说</button>
+    <button v-on:click="clickHandle2">强哥说</button>
+    <button v-on:click="clickHandle3">超哥说</button>
+    <hr>
+    <!--绑定事件监听的简写方式:-->
+    <button @click="clickHandle4">渊哥说</button>
+
+    <!--Vue中如何获取DOM元素-->
+    <button @click="showMsg">渊哥大声说</button>
+    <p ref="p1">我们都喜欢男人</p>
+
+  </div>
+  <script type="text/javascript">
+    // 实例化Vue
+    const vm = new Vue({
+      // 通过选择器获取html中对应的容器
+      el: '#app',
+      // 数据对象,里面定义的属性可以在html容器中使用
+      data: {
+        msg: 'What Are you no sha lei',
+        url: 'https://www.bilibili.com/',
+        text1:'锄禾日日当午,地雷埋下土,华哥走过去,炸成二百五'
+      },
+      // methods是一个对象,用来在里面写方法的(回调)
+      methods: {
+        // 第一个按钮的点击事件的回调函数
+        // 普通的写法,里面的this是谁?---是Vue的实例对象
+        clickHandle1:function(){
+          console.log('吻我',this)
+        },
+        // 箭头函数,此时使用箭头函数,里面this是谁?---window
+        clickHandle2:()=>{
+          console.log('来吧,抱我',this)
+        },
+        // 上面的两种写法中,推荐使用第一种写法,因为里面的this是Vue的实例对象
+        // 推荐写法,简单,里面的this是谁?----Vue的实例对象
+        clickHandle3(){
+          console.log('随便我',this)
+        },
+        // 第四个按钮的点击事件的回调函数
+        clickHandle4(){
+          console.log('男人来找我',this)
+        },
+        // 最后一个按钮,如何在Vue中获取某个标签元素对象
+        showMsg(){ // this是Vue的实例对象
+          this.$refs.p1.innerHTML='滴蜡我吧,渊哥说'
+        }
+      }
+
+    })
+
+    /*
+      data对象中定义的是属性和值的关系---->键值对的关系
+      data中的msg:叫属性
+      html容器中的插值语法中: msg---->表达式
+      为什么不同的位置要区分,叫法不同--->目的:为了后期分析Vue源码做准备
+      html容器中的插值语法中(双花括号中)的叫表达式
+      插值语法的使用总结:一般,插值语法用在成对的标签中间,更有意义
+
+
+      对象的作用:可以调用属性和方法
+      什么是对象?具有属性或者方法,特指的某个事物(看的见,或者是摸得到,或者是特指的某个东西)
+      (万物皆对象)
+
+
+      强制数据绑定指令:为一个html属性动态的绑定一个表达式,言外之意:该属性的值是动态的
+      v-bind:属性名字="表达式"
+      v-bind:  在Vue中叫指令(是Vue指令中其中的一个指令),该指令的作用:用来强制数据绑定的()
+      强制数据绑定的指令可以简写:
+      :属性名字="表达式"------>常用,推荐使用
+      如:    :href="url"
+
+      绑定事件监听指令:为一个html标签动态的绑定一个事件,言外之意:就是为html标签添加一个事件,该事件的回调函数需要在实例化Vue的配置对象中的methods对象中进行定义
+      v-on:事件名字   或者   v-on:事件类型
+      v-on:事件名字="回调函数"
+      v-on: 在Vue中叫指令(是Vue指令中的其中的一个指令),该指令的作用:用来绑定事件监听的
+      使用事件监听指令的时候的注意问题:
+       事件的名字都是原来DOM中的原生事件名字,但是事件名字是没有on的,而且都是小写的
+
+      绑定事件监听指令可以简写:
+      @事件名字="回调函数"-----常用,推荐使用
+      如:    @click="clickHandle4"
+
+
+      补充内容:
+      Vue中如何获取某个指定的DOM元素?
+      标签上添加一个ref="值"的属性,然后在对应的回调函数内部,使用this.$refs.值 可以获取
+      为什么是$开头,Vue中规定,$开头的是Vue实例对象来使用的,不是$开头的属性或者方法,通过Vue来使用的
+
+
+
+
+    */
+
+
+
+
+    // var str = '小明|小红|小绿' // 此时就是一个字符串,并不是对象
+    // var result = str.split('|') // str就是对象
+    // console.log(result)
+
+
+    // var obj = {
+    //   name:'华哥|健哥|强哥'
+    // }
+    // obj.name.split('|')
+
+
+
+
+
+    // var obj = {
+    //   sayHi:function(){
+    //     console.log(this)
+    //   }
+    // }
+  </script>
+</body>
+
+</html>
