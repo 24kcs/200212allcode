@@ -18,6 +18,9 @@
 		.cls {
 			color: green;
 		}
+		.cls5{
+			color: blue;
+		}
 
 		.cls1 {
 			color: deeppink;
@@ -37,8 +40,8 @@
 	<div id="app">
 		<fieldset>
 			<legend>class绑定:直接设置class值</legend>
-			<p :class="myClass">这是一个P</p>
-			<button @click="myClass='cls1'">改变样式</button>
+			<p :class="myClass">喜欢男人的强哥</p>
+			<button @click="myClass='cls'">改变样式</button>
 		</fieldset>
 		<fieldset>
 			<legend>class绑定:使用对象的方式(cls是类名,固定的写法(写的肯定是类名,后面跟的是布尔值))</legend>
@@ -58,27 +61,48 @@
 			<p :class="['cls1','cls2','cls3']">不念过去,不畏将来</p>
 		</fieldset>
 	</div>
+
+
 	<script type="text/javascript">
+		// 需求1: 设置p标签的默认样式,点击按钮修改p的样式
+		// 需求2: 设置p标签默认不应用类样式,点击按钮后,使其应用某个类样式,采用对象的写法
+		// 需求3: 设置p标签同时应用多个类样式,采用数组的写法
+		// 需求4: 设置p标签有默认的样式(静态的写法),同时也有动态的写法
+		// 需求5: 设置p标签的样式,使用动态绑定的写法,内部采用静态方式书写---以后看到要认识
+
+
+
+		// 实例化Vue
 		const vm = new Vue({
 			el: '#app',
 			data: {
-				myClass: 'cls',
-				isFlag: false,
-				clsA: 'cls1',
-				clsB: 'cls2',
-				clsC: 'cls3',
+				myClass:'cls5',
+				isFlag:false , // 默认为false,表示该标签不应用cls类样式
+				clsA:'cls1',
+				clsB:'cls2',
+				clsC:'cls3',
 			}
 		})
 
-		/**
-		 Vue中的样式操作,有两种方式:
-		 1.class的方式
-		 		1.直接使用表达式的方式,:class="myClass"
-		    2.使用对象的方式,:class="{cls1:isCls1}" cls1是类样式的名字,isCls1是表达式(该表达式内部的值要么是true要么是false),如果为true,那么标签就会应用cls1类样式,如果为false就不会应用cls1类样式
-		    3.使用数组的方式,:class="[clsA,clsB,clsC]",数组中的内容都是表达式,是动态的
-		    4. class="cls2" :class="myClass"---在项目中用的比较多
-		    5.:class="['cls1','cls2','cls3']"
-		 */
+
+		/*
+
+			1. 在Vue中如何去修改或者操作DOM标签的样式
+				1) 操作class属性来设置或者修改标签样式
+					- 可以直接使用表达式的方式: 如:  :class="表达式" --->:class="myClass"
+					- 使用对象的方式: 如: :class="{类样式名字:表达式}"--->:class="{cls:isFlag}"
+						isFlag是布尔类型,为false,表示该标签不应用该样式,为true,表示该标签应用该样式
+					- 使用数组的方式: 如: :class="[表达式1,表达式2,表达式3]"--->:class="[clsA,clsB,clsC]"
+					- 使用静态和动态结合的方式  如: class="cls1" :class="clsA"
+					- 使用静态绑定 :class="['cls1','cls2','cls3']"----知道有这么个写法
+
+					第一种和第二种和第四种用法比较多
+
+				2) 操作style属性来设置或者修改标签样式
+
+
+
+		*/
 	</script>
 
 </body>

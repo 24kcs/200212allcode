@@ -9,14 +9,14 @@
 	<link rel="stylesheet" href="">
 	<script type="text/javascript" src="../js/vue.js"></script>
 
-	
+
 </head>
 
 <body>
 	<div id="app">
 		<fieldset>
 			<legend>style操作:style中书写的时候有多个值,采用对象写法</legend>
-			<p :style="{color:myColor,fontSize:myFont}">华哥</p>
+			<p :style="{color:myColor,fontSize:myFontSize}">华哥喜欢强哥</p>
 		</fieldset>
 		<fieldset>
 			<legend>style操作:动态操作设置键值,采用数组写法,数组中的每一项都是键值对</legend>
@@ -24,17 +24,18 @@
 		</fieldset>
 	</div>
 	<script type="text/javascript">
-	const vm = new Vue({
-		el:'#app',
-		data:{
-			myColor:'green',
-			myFont:'50px',
-			myColor1:{color:'yellow'},
-			myFont1:{fontSize:'30px'},
-			bgColor:{backgroundColor:'green'}
-		}
-	})
-	
+		const vm = new Vue({
+			el: '#app',
+			data: {
+				myColor: 'green',
+				myFontSize: '50px',
+				myColor1: { color: 'yellow' },
+				myFont1: { fontSize: '80px',fontFamily:'全新硬笔行书简' },
+				bgColor: { backgroundColor: 'pink' }
+			}
+		})
+
+
 
 
 		/**

@@ -13,14 +13,15 @@
 <body>
   <div id="app">
     <!--方式1:使用v-if指令实现-->
-    <button @click="changeSeen">切换显示内容</button>
-    <button @click="isSeen=!isSeen">切换显示内容2</button>
+    <button @click="clickHandle">切换显示内容</button>
+    <button @click="isSeen=!isSeen">切换显示内容</button>
     <p v-if="isSeen">我喜欢男人</p>
     <p v-else>男人喜欢我</p>
     <hr>
     <!--方式2:使用v-show指令实现-->
-    <button @click="isShow=!isShow">强哥切换</button>
-    <p v-show="isShow">我喜欢皮带</p>
+    <button @click="isShow=!isShow">切换显示和隐藏操作</button>
+    <p v-show="isShow">我喜欢你</p>
+
   </div>
 
   <script type="text/javascript">
@@ -28,20 +29,19 @@
     // 实例化Vue 
     const vm = new Vue({
       el: '#app',
-      // 定义数据的
       data: {
         isSeen: false, // 默认不显示
-        isShow: false  // 默认不显示
+        isShow: false // 默认不显示
       },
-      // 写方法的
       methods: {
-        changeSeen() {
-          // 这里的this就是Vue的实例对象
-          // 修改表达式的值
+        clickHandle() {
+          // this是Vue的实例对象
           this.isSeen = !this.isSeen
+          console.log(this)
         }
       }
     })
+
 
 
 
@@ -72,9 +72,18 @@
 
 
      1. 为什么每次new Vue的时候前面的变量名字都是用vm来表示?---MVVM就理解了
+      实例化Vue的时候接收该对象的变量名随便写,使用vm来命名并接收,目的是为了理解MVVM模式
+      M----->Model---数据
+      V----->View(DOM元素)---页面
+      VM---->Vue------>监听DOM,并进行数据绑定
      2. 为什么在methods对象的回调函数中可以直接通过this访问data对象内部的属性,并且修改值?
+      Vue中有数据代理,this代理了data对象,说白了:data对象中的数据可以直接通过this来访问
+      数据代理(Vue源码分析的时候再次讲解)
      3. 什么时候在事件的监听中使用回调函数,或者不使用回调函数?
+      如果该事件触发要执行多个操作,代码比较多,那么此时推荐使用回调函数的方式
+      如果该事件触发要执行的代码很少,或者说只有一行代码,那么可以不用使用回调函数
      4. html容器的html模版的标签内部,访问表达式的时候为什么不使用this?
+      渲染虚拟DOM的时候,该html容器已经被Vue所获取到了,那么里面的表达式在使用的时候,会从Vue中的data中直接获取,此时可以省略this(Vue的源码分析的时候,在深入的讲解)
 
 
 

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>玉树临风美少年，揽镜自顾夜不眠 </title>
+  <script src="../js/vue.js"></script>
+</head>
+
+<body>
+  <div id="app">
+    <input type="text" v-model="msg">
+    <p>{{msg}}</p>
+  </div>
+  <script type="text/javascript">
+    // 需求: 文本框中输入内容后,p标签中的内容会随时自动的变化
+    // 使用v-model指令来实现---->双向数据绑定---一般用在表单标签上
+    // v-model指令 , 语法: v-model="表达式"
+    // v-model指令用在表单标签上,文本框中输入的内容会直接给msg表达式,msg表达式的值发生了变化,p标签中因为使用了msg表达式,也会自动的变化
+    const vm = new Vue({
+      el: '#app',
+      data: {
+        msg: '123'
+      }
+    })
+  </script>
+</body>
+
+</html>

@@ -10,58 +10,73 @@
 </head>
 
 <body>
-
   <script type="text/javascript">
-    // 需求:某个属性的值改变,相关联的属性的值会自动发生改变----vue中的计算属性
+    // 需求:在某个对象中,某个属性的值改变,相关联的属性的值会自动发生改变----vue中的计算属性
 
     // 定义一个对象
     const person = {
-      firstName: '东方', // 姓氏
-      lastName: '不败' // 名字
+      firstName: '东方',
+      lastName: '不败'
     }
-    // Object对象下的某个方法,让这些属性相关联起来
+    // 自己通过原生JS的方式来实现上述的需求
+    // 作用:为某个对象添加一个属性,并且设置该属性及属性值的配置操作
     /*
-      该方法的作用:为某个对象添加一个属性,并且可以设置该属性的值的操作
-      参数1:某个对象,为某一个对象添加什么属性,这里的对象就是第一个参数
-      参数2:要添加的属性的名字----字符串类型
-      参数3:配置对象(可以设置该属性的相关的操作的配置)
+      defineProperty()方法的参数说明
+      参数1:某个对象,为某个对象添加相关的属性,这里的对象就是第一个参数
+      参数2:属性名字,要添加的这个属性名字
+      参数3:配置对象(可以设置该属性的相关操作的配置)
 
+      Vue中计算属性这个技术点(知识点)的原理代码
+    
     */
     Object.defineProperty(person, 'fullName', {
-      configurable: false, //默认值是false,表示的是该属性是否可以被修改
-      enumerable: false, // 默认值是false,表示的上司该属性是否可以被枚举(遍历的意思)
-      // value:'真_香' ,  // 该属性的默认值
-      // writable:true, // 默认是false,表示的是该属性的值是否可以被修改
+      configurable: false, // 默认值是false,表示的是该属性是否可以被修改
+      enumerable: false, // 默认值是false,表示的是该属性是否可以被枚举(遍历的意思)
+      // value: '苍井_华哥', // 该属性的默认值
+      // writable: true , // 默认值是false,表示的是该属性的值是否可以被修改
+      // 如果设置了该属性的set方法和get方法,此时value和writable就不需要再写了
+
+      // 获取该属性的值
       get() {
+        // 外部在使用person.fullName 的时候会自动的进入到当前的get方法内部
         return this.firstName + '_' + this.lastName
-      }, // 获取该属性值的操作方法
+      },
+      // 设置该属性的值
       set(val) {
-        // 外部的代码如下:
-        // person.fullName='杨帆_起航' person.firstName--->杨帆   person.lastName--->起航
-        const name = val.split('_')
+        // val---其实就是fullName这个属性的值
+        // 设置姓名---->姓氏和名字要分开,分别给firstName和lastName
+        // 外部在为person.fullName赋值的时候,会自动的进入到当前的set方法内部
+        const name = val.split('_') // 返回的是数组
         this.firstName = name[0]
         this.lastName = name[1]
-      } // 设置该属性值的操作方法
 
+      }
     })
 
 
-    // 显示姓名(姓氏和名字)
+
+    // 显示该用户的全名(姓名:姓氏+名字)
     person.fullName = person.firstName + '_' + person.lastName
     console.log(person.fullName)
     // 修改姓氏
-    person.firstName = '诸葛'
+    person.firstName = '莱亚'
     // 修改名字
-    person.lastName = '孔明'
-    // 显示姓名
+    person.lastName = '美丽'
+    // 显示姓名-----是否会自动的发生变化---没有变化的
     console.log(person.fullName)
-    // 直接修改姓名,查看姓氏和名字是否改变
-    person.fullName = '欧阳_华哥'
+    // 修改姓名
+    person.fullName = '小泽_强哥'
+    // 显示姓氏和名字----是否会自动的发生变化---
     console.log(person.firstName, person.lastName)
 
 
 
+    /*
+    var num = 10
+    delete num --- >操作该变量---删除该变量的操作
 
+
+    */
   </script>
 
 </body>
