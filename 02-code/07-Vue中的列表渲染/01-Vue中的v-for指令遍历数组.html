@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>每天都被自己帅醒!</title>
+  <link rel="stylesheet" href="">
+  <script type="text/javascript" src="../js/vue.js"></script>
+</head>
+
+<body>
+  <div id="app">
+    <fieldset>
+      <legend>遍历数组</legend>
+      <ol>
+        <!--item和index的变量名可以随便的修改-->
+        <li v-for="(item,index) in persons" :key="item.id">
+          索引:{{index}}---id:{{item.id}}-----名字:{{item.name}}----性别:{{item.gender}}---年龄:{{item.age}}
+        </li>
+      </ol>
+      <hr>
+      <ul>
+        <li v-for="item in persons" :key="item.id">
+          id:{{item.id}}-----名字:{{item.name}}----性别:{{item.gender}}---年龄:{{item.age}}
+        </li>
+      </ul>
+    </fieldset>
+    <hr>
+    <fieldset>
+      <legend>遍历对象</legend>
+      <ul>
+        <li v-for="(val,key,index) in obj">
+          <!--下面属于输出内容,输出的内容顺序无所谓-->
+          {{key}}----{{val}}----{{index}}
+        </li>
+      </ul>
+    </fieldset>
+  </div>
+  <script type="text/javascript">
+    // 需求:Vue中如何遍历数据,展现多个标签
+
+    // 实例化Vue
+    const vm = new Vue({
+      el: '#app',
+      data: {
+        persons: [
+          { id: 1, name: '华哥', age: 38, gender: '女' },
+          { id: 2, name: '强哥', age: 48, gender: '女' },
+          { id: 3, name: '渊哥', age: 58, gender: '女' },
+          { id: 4, name: '超哥', age: 57, gender: '女' },
+          { id: 5, name: '小泽', age: 18, gender: '男' },
+          { id: 6, name: '莱亚', age: 19, gender: '男' }
+        ],
+        obj: {
+          name: '乔碧萝殿下',
+          gender: '女',
+          age: 45
+        }
+      }
+    })
+
+
+    /*
+
+      v-for指令:
+      语法1:
+       v-for="(表达式1,表达式2) in 数组"
+       表达式1---->数组中每一个项--->数组元素
+       表达式2---->数组中的索引
+      语法2:
+       v-for="表达式 in 数组"
+       表达式---->数组中每一个项----数组元素
+
+      语法3:
+       v-for="(表达式1,表达式2,表达式3) in 对象"
+       表达式1--->值
+       表达式2--->键
+       表达式3--->索引
+
+
+
+       :key="表达式" 该表达式一般都是唯一的值,主要是用来标识该标签的唯一性
+       涉及到渲染虚拟DOM的时候效率的问题
+       虚拟DOM:---Vue的源码分析就清楚了
+       渲染:把虚拟DOM展示在界面中,变成了真实的DOM
+       :key=""值最好是使用唯一的标识值,如果仅仅是遍历数组展示数据信息,此时使用索引是可以的(一旦修改数组中的数据,或者排序操作,或者删除数据,那么此时不推荐使用索引,还是推荐使用唯一标识)
+
+
+
+    */
+
+
+
+  </script>
+</body>
+
+</html>

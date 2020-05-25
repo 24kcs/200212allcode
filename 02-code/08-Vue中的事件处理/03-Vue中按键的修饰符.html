@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>每天都被自己帅醒!</title>
+	<link rel="stylesheet" href="">
+	<script type="text/javascript" src="../js/vue.js"></script>
+</head>
+
+<body>
+	<div id="app">
+		<input type="text" v-model="msg" @keyup="keyupHandle1">
+		<!--按键修饰符-->
+		<input type="text" v-model="msg2" @keyup.enter="keyupHandle2">
+		<input type="text" v-model="msg2" @keyup.13="keyupHandle3">
+
+	</div>
+	<script type="text/javascript">
+		// 需求:文本框输入数据后,回车后,可以显示里面的输入内容
+		const vm = new Vue({
+			el: '#app',
+			data: {
+				msg: '123',
+				msg2:'10'
+			},
+			methods: {
+				// 键盘抬起事件,
+				keyupHandle1(event){
+					// 判断键盘码
+					if(event.keyCode===13){
+						console.log('日照香炉生紫烟,遥看情侣在林间')
+					}
+				},
+				keyupHandle2(){
+					console.log('按下了回车了')
+				},
+				keyupHandle3(){
+					console.log('按下了回车了2')
+				}
+			}
+		})
+
+
+		/*
+		
+		 Vue中如何获取事件参数对象?
+			使用$event
+		Vue中如何阻止浏览器的默认行为和阻止事件冒泡
+		 使用事件修饰符: .prevent  和.stop
+		 Vue中如何获取用户按下了回车键
+		  使用按键修饰符:  .enter 或者.13
+		
+		
+		*/
+	</script>
+</body>
+
+</html>

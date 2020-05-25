@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>每天都被自己帅醒!</title>
+    <link rel="stylesheet" href="">
+    <script type="text/javascript" src="../js/vue.js"></script>
+    <style type="text/css">
+        p {
+            border: 1px solid red;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <p v-upper-text="msg"></p>
+        <p v-lower-text="msg"></p>
+    </div>
+    <div id="app2">
+        <p v-upper-text="msg"></p>
+
+    </div>
+    <script type="text/javascript">
+        /**
+         * Vue提供了自定义指令的方法
+         * 1.注册全局指令
+         * Vue.directive('指令名字',function(el,binding){})
+         * 2.注册局部指令
+         * 在Vue的配置中
+         * directives:{
+         * '指令名字'(el,binding){
+         * el.innerHTML=binding.value.toUpperCase()
+         * }
+         * }
+         * 
+         * el:element---指令属性所爱的标签对象
+         * binding:包含指令相关数据的对象容器,里面有value值就是标签中的值
+         * 区别:全局的指令作用范围更大,局部的指令只能在自己的包裹的标签中使用
+         * 
+         * 
+         * 
+         */
+
+
+        // 全局指令
+        Vue.directive('upper-text', function (el, binding) {
+            el.textContent = binding.value.toUpperCase()
+        })
+
+        const vm = new Vue({
+            el: '#app',
+            data: {
+                msg: 'what Are you No sha lei'
+            },
+            // 局部指令
+            directives: {
+                'lower-text'(el, binding) {
+                    el.innerHTML = binding.value.toLowerCase()
+                }
+            }
+        })
+
+        const vm2 = new Vue({
+            el: '#app2',
+            data: {
+                msg: 'what Are you No sha lei'
+            }
+        })
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>玉树临风美少年，揽镜自顾夜不眠 </title>
+  <!--第一种方式:通过CDN在线引入vue的方式来实现Vue的相关操作-->
+  <script src="https://cdn.bootcdn.net/ajax/libs/vue/2.6.11/vue.js"></script>
+</head>
+
+<body>
+<div id="app">
+  <input type="text" v-model="msg" />
+  <p>{{msg}}</p>
+</div>
+<script type="text/javascript">
+  const vm = new Vue({
+    el:'#app',
+    data:{
+      msg:'操千曲而后晓音'
+    }
+  })
+</script>
+</body>
+
+</html>

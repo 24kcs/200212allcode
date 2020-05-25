@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>每天都被自己帅醒!</title>
+	<link rel="stylesheet" href="">
+	<script type="text/javascript" src="../js/vue.js"></script>
+	<style type="text/css">
+		.cls1 {
+			width: 200px;
+			height: 100px;
+			background-color: green
+		}
+
+		.cls2 {
+			width: 100px;
+			height: 50px;
+			background-color: pink;
+		}
+	</style>
+</head>
+
+<body>
+	<div id="app">
+		<h2>事件修饰符</h2>
+		<a href="http://www.baidu.com" @click="toBaiDu1($event)">百度1</a>
+		<!--Vue中提供了更简单的写法:事件修饰符-->
+		<a href="http://www.baidu.com" @click.prevent="toBaidu2">百度2</a>
+		<hr>
+		<!--阻止事件冒泡-->
+		<div class="cls1" @click="showMessage1">
+			<p class="cls2" @click="showMessage2">
+			</p>
+		</div>
+		<!--Vue中提供了更简单单的写法:事件修饰符-->
+		<div class="cls1" @click="showMessage3">
+			<p class="cls2" @click.stop="showMessage4">
+			</p>
+		</div>
+	</div>
+	<script type="text/javascript">
+		// 需求1:点击a标签,不进行跳转(阻止浏览器的默认行为)
+		const vm = new Vue({
+			el:'#app',
+			data:{
+
+			},
+			methods: {
+				// 第一个a标签
+				toBaiDu1(event){
+					console.log('a标签被点了')
+					// 阻止浏览器的默认行为
+					event.preventDefault()
+				},
+				toBaidu2(){
+					console.log('第二个a标签被点了')
+				},
+				// 阻止事件冒泡
+				showMessage1(){
+					console.log('div被点了')
+				},
+				showMessage2(event){
+					console.log('p被点了')
+					// 阻止事件冒泡
+					event.stopPropagation()
+				},
+				showMessage3(){
+					console.log('div2被点了')
+				},
+				showMessage4(){
+					console.log('p2被点了')	
+				}
+			}
+		})
+
+
+		
+
+
+		// 阻止浏览器的默认行为,可以在绑定事件监听的时候,使用事件修饰符, .prevent
+	</script>
+</body>
+
+</html>

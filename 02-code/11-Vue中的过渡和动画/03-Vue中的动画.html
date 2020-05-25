@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>每天都被自己帅醒!</title>
+    <link rel="stylesheet" href="">
+    <script type="text/javascript" src="../js/vue.js"></script>
+    <style type="text/css">
+        p {
+            background-color: green;
+            width: 100px;
+            text-align: center;
+        }
+        /*显示的状态效果*/
+        .bounce-enter-active{
+            animation: bounce-in .5s;
+        }
+        /*隐藏的状态效果*/
+        .bounce-leave-active{
+            animation: bounce-in .5s reverse;
+        }
+        /*动画*/
+        @keyframes bounce-in{
+            0%{
+                transform: scale(0)
+            }
+            50%{
+                transform: scale(2)
+            }
+            100%{
+                transform: scale(1)
+            }
+        }
+
+     
+
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <button @click="show=!show">显示动画效果</button>
+       <transition name="bounce">
+            <p v-show="show">看效果</p>
+       </transition>
+    </div>
+    <script type="text/javascript">
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                show: true
+            }
+        })
+    </script>
+</body>
+
+</html>

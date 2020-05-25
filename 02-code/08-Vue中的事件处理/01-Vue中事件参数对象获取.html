@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>每天都被自己帅醒!</title>
+	<link rel="stylesheet" href="">
+	<script type="text/javascript" src="../js/vue.js"></script>
+</head>
+
+<body>
+	<div id="app">
+		<h2>1.事件监听</h2>
+		<button @click="show1('我猥琐')">华哥1</button>
+		<button @click="show2($event,'我不行')">强哥2</button>
+		<button @click="show3">超哥3</button>
+		<button @click="show4($event)">渊哥4</button>
+	</div>
+	<script type="text/javascript">
+
+
+
+		// 需求:Vue中标签绑定事件监听后,获取当前的回调函数中的事件参数对象的方式
+
+		const vm = new Vue({
+			el: '#app',
+			data: {
+
+			},
+			methods: {
+				show1(txt) {
+					console.log(arguments.length)
+					console.log('华哥说:' + txt)
+				},
+				show2(event,txt) {
+					// 可以获取事件参数对象
+					console.log('强哥说:' + txt,event)
+				},
+				show3(event){
+					// 可以获取事件参数对象
+					console.log('超哥',event)
+				},
+				show4(event){
+					// 可以获取事件参数对象
+					console.log('渊哥',event)
+				}
+			}
+
+		})
+
+
+
+
+
+
+
+		// document.getElementById('btn').onclick = function (event) {
+		// 	// event----对象
+		// 	// event---形参---参数
+		// 	// 当前的这个回调是和onclick事件绑定在一起的-----和事件相关的参数 ----事件参数对象
+		// 	// console.log(arguments[0]) // ------什么时候使用arguments(IE8--),什么时候使用event(火狐浏览器)
+		// 	// 谷歌都支持
+
+		// 	console.log(event)
+		// }
+	</script>
+</body>
+
+</html>

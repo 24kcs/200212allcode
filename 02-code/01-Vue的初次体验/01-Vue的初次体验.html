@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>玉树临风美少年，揽镜自顾夜不眠 </title>
+  <!--第一种方式:通过CDN在线引入vue的方式来实现Vue的相关操作-->
+  <script src="https://cdn.bootcdn.net/ajax/libs/vue/2.6.11/vue.js"></script>
+</head>
+
+<body>
+  <div id="app">
+    <h1>{{msg}}</h1>
+    <p>{{text}}</p>
+  </div>
+  <script type="text/javascript">
+    // 实例化Vue
+    const vm = new Vue({
+      el: '#app',
+      data: {
+        msg: '我喜欢男人,强哥说',
+        text:'我也喜欢男人,华哥说'
+      }
+    })
+  </script>
+
+</body>
+
+</html>

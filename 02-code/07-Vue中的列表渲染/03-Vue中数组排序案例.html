@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>每天都被自己帅醒!</title>
+	<link rel="stylesheet" href="">
+	<script type="text/javascript" src="../js/vue.js"></script>
+</head>
+
+<body>
+	<div id="app">
+		<fieldset>
+			<legend>数据排序及相关操作</legend>
+			<input type="text" v-model="searchName" />
+			<ul>
+				<li v-for="(item,index) in personArr" :key="item.id">
+					索引:{{index}}---id:{{item.id}}----名字:{{item.name}}----年龄:{{item.age}}
+				</li>
+			</ul>
+			<button @click="state=1">升序排序</button>
+			<button @click="state=2">降序排序</button>
+			<button @click="state=0">原来顺序</button>
+
+		</fieldset>
+	</div>
+	<script type="text/javascript">
+		const vm = new Vue({
+			el: '#app',
+			data: {
+				state: 0, // 标识 0---原来顺序,1---升序,2---降序
+				searchName: '', // 用来存储搜索的内容
+				persons: [
+					{ id: 1, name: 'jack', age: 23 },
+					{ id: 2, name: 'tom', age: 47 },
+					{ id: 3, name: 'lucy', age: 14 },
+					{ id: 4, name: 'rousi', age: 78 },
+					{ id: 5, name: 'alibaba', age: 99 }
+				]
+			},
+			computed: {
+				// 原来的数组的数据,只要我的搜索条件发生变化了,立刻的按照我的条件在你原来的数组中进行筛选,把筛选后的结果,放在一个新的数组中
+				personArr() {
+					const { persons, searchName, state } = this
+
+					// 定义一个新的数组数据
+					const arr = persons.filter((item) => item.name.indexOf(searchName) !== -1)
+					// 判断标识状态
+					if (state !== 0) {
+						arr.sort((p1, p2) => {
+							return state === 2 ? p2.age - p1.age : p1.age - p2.age
+						})
+					}
+					return arr
+				}
+			}
+		})
+
+
+
+		// var arr = [10, 20, 50, 40, 100, 70]
+		// for (var i = 0; i < arr.length - 1; i++) {
+		// 	for (var j = 0; j < arr.length - 1 - i; j++) {
+		// 		if (arr[j] > arr[j + 1]) { // arr[j] 和arr[j+1] ---分别表示的是数组中的每个数据
+		// 			var temp = arr[j]
+		// 			arr[j] = arr[j + 1]
+		// 			arr[j + 1] = temp
+		// 		}
+		// 	}
+		// }
+		// console.log(arr)
+
+		// var arr2=[{},{}]
+
+	</script>
+</body>
+
+</html>

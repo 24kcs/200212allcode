@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>每天都被自己帅醒!</title>
+	<link rel="stylesheet" href="">
+	<script type="text/javascript" src="../js/vue.js"></script>
+</head>
+
+<body>
+	<div id="app">
+		<fieldset>
+			<legend>数组数据更新操作</legend>
+			<button @click="addPerson">添加数据</button><br />
+			名字:<input type="text" v-model="perName" /><br />
+			年龄:<input type="text" v-model="age" /><br />
+			描述:<input type="text" v-model="desc" /><br />
+			<ul>
+				<li v-for="(item,index) in persons" :key="item.id">
+					索引:{{index}}----id:{{item.id}}----名字:{{item.name}}----年龄:{{item.age}}---描述:{{item.desc}}--
+					<button @click="delPerson(index)">删除</button>
+					<button @click="updatePerson(index,{id:++perId,name:perName,age,desc})">修改</button>
+				</li>
+			</ul>
+		</fieldset>
+	</div>
+	<script type="text/javascript">
+		// 实例化Vue
+		const vm = new Vue({
+			el: '#app',
+			data: {
+				perName: '', // 用来存储名字的,默认是空的
+				age: '', // 用来存储年龄的
+				desc: '', // 用来存储描述信息的
+				perId: 10, // 用户的默认的id值
+				persons: [
+					{ id: 1, name: '卡卡西', age: 28, desc: '比较帅气的男人' },
+					{ id: 2, name: '自来也', age: 39, desc: '比较值得尊敬的男人' },
+					{ id: 3, name: '大蛇丸', age: 37, desc: '强大的科学家' },
+					{ id: 4, name: '强哥', age: 47, desc: '极其猥琐的男人' },
+					{ id: 5, name: '华哥', age: 46, desc: '极其龌蹉的男人' }
+				]
+			},
+			// 写方法的地方
+			methods: {
+				// 点击按钮的时候添加人的对象信息的方法
+				addPerson() {
+					// 定义一个对象,用来存储相关的属性数据信息
+					const { perName, age, desc } = this
+					const person = {
+						id: ++this.perId,
+						name: perName,
+						age,
+						desc
+					}
+					// 向persons数组中添加一个对象信息
+					this.persons.push(person)
+					// 清空文本框数据
+					this.perName = ''
+					this.age = ''
+					this.desc = ''
+
+				},
+				// 点击按钮通过索引的方式来删除数组中的数据
+				delPerson(index) {
+					// console.log(index)
+					this.persons.splice(index, 1)
+				},
+				// 点击按钮通过索引的方式来修改素组中的数据
+				updatePerson(index, per) {
+					this.persons[index].id = per.id
+					this.persons[index].name = per.name
+					this.persons[index].age = per.age
+					this.persons[index].desc = per.desc
+				}
+			}
+		})
+
+
+		// var obj = {
+		// 	name:'小明',
+		// 	age:10
+		// }
+		// const {name,age} = obj
+		// console.log(name,age)
+		// var obj2 ={
+		// 	name,
+		// 	age
+		// }
+		// console.log(obj2.name,obj2.age)
+		// var num =10
+		// var num2 =++num
+		// console.log(num2)
+
+		// var num3 = ++num
+		// console.log(num3)
+		// console.log(num)
+
+
+		// const obj1={
+		// 	name:'小明',
+		// 	age:10
+		// }
+		// const obj2 = obj1
+	</script>
+</body>
+
+</html>

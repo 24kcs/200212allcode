@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>每天都被自己帅醒!</title>
+	<link rel="stylesheet" href="">
+	<script type="text/javascript" src="../js/vue.js"></script>
+</head>
+
+<body>
+	<div id="app">
+
+
+		<button @click="clear">显示效果</button>
+		<button @click="updateText">更新数据</button>
+		<p v-show="isShow">你打我啊</p>
+	</div>
+	<script type="text/javascript">
+		const vm = new Vue({
+			el: '#app',
+			data: {
+				isShow: false
+			},
+			// 数据初始化之前
+		 beforeCreate () {
+			 	console.log('数据初始化之前',this.isShow)
+		 },
+		 // 数据初始化之后
+		 created () {
+			console.log('数据初始化之后',this.isShow)
+		 },
+		 // 界面显示之前
+		 beforeMount () {
+			console.log('界面初始化之前')
+		 },
+		 // 界面渲染后
+		 mounted () {
+			 console.log('界面初始化之后')
+		 },
+		 // 界面更新之后
+		 beforeUpdate () {
+			 console.log('界面更新之前')
+		 },
+		 // 界面更新之后
+		 updated () {
+			 console.log('界面更新之后')
+		 },
+		 // 组件卸载之前
+		 beforeDestroy () {
+			 console.log('组件卸载后')
+		 },
+		 destroyed () {
+			 console.log('组件下载之后')
+		 },
+		 methods: {
+			updateText(){
+				this.isShow=!this.isShow
+			},
+			clear(){
+				this.$destroy()
+			}
+		 }
+
+		})
+     
+	</script>
+</body>
+
+</html>

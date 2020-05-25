@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>玉树临风美少年，揽镜自顾夜不眠 </title>
+  <script type="text/javascript" src="../js/vue.js"></script>
+
+</head>
+
+<body>
+  <div id="app">
+    <button @click="score='D'">设置分数的级别,显示对应分数的区间</button>
+    <p v-if="score==='A'">90到100分之间</p>
+    <p v-else-if="score==='B'">80到90分之间</p>
+    <p v-else-if="score==='C'">70到80分之间</p>
+    <p v-else-if="score==='D'">60到70分之间</p>
+    <p v-else>不及格</p>
+  </div>
+  <script type="text/javascript">
+    // 需求:点击按钮设置分数的级别,页面中显示对应的分数的区间即可
+    const vm = new Vue({
+      el: '#app',
+      data: {
+        score: 'B'
+      }
+    })
+
+
+    /**
+     * 注意:
+     * span标签在使用v-if和v-else-if和v-else指令的时候,要注意的是:span标签后面不要加<br/> 否则出bug,原因就是指令之间肯定是相连的使用方式,中间如果出现了其他标签,就是把指令之间的联系干掉了
+     */
+  </script>
+</body>
+
+</html>

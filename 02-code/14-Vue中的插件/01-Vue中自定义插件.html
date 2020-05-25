@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>每天都被自己帅醒!</title>
+    <link rel="stylesheet" href="">
+    <script type="text/javascript" src="../js/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <p v-my-directive="msg"></p>
+    </div>
+   <script src="./vue-myPlugin.js"></script>
+    <script type="text/javascript">
+        /**
+         * Vue中的插件
+         * https://cn.vuejs.org/v2/guide/plugins.html
+         * 
+         * 
+         * Vue.use()内部会安装插件,内部调用install
+         * 
+         */
+        //声明使用Vue的插件:MyPlugin
+        Vue.use(MyPlugin)
+        Vue.myGlobalMethod()
+        const vm = new Vue({
+            el:'#app',
+            data:{
+                msg:'哈哈,我又变帅了'
+            }
+        })
+        vm.$myMethod()
+
+        // Vue.use(myPlugin)   
+        // Vue.myGlobalMethod()
+        // const vm = new Vue({
+        //     el:'#app',
+        //     data:{
+        //         msg:'哈哈,我又变帅了'
+        //     }
+        // })
+        // vm.$myMethod()
+
+        // Vue.use(myPlugin)
+
+        //  Vue.myGlobalMethod()
+
+        // var vm = new Vue({
+        //     el: '#app',
+        //     data: {
+        //         msg: '哈哈,我又变帅了'
+        //     }
+        // })
+        // vm.$myMethod()
+    </script>
+</body>
+
+</html>
