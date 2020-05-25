@@ -1,38 +1,25 @@
-// (function (window) {
-// 	const myPlugin = {}
-// 	// 暴露该方法
-// 	myPlugin.install = function (Vue) {
-// 		// 添加一个全局方法
-// 		Vue.myGlobalMethod = function () {
-// 			console.log('全局方法调用')
-// 		}
-// 		// 添加一个全局的资源--指令
-// 		Vue.directive('my-directive', (el, binding) => {
-// 			el.textContent = 'my-directive' + '======' + binding.value
-// 		})
-// 		// 添加一个实例方法
-// 		Vue.prototype.$myMethod = function () {
-// 			console.log('实例对象调用')
-// 		}
-// 	}
-// 	window.myPlugin = myPlugin
-// })(window)
+(function () {
 
-(function (window) {
-	// 定义对象
+	// 定义一个插件对象
 	const MyPlugin = {}
 	MyPlugin.install = function (Vue) {
+		// 定义全局方法
 		Vue.myGlobalMethod = function () {
 			console.log('全局方法')
 		}
-		// 添加一个全局的资源指令
-		Vue.directive('my-directive', (el, binding) => {
-			el.textContent = 'my-directive' + '======' + binding.value
+		// 定义全局资源指令
+		Vue.directive('my-direction', (el, binding) => {
+			el.textContent = 'my-direction' + '=====' + binding.value
 		})
-		// 添加一个实例方法
+
+		// 定义实例方法
 		Vue.prototype.$myMethod = function () {
-			console.log('实例对象方法')
+			console.log('实例方法')
 		}
+
 	}
+
+	// 暴露出去
 	window.MyPlugin = MyPlugin
+
 })(window)

@@ -1,42 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>每天都被自己帅醒!</title>
-        <link rel="stylesheet" href="">
-        <script type="text/javascript" src="../js/vue.js"></script>
-    </head>
-    <body>
-    
-        <div id="app">
-            <p>显示结果:{{content}}</p>
-           <p v-text="content">{{content}}</p>
-           <a v-html="content">百度</a>
-        </div>
-        <script type="text/javascript">
 
-        /**
-         * 
-         * 指令的作用:就是操作标签
-         * v-text:纯文本
-         * v-html:html标签内容
-         * ref:为某个元素注册一个唯一的标识,vue对象通过$refs.这个属性值即可访问该元素对象
-         * 
-         * 
-        */
-         const vm = new Vue({
-             el:'#app',
-             data:{
-                 content:'<a href="http://www.baidu.com">百度</a>'
-             },
-             methods: {
-                handleClick(){
-                    this.$refs.p1.innerHTML=this.content
-                }
-             }
-         })
-        </script>
-    </body>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>每天都被自己帅醒!</title>
+	<link rel="stylesheet" href="">
+	<script type="text/javascript" src="../js/vue.js"></script>
+</head>
+
+<body>
+
+	<div id="app">
+		<p>显示效果:{{content}}</p>
+		<p v-text="content"></p>
+		<p v-html="content"></p>
+	</div>
+	<script type="text/javascript">
+
+
+		const vm = new Vue({
+			el:'#app',
+			data:{
+				content:'<a href="http://www.baidu.com">百度</a>'
+			}
+		})
+
+		// Vue中的内置指令:
+		// 内置指令:Vue中自带的指令
+		/*
+		
+		内置指令
+			v-bind:  强制数据绑定
+			v-model:双向数据绑定
+			v-if:条件渲染指令
+			v-else 配置v-if使用
+			v-else-if 配合v-if使用
+			v-show:条件渲染指令
+			v-on : 绑定事件监听指令
+			v-for: 列表渲染指令
+			v-text:用来显示文本的---原生DOM中的innerText(textContent)
+			v-html:用来显示标签的---原生DOM中的innerHTML
+
+			面试题:说出Vue中常见的7个指令
+
+
+		自定义指令(自己扩展)
+		
+		
+		*/
+	</script>
+</body>
+
 </html>

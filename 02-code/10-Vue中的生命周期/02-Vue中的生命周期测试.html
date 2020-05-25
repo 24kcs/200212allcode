@@ -12,61 +12,66 @@
 
 <body>
 	<div id="app">
-
-
-		<button @click="clear">显示效果</button>
-		<button @click="updateText">更新数据</button>
-		<p v-show="isShow">你打我啊</p>
+		<button @click="updateShow">更新数据</button>
+		<button @click="clear">干掉vm</button>
+		<p v-show="isShow">我来了</p>
 	</div>
 	<script type="text/javascript">
+		// 实例化Vue
 		const vm = new Vue({
 			el: '#app',
 			data: {
 				isShow: false
 			},
-			// 数据初始化之前
-		 beforeCreate () {
-			 	console.log('数据初始化之前',this.isShow)
-		 },
-		 // 数据初始化之后
-		 created () {
-			console.log('数据初始化之后',this.isShow)
-		 },
-		 // 界面显示之前
-		 beforeMount () {
-			console.log('界面初始化之前')
-		 },
-		 // 界面渲染后
-		 mounted () {
-			 console.log('界面初始化之后')
-		 },
-		 // 界面更新之后
-		 beforeUpdate () {
-			 console.log('界面更新之前')
-		 },
-		 // 界面更新之后
-		 updated () {
-			 console.log('界面更新之后')
-		 },
-		 // 组件卸载之前
-		 beforeDestroy () {
-			 console.log('组件卸载后')
-		 },
-		 destroyed () {
-			 console.log('组件下载之后')
-		 },
-		 methods: {
-			updateText(){
-				this.isShow=!this.isShow
+			methods: {
+				updateShow(){
+					this.isShow=!this.isShow
+				},
+				clear(){
+					this.$destroy()
+				}
 			},
-			clear(){
-				this.$destroy()
+			// 数据初始化之前---生命周期钩子(回调函数)
+			beforeCreate () {
+				console.log('数据初始化之前',this.isShow)
+			},
+			// 数据初始化之后--生命周期钩子(回调函数)
+			created () {
+				console.log('数据初始化之后',this.isShow)
+			},
+			// 界面显示之前---生命周期钩子(回调函数)
+			beforeMount () {
+				console.log('界面显示之前')
+			},
+			// 界面显示之后---生命周期钩子(回调函数)
+			mounted () {
+				console.log('界面显示之后')
+			},
+			// 界面更新之前---生命周期钩子(回调函数)
+			beforeUpdate () {
+				console.log('界面更新之前',this.isShow)
+			},
+			// 界面更新之后---生命周期钩子(回调函数)
+			updated () {
+				console.log('界面更新之后',this.isShow)
+			},
+			// 销毁之前
+			beforeDestroy () {
+				console.log('vm卸载之前')
+			},
+			// 销毁之后
+			destroyed () {
+				console.log('vm卸载之后')
 			}
-		 }
-
 		})
-     
+
+
+		// 生命周期的回调一共是11个,目前先演示8个,3个需要在项目结束后再演示
+
+
+		// data对象中的数据,发生了变化--->数据的变化会有可能影响页面的展示效果
 	</script>
+
 </body>
 
 </html>

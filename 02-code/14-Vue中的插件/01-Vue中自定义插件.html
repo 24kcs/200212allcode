@@ -2,61 +2,59 @@
 <html lang="en">
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>每天都被自己帅醒!</title>
-    <link rel="stylesheet" href="">
-    <script type="text/javascript" src="../js/vue.js"></script>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>每天都被自己帅醒!</title>
+	<link rel="stylesheet" href="">
+	<script type="text/javascript" src="../js/vue.js"></script>
 </head>
 
 <body>
-    <div id="app">
-        <p v-my-directive="msg"></p>
-    </div>
-   <script src="./vue-myPlugin.js"></script>
-    <script type="text/javascript">
-        /**
-         * Vue中的插件
-         * https://cn.vuejs.org/v2/guide/plugins.html
-         * 
-         * 
-         * Vue.use()内部会安装插件,内部调用install
-         * 
-         */
-        //声明使用Vue的插件:MyPlugin
-        Vue.use(MyPlugin)
-        Vue.myGlobalMethod()
-        const vm = new Vue({
-            el:'#app',
-            data:{
-                msg:'哈哈,我又变帅了'
-            }
-        })
-        vm.$myMethod()
+	<div id="app">
+		<p v-my-direction="msg"></p>
+	</div>
+	<script src="./vue-myPlugin.js"></script>
+	<script type="text/javascript">
 
-        // Vue.use(myPlugin)   
-        // Vue.myGlobalMethod()
-        // const vm = new Vue({
-        //     el:'#app',
-        //     data:{
-        //         msg:'哈哈,我又变帅了'
-        //     }
-        // })
-        // vm.$myMethod()
 
-        // Vue.use(myPlugin)
+		/*
+		
+		 插件:封装后功能包,Vue本身实现的功能有限,可以引入相关的插件包,实现更多的功能
+		 1.为什么要自己定义插件,一些Vue的插件满足不了现状,所以要自己定义,(到了公司里会封装一些插件)
+		 2.自定义插件该如何定义及使用
 
-        //  Vue.myGlobalMethod()
 
-        // var vm = new Vue({
-        //     el: '#app',
-        //     data: {
-        //         msg: '哈哈,我又变帅了'
-        //     }
-        // })
-        // vm.$myMethod()
-    </script>
+		 Vue中全局方法和实例方法的区别,就看$有没有,有$的开头就是实例方法,没有$开头就是全局方法
+		
+		
+		*/
+
+		// 先声明使用插件
+		Vue.use(MyPlugin)
+		// 使用插件的全局方法
+		Vue.myGlobalMethod()
+		const vm = new Vue({
+			el:'#app',
+			data:{
+				msg:'山东盛产一种补药,药力极强,男人吃了,67受不了,67吃了,男人受不了,记者问题,这么好的药为什么不多种一些'
+			}
+		})
+		// 使用实例方法
+		vm.$myMethod()
+
+
+
+		/**
+		 * Vue中的插件
+		 * https://cn.vuejs.org/v2/guide/plugins.html
+		 *
+		 *
+		 * Vue.use()内部会安装插件,内部调用install
+		 *
+		 */
+
+	</script>
 </body>
 
 </html>

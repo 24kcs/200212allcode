@@ -12,36 +12,48 @@
 
 <body>
 	<div id="app">
-
-
 		<button @click="clear">干掉vm和定时器</button>
-		<p v-show="isShow">哈哈</p>
+		<p v-show="isShow">我喜欢你</p>
 	</div>
 	<script type="text/javascript">
+		// 创建Vue的实例对象,vm已经出生了(已经创建了---活了)
 		const vm = new Vue({
 			el: '#app',
 			data: {
-				isShow: false
+				isShow: false // 表示的是默认不显示
 			},
-			beforeDestroy(){
+			// 生命周期的钩子(生命周期的回调函数),回调函数,不是你触发的,是某个时期自动的触发的
+			// 触发的时机:页面加载后就会立刻触发
+			mounted() { // 非常常用----天天用
+				this.timeId = setInterval(() => {
+					// this---->Vue的实例对象
+					this.isShow = !this.isShow
+					console.log('哈哈')
+				}, 1000);
+			},
+			// 触发的时机:页面中当前的这个vm实例对象被正式销毁之前
+			beforeDestroy () {
+				console.log('马上要销毁啦')
 				clearInterval(this.timeId)
 			},
-			mounted () {
-				this.timeId=setInterval(()=>{
-					this.isShow=!this.isShow
-					console.log('哈哈')
-				},1000)
-			},
-			methods:{
-				clear(){
-				
-					this.$destroy()
+			methods: {
+				clear() {
+					// 清理定时器
+					// clearInterval(this.timeId)
+					// 应该是先干掉vm实例对象
+					this.$destroy() // 自杀
 				}
 			}
-		})
-	
 
+		})
+		// 代码从上到下执行,只要当前页面在浏览器打开,定时器就开始启动,不能准确的做到,当前这个页面加载完毕后去触发定时器
+		// setInterval(() => {
+			// 这里的this是window
+		//	vm---->Vue的实例对象
+		// 	vm.isShow=!vm.isShow
+		// }, 1000);
 	</script>
+
 </body>
 
 </html>

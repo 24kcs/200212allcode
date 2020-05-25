@@ -10,14 +10,61 @@
 	<script type="text/javascript" src="../js/vue.js"></script>
 	<style type="text/css">
 		/* 过渡的样式 */
+		/*
+		
+			元素的显示或者隐藏操作
+			过渡无非就是在显示的时候或者隐藏的时候,有一种慢慢的显示或者慢慢的隐藏的动画效果
+			显示: 无-->有    初始状态(现在是隐藏的)   过渡的状态(慢慢的出现了)   结束状态(已经看到了)
+			隐藏: 有-->无    初始状态(现在是显示的)   过渡的状态(慢慢的隐藏了了)   结束状态(已经看不到了)
+		
+		
+		*/
+		/* 从无到有,显示的过渡效果 */
 
+		/* 初始状态 */
+		/* .fade-enter {
+			opacity: 0
+		} */
+
+		/* 过渡的状态 */
+		/* .fade-enter-active {
+			transition: opacity 5s
+		} */
+
+		/* 结束的状态 */
+		/* .fade-enter-to {
+			opacity: 1
+		} */
+
+
+		/* 从有到无,隐藏的过渡效果 */
+
+
+		/* 初始状态 */
+		/* .fade-leave {
+			opacity: 1
+		} */
+		/* 过渡的状态 */
+		/* .fade-leave-active {
+			transition: opacity 5s
+		} */
+		/* 结束的状态 */
+		/* .fade-leave-to {
+			opacity: 0
+		} */
+
+
+		/* 简写 */
+
+		/* 下面的写法比较多 */
+		/* 过渡的样式 */
 		.fade-enter-active,
-		.fade-leave-action {
-			transition: opacity .5s
+		.fade-leave-active{
+			transition: opacity 5s;
 		}
-
+		/* 初始状态和结束状态 */
 		.fade-enter,
-		.fade-leave-to {
+		.fade-leave-to{
 			opacity: 0;
 		}
 	</style>
@@ -25,24 +72,23 @@
 
 <body>
 	<div id="app">
-		<!-- <button @click="isOk=!isOk">切换效果</button>
+		<button @click="isShow=!isShow">显示过渡的效果</button>
 		<transition name="fade">
-			<p v-show="isOk">我是一个p</p>
-		</transition> -->
-		<button @click="isOk=!isOk">切换效果</button>
-		<transition name="fade">
-				<p v-show="isOk">我是一个p标签</p>
+			<!--p标签希望有过渡的效果,那就用transition标签包裹起来-->
+			<p v-show="isShow">我是一个p标签</p>
 		</transition>
-	</div>
 
+	</div>
 	<script type="text/javascript">
 		const vm = new Vue({
 			el: '#app',
 			data: {
-				isOk: false
+				isShow: false
 			}
 		})
+
 	</script>
+
 </body>
 
 </html>

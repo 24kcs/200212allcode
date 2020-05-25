@@ -18,7 +18,7 @@
 				<legend>帐号和密码</legend>
 				<!--在文本框中添加一个v-model-->
 				用户名: <input type="text" v-model="user.name"><br />
-				密码: <input type="password" v-model="user.pwd" ><br />
+				密码: <input type="password" v-model="user.pwd"><br />
 			</fieldset>
 			<fieldset>
 				<legend>性别选择器</legend>
@@ -29,75 +29,51 @@
 			<fieldset>
 				<legend>爱好选择</legend>
 				<input type="checkbox" value="eat" v-model="user.hobby" />吃饭
-				<input type="checkbox" value="sleep" v-model="user.hobby" />睡觉
-				<input type="checkbox" value="play" v-model="user.hobby" />打豆豆
+				<input type="checkbox" value="sleep" v-model="user.hobby"  />睡觉
+				<input type="checkbox" value="play" v-model="user.hobby"  />打豆豆
 			</fieldset>
 			<fieldset>
 				<legend>城市选择和文本内容</legend>
 				<select v-model="user.cityId">
 					<optgroup label="中国">
-						<option v-for="(item,index) in user.cities" :key="index" :value="item.id">{{item.name}}</option>
+						<option :value="item.id" v-for="(item,index) in user.cities" :key="index">{{item.name}}</option>
 					</optgroup>
 				</select>
 				<br />
-				<textarea v-model="user.txt" name="" id="" cols="80" rows="5">哈哈</textarea>
+				<textarea name="" id="" cols="80" rows="5" v-model="user.txt">哈哈</textarea>
 			</fieldset>
-			<input type="submit" value="注册" @click.prevent="register" >
+			<input type="submit" value="注册" @click.prevent="register">
 		</form>
 	</div>
 	<script type="text/javascript">
-	const vm = new Vue({
-		el:'#app',
-		data:{
-			user:{
-				name:'', // 用户名字
-				pwd:'', // 密码
-				gender:'女', // 性别
-				hobby:['play','eat'], // 爱好
-				cityId:3, // 城市id
-				cities:[
-					{id:1,name:'北京市'},
-					{id:2,name:'上海市'},
-					{id:3,name:'天津市'},
-					{id:4,name:'重庆市'},
-					{id:5,name:'东京市'}
-				],
-				txt:'真好啊'
-			}
-		},
-		methods: {
-			register(){
-				console.log(this.user.name,this.user.pwd)
-			}
-		}
-	})
-	// const vm = new Vue({
-	// 	el:'#app',
-	// 	data:{
-	// 		user:{
-	// 			name:'', // 用户名
-	// 			pwd:'', // 密码
-	// 			gender:'女' , // 性别
-	// 			hobby:['play','eat'], // 爱好
-	// 			cityId:3, // 城市id
-	// 			cities:[
-	// 				{id:1,name:'北京'},
-	// 				{id:2,name:'上海'},
-	// 				{id:3,name:'天津'},
-	// 				{id:4,name:'重庆'},
-	// 				{id:5,name:'深圳'},
-	// 			],
-	// 			info:'啊哈哈'
-	// 		}
-	// 	},
-	// 	methods: {
-	// 		register(){
-	// 			console.log(this.user.name,this.user.pwd)
-	// 		}
-	// 	}
-	// })
-	
+		// 需求:通过v-model指令绑定表单标签(获取相应的数据,或者对其他表单标签的数据进行操作(单选框可以设置默认的选中,复选框同上))
 
+		const vm = new Vue({
+			el: '#app',
+			data: {
+				// 用户对象
+				user:{
+					name:'', // 用来存储用户名字
+					pwd:'', // 存储用户密码的
+					gender:'女' , // 性别
+					hobby:['eat','play'], // 爱好
+					cityId:3, // 默认选中城市的id
+					cities:[
+						{id:1,name:'北京市'},
+						{id:2,name:'上海市'},
+						{id:3,name:'重庆市'},
+						{id:4,name:'天津市'},
+						{id:5,name:'东京市'}
+					],
+					txt:'有一天在路上散步,迎面走来几个女孩子,擦肩而过的时候,大声的喊道,哇~好帅哦,我回头就是一耳光,废话,用你说'
+				}
+			},
+			methods: {
+				register(){
+					console.log(this.user.name,this.user.pwd)
+				}
+			}
+		})
 	</script>
 </body>
 
