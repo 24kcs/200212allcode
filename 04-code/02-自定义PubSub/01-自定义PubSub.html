@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>玉树临风美少年，揽镜自顾夜不眠 </title>
+</head>
+
+<body>
+  <script src="./PubSub.js"></script>
+  <script type="text/javascript">
+
+    // 订阅消息
+    PubSub.subscribe('add', (data) => {
+      console.log('add消息1======', data)
+    })
+    // 再次订阅消息
+    var token = PubSub.subscribe('add', (data) => {
+      console.log('add消息2======', data)
+    })
+    PubSub.subscribe('add', (data) => {
+      console.log('add消息3======', data)
+    })
+    PubSub.subscribe('del', (data) => {
+      console.log('del消息1======', data)
+    })
+
+
+    // 取消订阅
+    // 取消所有的订阅消息
+    // PubSub.unsubscribe()
+    // PubSub.unsubscribe('add')
+    PubSub.unsubscribe(token)
+
+    // 同步发布消息
+    // PubSub.publishSync('add', 123)
+    PubSub.publishSync('del', 456)
+    console.log('==============')
+    // 异步发布消息
+    PubSub.publish('add', 123)
+    PubSub.publish('del', 456)
+  </script>
+</body>
+
+</html>

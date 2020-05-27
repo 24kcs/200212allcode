@@ -63,11 +63,13 @@ export default {
       set() {
         // 此时就是要设置todo对象中的isCompleted属性值
         // this.toggleTodo(this.todo)
-        this.$bus.$emit('toggleTodo',this.todo)
+        this.$bus.$emit('toggleTodo', this.todo)
       }
     }
   }
 }
+
+
 </script>
 <style scoped>
 /*item*/
