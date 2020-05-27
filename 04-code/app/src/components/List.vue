@@ -1,19 +1,15 @@
 <template>
   <ul class="todo-main">
-    <Item
-      v-for="(todo,index) in todos"
-      :key="todo.id"
-      :todo="todo"
-      :index="index"
-    />
+    <Item v-for="(todo,index) in todos" :key="todo.id" :todo="todo" :index="index" />
   </ul>
 </template>
 <script>
 // 引入Item组件
 import Item from './Item'
 export default {
-  props: ['todos'],
   name: 'List',
+  // 接收父级组件传递过来的数据,通过this可以直接访问todos数据
+  props: ['todos'],
   components: {
     Item
   }

@@ -1,7 +1,7 @@
 <template>
   <li
-    @mouseenter="mouseHandle(true)"
-    @mouseleave="mouseHandle(false)"
+    @mouseenter="mouseHandler(true)"
+    @mouseleave="mouseHandler(false)"
     :style="{color:fontColor,backgroundColor:bgColor}"
   >
     <label>
@@ -12,51 +12,58 @@
   </li>
 </template>
 <script>
+// 引入PubSub
 import PubSub from 'pubsub-js'
 export default {
   name: 'Item',
   props: {
+    // 接收父级组件传递过来的数据,同时设置todo的这个数据,一定是Object类型---对象
     todo: Object,
-    deleteTodo: Function,
     index: Number
   },
   data() {
     return {
-      fontColor: 'black',
-      bgColor: 'white',
-      isShow: false
+      fontColor: 'black', // 默认文字的颜色
+      bgColor: 'white', // 默认背景颜色
+      isShow: false // 默认不显示
     }
   },
   methods: {
-    mouseHandle(flag) {
-      // 鼠标进入
+    // 鼠标进入和离开事件的回调函数
+    mouseHandler(flag) {
       if (flag) {
-        this.fontColor = 'pink'
-        this.bgColor = 'green'
+        // 鼠标进入事件
+        this.fontColor = 'green'
+        this.bgColor = 'pink'
         this.isShow = true
       } else {
-        // 鼠标离开
+        // 鼠标离开事件
         this.fontColor = 'black'
         this.bgColor = 'white'
         this.isShow = false
       }
     },
-    // 删除
+    // 点击按钮删除对应的数据
     del() {
-      if (confirm('确定要删除吗')) {
-        PubSub.publish('deleteTodo', this.index)
+      // 友好的提示信息
+      if (confirm('您确定要删除这个信息吗')) {
+        // 要删除数据
         // this.deleteTodo(this.index)
+        // 发布删除的消息
+        PubSub.publish('deleteTodo', this.index)
       }
     }
   },
+  // 计算属性
   computed: {
     isChecked: {
       get() {
         return this.todo.isCompleted
       },
       set() {
+        // 此时就是要设置todo对象中的isCompleted属性值
         // this.toggleTodo(this.todo)
-        this.$bus.$emit('toggleTodo', this.todo)
+        this.$bus.$emit('toggleTodo',this.todo)
       }
     }
   }
@@ -86,6 +93,7 @@ li label li input {
 
 li button {
   float: right;
+  /* display: none; */
   margin-top: 3px;
 }
 
