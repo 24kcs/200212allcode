@@ -6,8 +6,15 @@
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
   <title>app</title>
   <!--引入基本的样式文件-->
-  <link rel="stylesheet" href="./static/css/base.css">
-  <link rel="stylesheet" href="./static/css/bootstrap.css">
+  <!--如果涉及到路由的跳转了,下面的是相对路径进入css样式文件,会导致路由跳转的时候丢失样式,解决:使用绝对路径-->
+  <link rel="stylesheet" href="/static/css/base.css">
+  <link rel="stylesheet" href="/static/css/bootstrap.css">
+  <style type="text/css">
+  /* 当前的路由链接激活了,点击了,选中了 */
+    .router-link-active{
+      color:red !important;
+    }
+  </style>
 </head>
 
 <body>

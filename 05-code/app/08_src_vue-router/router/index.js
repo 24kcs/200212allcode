@@ -4,12 +4,8 @@
 import Vue from 'vue'
 // 引入路由器
 import VueRouter from 'vue-router'
-
-
-// 引入组件
-import About from '../pages/About.vue'
-import Home from '../pages/Home.vue'
-
+// 引入所有的路由
+import routes from './routes'
 // 声明使用路由器
 Vue.use(VueRouter)
 //创建路由器对象,并暴露出去
@@ -19,16 +15,6 @@ export default new VueRouter({
   // 默认mode的是hash 模式,带#的
   mode: 'history', // 不带#的
   // 注册路由的数组,每个路由都是一个对象
-  routes: [
-    // 配合路由(路由要形成一种映射关系,地址:组件)
-    {
-      path: '/about', // 地址
-      component: About // 组件
-    },
-    {
-      path: '/home',
-      component: Home
-    }
-  ]
+  routes
 
 })
