@@ -1,129 +1,112 @@
-// 编译的构造器el---'#app',vm----Vue的实例对象
+// 编译对象的构造函数el---#app  vm---Vue的实例对象
 function Compile(el, vm) {
-    // 先把vm对象保存到$vm属性中
-    // 此时的this是编译的实例对象
+    // this----->编译实例对象---->简单的说法--->编译对象
+    // 先把vm实例对象存储到编译对象的$vm属性中
     this.$vm = vm;
-    // 如果'#app'是标签则存储到$el属性中,如果el是选择器'#app'那么会根据选择器来获取html中的div标签,最终存储到$el属性中
-    // $el中存储的就是div容器标签对象
+    // this.isElementNode(el) 判断el是不是一个标签节点,不是,通过document.querySelector(el) 根据选择器获取当前这个标签节点----div(id是app)
+    // this.$el ------>div标签节点
     this.$el = this.isElementNode(el) ? el : document.querySelector(el);
-    // 判断div是否存在
+    // 判断当前的div存在不
     if (this.$el) {
-        // 创建文档碎片对象,并把div容器中所有的节点全都存放在文档碎片对象
+        // 创建文档碎片对象,同时把div标签中所有的节点全都放在文档碎片对象中
         this.$fragment = this.node2Fragment(this.$el);
-        // 模版解析------>
+        // 初始化文档碎片对象---->模版解析操作
         this.init();
-        // 把模版解析后的文档碎片对象放在div容器中,这行代码执行完毕后,页面可以看到真实的信息数据了
+        // 把初始后的文档碎片对象扔进div标签容器中
         this.$el.appendChild(this.$fragment);
     }
 }
-// 编译对象的原型对象
+
 Compile.prototype = {
     constructor: Compile,
-    // 把传入进来的div标签中所有的节点全部的存储在文档碎片对象中----都放在虚拟DOM中
     node2Fragment: function(el) {
-        // 创建文档碎片对象
+        // 创建文档碎片对象---虚拟DOM
         var fragment = document.createDocumentFragment(),
             child;
-
-        // 将div容器中所有的节点全部的放在文档碎片对象中
+        // 把div标签中所有的节点全部的扔进文档碎片对象中
         while (child = el.firstChild) {
             fragment.appendChild(child);
         }
         // 返回文档碎片对象
         return fragment;
     },
-    // 模版解析的方法
+    // 初始化模版---模版解析操作,自己啥也没有,内部调用的是真正的初始化模版的操作
     init: function() {
-        // 才是真正的模版解析的操作
+        // 初始化模版操作,并传入文档碎片对象
         this.compileElement(this.$fragment);
     },
-    // 模版解析的操作
+    // 模版解析操作,
     compileElement: function(el) {
-        // el----文档碎片对象,childNodes--->文档碎片对象中所有的子节点
+        // el----文档碎片对象
+        // 获取的是文档碎片对象中的所有的节点
         var childNodes = el.childNodes,
-        // me----编译对象
+        // 把当前的编译对象存储到了me变量中
             me = this;
-        // 由于文档碎片对象中的所有的子节点组合成的数组是伪数组,但是需要调用数组的forEach方法进行遍历,所以,才用伪数组转真数组的方式来调用方法进行遍历
+        // 伪数组转真数组,把所有的节点进行循环遍历操作,node----每个节点
         [].slice.call(childNodes).forEach(function(node) {
-            // node----每个子节点
-            // text---->当前节点的文本内容
+            // 获取当前的这个节点的文本内容
             var text = node.textContent;
             // 插值语法的正则表达式
-            var reg = /\{\{(.*)\}\}/;   
-            // 判断当前的节点是不是标签
+            var reg = /\{\{(.*)\}\}/;
+            // 判断当前的这个节点是不是标签节点
             if (me.isElementNode(node)) {
-                // 如果当前的node节点是标签,就会开始进行编译
+                // 
                 me.compile(node);
 
-                // 当前的节点是不是文本节点,并且文本节点是不是和上面的正则匹配
+                // 判断当前的节点是不是文本节点,同时这个文本节点是否满足正则插值语法的表达式
             } else if (me.isTextNode(node) && reg.test(text)) {
-                // 插值语法的解析
-                // node----{{msg}}---文本节点
-                // RegExp---正则对象   $1---->正则表达式中的第一个分组    /(1)(2(3))(4(5))/
-
-                // node---{{msg}},第二个参数:msg
+                // me----当前编译对象,node---当前的节点,RegExp.$1.trim()----msg
+                // 编译文本节点操作---(插值的表达式的编译操作)
                 me.compileText(node, RegExp.$1.trim());
             }
-            // 判断当前的节点里面还有没有其他的子节点,如果有则继续的递归遍历(当前节点中没有任何的子节点)
+            // 如果当前的节点还有子节点,并且该节点的子节点的个数是大于0的
             if (node.childNodes && node.childNodes.length) {
+                // 递归操作,节点中的节点继续的遍历
                 me.compileElement(node);
             }
         });
     },
-    // node-----button标签节点
-    compile: function(node) { 
-        // 获取当前节点的所有的属性  <button v-on:click="showName">按钮</button>
-        // nodeAttrs ---->  v-on:click="showName"
+
+    compile: function(node) {
         var nodeAttrs = node.attributes,
-        // 当前的编译实例对象
-            me = this; 
-        // 遍历当前节点中所有的属性  v-on:click="showName"
+            me = this;
+
         [].slice.call(nodeAttrs).forEach(function(attr) {
-            // attrName---->v-on:click
             var attrName = attr.name;
-            // 判断当前的属性是不是一个指令
             if (me.isDirective(attrName)) {
-                // exp ----->showName
                 var exp = attr.value;
-                // dir ----->on:click
                 var dir = attrName.substring(2);
-                // 判断当前的指令是不是事件指令
+                // 事件指令
                 if (me.isEventDirective(dir)) {
-                    // 说明此时是事件指令
-                    // node---button按钮,me.$vm---->vm,exp---->showName,dir---->on:click
                     compileUtil.eventHandler(node, me.$vm, exp, dir);
-                   
-                } else {  // 当前的指令是普通指令
-                    // compileUtil.text('p',vm,'msg')
+                    // 普通指令
+                } else {
                     compileUtil[dir] && compileUtil[dir](node, me.$vm, exp);
                 }
 
-                // 此时标签已经绑定了对应的事件
-
-                // 把当前这个标签节点上的属性全部干掉    <button>按钮</button>
                 node.removeAttribute(attrName);
             }
         });
     },
-    // 解析插值:node---{{msg}},exp---->msg
+    // node---当前节点---{{msg}},exp-----msg
     compileText: function(node, exp) {
-        // node----{{msg}},this.$vm----vm实例对象,exp----msg
+        // 编译工具对象调用内部的text,要对插值文本进行编译操作
+        // node---{{msg}},this.$vm---vm,exp---msg
         compileUtil.text(node, this.$vm, exp);
     },
-    // 判断当前的这个属性是不是指令
+
     isDirective: function(attr) {
-        // 当前的这个属性是不是v-开头
         return attr.indexOf('v-') == 0;
     },
-    // 判断当前的指令是不是事件指令
+
     isEventDirective: function(dir) {
         return dir.indexOf('on') === 0;
     },
-    // 判断当前的节点是不是标签,如果是标签则返回true,否则返回false
+
     isElementNode: function(node) {
         return node.nodeType == 1;
     },
-    // 判断当前的节点是不是文本,如果是文本则返回true,否则返回false
+
     isTextNode: function(node) {
         return node.nodeType == 3;
     }
@@ -131,16 +114,16 @@ Compile.prototype = {
 
 // 指令处理集合
 var compileUtil = {
-    //  node----{{msg}},vm,exp---msg
+    // node----{{msg}},vm--vm,exp---msg
     text: function(node, vm, exp) {
-        // 调用bind node----{{msg}},vm,exp---msg  'text'
+        // 调用bind方法,传入{{msg}},vm,msg,'text'
         this.bind(node, vm, exp, 'text');
     },
-    // v-html
+
     html: function(node, vm, exp) {
         this.bind(node, vm, exp, 'html');
     },
-    // v-model指令
+
     model: function(node, vm, exp) {
         this.bind(node, vm, exp, 'model');
 
@@ -156,59 +139,51 @@ var compileUtil = {
             val = newValue;
         });
     },
-    // v-class 指令
+
     class: function(node, vm, exp) {
         this.bind(node, vm, exp, 'class');
     },
-    // node----{{msg}},vm,exp---msg  dir----->'text'
-
-    // v-bind指令
+    // node----{{msg}},vm--vm实例对象,exp---msg, dir---->'text'
     bind: function(node, vm, exp, dir) {
-        // updater--->对象
+        // updater是对象
         // updater['textUpdater']---->updater.textUpdater
-        // updaterFn---->方法
+        // updaterFn是个函数
         var updaterFn = updater[dir + 'Updater'];
-        // 判断当前的方法是否存在,同时还要进行调用
-        // node----{{msg}}  vm,exp----msg
-        //  updaterFn && updaterFn('{{msg}}', '绣花枕头');
+        // 判断该函数存在,存在则调用,node---{{msg}},
+        //  this._getVMVal(vm, exp)  vm,exp----msg
+        // 调用该函数updaterFn ,传入{{msg}},和msg属性的值
         updaterFn && updaterFn(node, this._getVMVal(vm, exp));
 
-        // ============dir----指令,exp---表达式
-        // 监视对象
-        // 第一个参数:vm实例对象,第二个参数:exp表达式,第三个参数是回调函数
+        // 监视-----
         new Watcher(vm, exp, function(value, oldValue) {
             updaterFn && updaterFn(node, value, oldValue);
         });
     },
 
-    // 事件处理  // node---button按钮,vm,exp---->showName,dir---->on:click
+    // 事件处理
     eventHandler: function(node, vm, exp, dir) {
-        // eventType---->click
         var eventType = dir.split(':')[1],
-        // 判断methods对象是否存在,同时获取showName属性的值(该属性的值是函数)
-        // fn----->showName
             fn = vm.$options.methods && vm.$options.methods[exp];
-        // 判断click和showName是否都存在
+
         if (eventType && fn) {
-            // node----button按钮
-            // 通过addEventListener,为button绑定click,对应的回调函数就是showName函数,
             node.addEventListener(eventType, fn.bind(vm), false);
         }
     },
-    // 根据vm实例对象找data属性中的msg的属性值  vm._data.msg
+    // 根据vm对象和msg属性,从vm对象中获取msg属性的值
     _getVMVal: function(vm, exp) {
-        // val---vm对象
+        // val是变量,一开始 存储的是vm实例对象
         var val = vm;
-        // exp--->数组----->exp.split('.')  {{obj.name}}
+        // 'msg'.split('.')
+        // exp---数组--->['msg']
         exp = exp.split('.');
-        // 遍历的是表达式数组,k---msg
+        // 遍历数组,k---'msg'
         exp.forEach(function(k) {
-            // val=val--->vm对象
-            // val = vm['msg']--->val=vm.msg
-            // val='绣花枕头'
+            // val变量===vm['msg']---->vm.msg属性的值----获取该属性的值,自动的进入vm中的get的方法(Object.defineProperty()方法中的get方法)
+
+            // val存储的是vm.msg属性的值
             val = val[k];
         });
-        // 返回的就是msg属性的值
+        // 返回msg该属性值
         return val;
     },
 
@@ -226,34 +201,27 @@ var compileUtil = {
     }
 };
 
-// 更新的对象
+
 var updater = {
-
-    // 插值语法的文本替换操作的方法
-    // node--- '{{msg}}'  value='绣花枕头'
-
-    // v-text指令最终会执行到这里 
+    // 插值的文本进行解析操作node---'{{msg}}',value----msg属性的值
     textUpdater: function(node, value) {
-        // node--->{{msg}}.textContent='绣花枕头'
+        // 设置当前文本节点的文本内容,
         node.textContent = typeof value == 'undefined' ? '' : value;
     },
-    // v-html的指令最终会执行这里
+
     htmlUpdater: function(node, value) {
         node.innerHTML = typeof value == 'undefined' ? '' : value;
     },
-    //  v-class指令   :class
+
     classUpdater: function(node, value, oldValue) {
-        // 获取当前的节点的类样式的名字
         var className = node.className;
-        // 类样式的名字替换为空格的方式(如果原来有类样式的名字,就把这个名字获取到)
         className = className.replace(oldValue, '').replace(/\s$/, '');
-        // space最终存储一个空格(前提:是标签默认还有其他的类样式的名字,如果没有则空格也没有)
+
         var space = className && String(value) ? ' ' : '';
-        // 最后该标签上有原来的类样式名字+空格+现在的类样式名字
-        // <p class="cls1" v-class="classB"></p> classB='cls2' ----><p class="cls1 cls2"></p>
+
         node.className = className + space + value;
     },
-    // v-model指令最终会执行这里代码
+
     modelUpdater: function(node, value, oldValue) {
         node.value = typeof value == 'undefined' ? '' : value;
     }

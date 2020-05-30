@@ -1,37 +1,23 @@
-// 监视的构造函数 vm,expOrFn---表达式,cd---回调函数
 function Watcher(vm, expOrFn, cb) {
-    // this----当前的监视的实例对象---Warcher的实例对象
-    // 把回调函数保存到cb属性
     this.cb = cb;
-    // 把vm实例对象保存到vm属性
     this.vm = vm;
-    // 把表达式保存到expOrFn属性中
     this.expOrFn = expOrFn;
-    // 把depIds对象存储到当前的Watcher实例对象
-    this.depIds = {}; // 用来存储dep对象的id的
-    // 判断传入进来的表达式是不是函数?
+    this.depIds = {};
+
     if (typeof expOrFn === 'function') {
-        // 如果当前的表达式中存储的是函数则保存到this.getter属性中
         this.getter = expOrFn;
     } else {
-        // 说明当前的表达式不是一个函数
-        // expOrFn.trime（）-----> 把表达式的两端空格干掉----> {{    msg   }}---->'msg'
         this.getter = this.parseGetter(expOrFn.trim());
     }
-    // 无论执行的是if还是else,最终,getter属性中存储都是函数
 
-    // 获取当前的表达式的数据-----
     this.value = this.get();
 }
-// 原型对象
+
 Watcher.prototype = {
-    // 构造器
     constructor: Watcher,
-    // 更新方法
     update: function() {
         this.run();
     },
-    // 执行的方法-------------
     run: function() {
         var value = this.get();
         var oldVal = this.value;
@@ -41,61 +27,42 @@ Watcher.prototype = {
         }
     },
     addDep: function(dep) {
-        // 建立dep和watcher对象的关系
-
-        // 判断当前的Watcher实例对象的depIds对象中是否包含当前传入进来的dep的id值
-
+        // 1. 每次调用run()的时候会触发相应属性的getter
+        // getter里面会触发dep.depend()，继而触发这里的addDep
+        // 2. 假如相应属性的dep.id已经在当前watcher的depIds里，说明不是一个新的属性，仅仅是改变了其值而已
+        // 则不需要将当前watcher添加到该属性的dep里
+        // 3. 假如相应属性是新的属性，则将当前watcher添加到新属性的dep里
+        // 如通过 vm.child = {name: 'a'} 改变了 child.name 的值，child.name 就是个新属性
+        // 则需要将当前watcher(child.name)加入到新的 child.name 的dep里
+        // 因为此时 child.name 是个新值，之前的 setter、dep 都已经失效，如果不把 watcher 加入到新的 child.name 的dep中
+        // 通过 child.name = xxx 赋值的时候，对应的 watcher 就收不到通知，等于失效了
+        // 4. 每个子属性的watcher在添加到子属性的dep的同时，也会添加到父属性的dep
+        // 监听子属性的同时监听父属性的变更，这样，父属性改变时，子属性的watcher也能收到通知进行update
+        // 这一步是在 this.get() --> this.getVMVal() 里面完成，forEach时会从父级开始取值，间接调用了它的getter
+        // 触发了addDep(), 在整个forEach过程，当前wacher都会加入到每个父级过程属性的dep
+        // 例如：当前watcher的是'child.child.name', 那么child, child.child, child.child.name这三个属性的dep都会加入当前watcher
         if (!this.depIds.hasOwnProperty(dep.id)) {
-            // Watcher实例对象中如果没有当前的dep的id则把当前的dep的id连同当前的dep对象存储起来
-            // this----Watcher的实例对象
             dep.addSub(this);
-            //  this----Watcher的实例对象
-            // 把dep的id同这个dep对象以键值对的方式存储到当前的Watcher的实例对象中
             this.depIds[dep.id] = dep;
         }
     },
-    // 获取表达式的值==============
     get: function() {
-        // this-----Watcher的实例对象
-        // Dep的target的属性中存储了当前的Watcher的实例对象
         Dep.target = this;
-        // 调用getter的方法,改变内部的this指向为当前vm实例对象
-        // value中存储的就是msg表达式的值
         var value = this.getter.call(this.vm, this.vm);
         Dep.target = null;
-        // 返回该表达式的数据值
         return value;
     },
-    // 当前的这个方法的作用,获取data对象中所有的属性的值
 
-    // exp----->'msg'
     parseGetter: function(exp) {
-        // 判断当前的表达式和正则是否匹配
         if (/[^\w.$]/.test(exp)) return; 
 
-        // 干掉表达式中的. 形成一个表达式数组
-        // state.count  data:{ state:{count:10} }
-        // exps---->['state','count']
-        // vm.state.count
-
-        // msg ['msg']
         var exps = exp.split('.');
-        // 回调函数----此时是不执行的------>此时的回调函数是一个返回值
-        // obj----vm对象
+
         return function(obj) {
-            // 遍历exps数组中的表达式,并且获取表达式值
             for (var i = 0, len = exps.length; i < len; i++) {
-                // 如果vm对象不存在则直接返回
                 if (!obj) return;
-                // obj---->vm对象
-                // obj = vm[exps[0]]
-                // obj = vm ['msg']
-                // obj = vm.msg 的值
-                // obj 中存储的是vm.msg的值----->要访问vm.msg的值---->进入到当前这个属性的get方法内部
-                // obj='真香'
-                obj = obj[exps[i]];  // 进入MVVM---->进入到observer.js中
+                obj = obj[exps[i]];
             }
-            // 返回的是表达式的数据值
             return obj;
         }
     }

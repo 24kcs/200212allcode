@@ -24,20 +24,28 @@
 
   </div>
   <script type="text/javascript">
-    // MVVM相当于Vue
-    const vm = new MVVM({
-      el: '#app',
-      data: {
-        msg: '哈哈,好开心哦'
-      }
-    })
-    console.log(vm.msg)
+  const vm = new MVVM({
+    el:'#app',
+    data:{
+      msg:'我喜欢女孩子'
+    }
+  })
+  // 实现了数据代理-----分析数据代理是如何实现的
+  console.log(vm.msg)
   // console.log(vm)
-  // console.log(vm.msg)
-  // console.log(vm._data.msg)
-  // console.log(vm.data.msg)
 
-  // 实现了数据代理,vm代理data  仍然不能直接访问vm.data
+
+
+  /*
+   面试题: 如何理解Vue中的数据代理
+    首先Vue中是有数据代理,数据代理的实现原理无非就是在实例化Vue的时候,通过传入的配置对象,获取里面的data对象,并且遍历data对象中所有的属性,通过forEach循环遍历,把每个data中的每个属性及值通过Object.defineProperty()方法添加到vm的实例对象中,并且重写内部的get方法及set方法
+    外部通过vm.属性获取值的时候会自动的进入到get方法,并且从data对象中把该属性的值返回
+    外部如果通过vm.属性赋值的时候,会自动的进入到set方法,并且把该值会写入到data对象中的该属性上,以上就是Vue中的数据代理
+    vm是代理者,data是被代理者,有了数据代理后,通过vm实例对象可以快速的访问data中定义的属性或者说数据,非常的方便
+  
+  
+  */
+ 
 
 
 

@@ -47,6 +47,80 @@
 
     console.log('===================')
 
+
+    // 3. Object.defineProperty()方法---为对象添加属性---Vue的源码中经常用到
+    const person = {
+      firstName: '苍井', // 姓氏
+      lastName: '华华' // 名字
+    }
+    Object.defineProperty(person, 'fullName', {
+      configurable: true, // 默认为false,不能被重新设置,是否可以被删除
+      enumerable: false, // 默认是false,是否可以被枚举(遍历)
+      // value: '哈_哈',
+      // writable: false, // 默认是是false，是否可以被重写
+      get() {
+        return this.firstName + '_' + this.lastName
+      },
+      set(val) {
+        const name = val.split('_')
+        this.firstName = name[0]
+        this.lastName = name[1]
+      }
+    })
+    // person.fullName = person.firstName + '_' + person.lastName
+    console.log(person.fullName)
+
+    // 4. Object.keys()方法,获取某个对象中所有的键
+    const keys = Object.keys(person)
+    console.log(keys)
+    for (var key in person) {
+      console.log(key, person[key])
+    }
+    // console.log('===================')
+    // delete person.fullName  
+    // console.log(person.fullName)
+
+    console.log('=================================')
+    // 5. 对象.hasOwnProperty()方法,判断当前对象中是否包含这个属性
+    console.log(person.hasOwnProperty('fullName')) // true
+    console.log(person.hasOwnProperty('toString')) // false
+    console.dir(person)
+
+
+    console.log('==========================')
+
+    // 6.文档碎片对象模型---DcoumentFragment----(高效批量处理多个节点)
+    // DOM中有很多的标签要进行处理,那么这个时候就会用到这个文档碎片对象,
+    // 思路:先获取要操作的DOM对象,然后把这些DOM对象全部的扔进文档碎片对象中(内存),然后对文档碎片对象中的所有的节点进行操作,操作完毕后把这个文档碎片对象容器扔进DOM树中
+
+    // 案例:通过文档碎片对象,把html中的某些标签的内容进行更新操作
+
+
+    // 创建文档碎片对象
+    var fragment = document.createDocumentFragment()
+
+    // 获取DOM容器对象
+    var divObj = document.getElementById('demo')
+    // console.log(divObj.childNodes.length)
+    // 把DOM容器对象中的所有的节点全部的扔进文档碎片对象中
+    var child
+    while(child = divObj.firstChild){
+      // 相当于是剪切的操作
+      fragment.appendChild(child)
+    }
+
+    // 遍历文档碎片对象中的所有的节点,进行内容的更新操作
+    fragment.childNodes.forEach(node=>{
+      node.innerHTML='男女通吃'
+    })
+
+    // 把文档碎片对象容器重新的放进DOM容器中即可
+    divObj.appendChild(fragment)
+
+
+    // Vue的源码分析中,里面的虚拟DOM其实就是用文档碎片对象实现的
+
+
   </script>
 </body>
 
