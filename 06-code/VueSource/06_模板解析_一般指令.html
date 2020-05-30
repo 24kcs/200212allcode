@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>06_模板解析_一般指令</title>
+  <script src="./js/mvvm.js"></script>
+  <script src="./js/compile.js"></script>
+  <script src="./js/observer.js"></script>
+  <script src="./js/watcher.js"></script>
+  <style type="text/css">
+    .cls {
+      color: red;
+    }
+
+    .cls2 {
+      font-size: 50px;
+    }
+    .cls3{
+      background-color: blue;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- <div id="app">
+    <p v-text="msg"></p>
+  </div> -->
+
+  <!-- <div id="app">
+    <p v-html="msg"></p>
+  </div> -->
+
+  <div id="app">
+    
+    <p v-class="classA" class="cls2 cls3">hello</p>
+    <!-- <p v-bind:class="classA"></p> -->
+  </div>
+  <script type="text/javascript">
+
+    const vm = new MVVM({
+      el: '#app',
+      data: {
+        classA: 'cls'
+        // msg: '源码真香'
+        // msg: '<a href="http://www.baidu.com">百度</a>'
+      }
+    })
+
+
+    // const vm = new MVVM({
+    //   el: '#app',
+    //   data: {
+    //     // msg: '源码真香'
+    //     msg: '<a href="http://www.baidu.com">百度</a>'
+    //   }
+    // })
+
+    // v-class
+      // classA:'cls',
+        // content: '<a href="http://www.baidu.com">百度</a>'
+    // var obj={
+    //   sayHi:function(){}
+    // }
+    // obj.sayHi()
+    // obj['sayHi']()
+    //模版解析初始化页面的
+  //  <p v-text="content"></p>
+  //   <p v-html="content"></p>
+  //  <p v-class="classA">this is p</p>
+  </script>
+</body>
+
+</html>

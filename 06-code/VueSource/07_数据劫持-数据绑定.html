@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>07_数据劫持-数据绑定</title>
+  <!--
+    1. 数据绑定
+      * 初始化显示: 页面(表达式/指令)能从data读取数据显示 (编译/解析)
+      * 更新显示: 更新data中的属性数据==>页面更新
+  -->
+  <script src="./js/mvvm.js"></script>
+  <script src="./js/compile.js"></script>
+  <script src="./js/observer.js"></script>
+  <script src="./js/watcher.js"></script>
+
+</head>
+
+<body>
+  <!-- <div id="app">
+    <p>{{car.name}}</p>
+    <p>{{car.name}}</p>
+  </div> -->
+
+
+  <div id="app">
+    <p>{{msg}}</p>
+  </div>
+  <script type="text/javascript">
+
+    const vm = new MVVM({
+      el: '#app',
+      data: {
+        msg: '男生还是要更努力一些啊'
+      }
+    })
+/**
+     * data中的叫属性，html模版容器中的叫表达式
+     *
+     * data对象中有多少个属性,就会创建多少个dep对象
+     * 模版中使用了多少个表达式,就会创建多少个watcher对象
+     *
+     *
+     * dep和watcher的关系
+     * 通过watcher对象的addDep这方法建立dep和watcher的关系:
+     * 把watcher对象添加到dep对象的subs数组中,把dep的id和dep对象以键值对的方式添加到watcher对象的depIds对象中,建立关系
+     * dep对象有subs数组--->存放watcher
+     * watcher对象有depIds对象--->id:dep
+     *
+     *
+     *
+     * 1对1的关系:1个dep对应一个watcher,data中只有一个属性,模版中只用了一个表达式
+     * 1对多的关系:1个dep对应多个watcher,data中只有一个属性,模版中用了多个表达式
+     * 多对1的关系:多个dep对应1个watcher,data中有多个属性,模版中用了一个表达式(data属性是对象,表达式:对象.属性)
+     * 多对多的关系:多个dep对应多个watcher,data中有多个属性,模版中用了多个表达式(data属性是对象,表达式:对象.属性)
+     *
+     * 1.先通过observe()方法进行数据的劫持,然后根据data对象中属性的个数创建对应个数的dep对象,再把data对象中的数据全部的添加到劫持对象的data属性中---数据劫持操作
+     * 2.当数据劫持完毕后,此时全部的dep对象已经产生,然后进入到模版解析compile中,内部在解析表达式的时候,会直接或者间接的调用bind方法,bind方法内部会创建watcher对象,会根据表达式的个数来创建对应个数的watcher对象
+     * 3.进入到watcher内部后,会调用get方法,而get方法内部会调用parseGetter()的返回值(也就是调用getter方法),然后在这个getter方法内部获取到表达式的值,然而(重点的地方),在获取该表达式值的时候先进入到表达式在mvvm文件的get方法内部,然后再进入到observer.js文件的get方法内部,此时的observer.js文件的get内部开始调用dep的depend方法,内部调用watcher.addDep方法,在watcher.js文件中的addDep方法内部开始建立dep对象和watcher对象的关系,至于有哪些关系,请看下面的内容:
+     *dep和watcher的关系
+     * 一对一的关系:一个dep对应一个watcher(data中有一个属性,模版中用了一次表达式)
+     * 一对多的关系:一个dep对应多个watcher(data中有一个属性,模版中用了两次表达式)
+     * 多对一的关系:多个dep对应一个watcher(data中有一个属性,这个属性是对象(car:{name:'宝马'}),模版中用到了这个对象下面的属性({{car.name}}))
+     * 多对多的关系:多个dep对应多个watcher(data中有一个属性,这个属性是对象(car:{name:'宝马'}),模版中用了多次这个对象下面的属性
+     *
+     * 关系建立后,如果将来修改了data对象中属性的值,那就是下次要讲的内容了
+     *
+     */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /*
+     在html模版真正的编译(解析)之前,出现了劫持的操作,遍历data对象中所有的属性,每个属性会创建一个自己对应的dep对象
+
+     分析劫持对象的时候:
+      每个属性对应着自己的一个dep
+     分析监视对象的时候:
+      每个表达式对应着自己的一个watcher
+
+      dep和watcher关系是如何建立的？
+      在模版解析之前,先出现劫持,劫持的时候,会遍历vm中data对象里面所有的属性,每个属性会创建一个dep,然后,进入到模版解析中的监视,开始创建监视对象
+      data对象中有个属性,就会产生一个dep
+      html模版的容器中如果有一个表达式就会产生一个watcher对象
+      当读取表达式的值的时候
+      把watcher对象保存在当前的dep对象中(subs数组[watcher])
+      同时,把当前的dep对象保存在watcher对象中的depIds对象中({0:dep})
+
+
+      dep和watcher的关系
+        一对一的关系:一个dep对应一个watcher(data中有一个属性,模版中用了一次表达式)
+        一对多的关系:一个dep对应多个watcher(data中有一个属性,模版中用了两次表达式)
+        多对一的关系:多个dep对应一个watcher(data中有一个属性,这个属性是对象(car:{name:'宝马'}),模版中用到了这个对象下面的属性({{car.name}}))
+        多对多的关系:多个dep对应多个watcher(data中有一个属性,这个属性是对象(car:{name:'宝马'}),模版中用了多次这个对象下面的属性
+
+        dep对象和watcher对象建立关系之后发生了什么事情?
+        当data中的数据发生变化,此时直接进入到vm中的Object.defineProperty中的set方法内部,也会进入到observer中的Object.defineProperty中的set方法,然后会让当前的这个属性对应的dep对象中的subs数组遍历,找到这个dep对应的watcher对象,如果原来的数据和新的数据不一样,则调用watcher对象中的update方法,最终调用回调函数(一开始创建watcher对象的时候传入的回调)-->updater对象中对应的更新数的方法,进行数据的更新
+
+        说白了:如果数据变化,这个属性对应的dep会通知对应的watcher对象,最终调用updater对象中相关的方法进行数据的更新
+
+
+    */
+  </script>
+</body>
+
+</html>

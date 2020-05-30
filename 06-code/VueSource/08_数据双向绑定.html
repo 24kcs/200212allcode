@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>06_模板解析_一般指令</title>
+  <script src="./js/mvvm.js"></script>
+  <script src="./js/compile.js"></script>
+  <script src="./js/observer.js"></script>
+  <script src="./js/watcher.js"></script>
+</head>
+
+<body>
+  <div id="app">
+    <input type="text" v-model="msg">
+    <p>{{msg}}</p>
+  </div>
+  <script type="text/javascript">
+    const vm = new MVVM({
+      el: '#app',
+      data: {
+        msg:'哈哈'
+      },
+    })
+
+   
+  </script>
+</body>
+
+</html>

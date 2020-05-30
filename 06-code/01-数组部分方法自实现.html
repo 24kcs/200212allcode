@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>玉树临风美少年，揽镜自顾夜不眠 </title>
+</head>
+
+<body>
+  <script type="text/javascript">
+    // 面向对象的编程思想
+    /*
+      面向对象是一种编程思想
+      面向过程也是一种编程思想
+      无论是面向过程还是面向对象都是一种编程思想
+      面向过程:注重的是每一步的实现,凡事都要亲力亲为,注重的是过程
+      面向对象:根据需求,抽取对象,找到该对象的特征和行为,通过代码的方式进行体现,特征就是属性,行为就是方法,通过实例化的操作,产生对象,通过对象调用属性或者方法,实现其功能,注重的是结果,
+      例子:
+       需求,找个媳妇做饭吃
+      观察一个人,人就是一个对象,人有一些特征,身高,体重,名字,性别,人还有一些行为,做饭，炒菜,抽取人这个对象,特征变成属性,行为变成方法,实例化对象调用方法
+      在js中先定义构造函数,通过构造函数实例化产生对象
+      对象: 直白解释:看得见,摸得到,特指的某个东西
+      头顶上的灯是不是对象? 是1,不是2
+      大街上跑的车,是不是对象,是1,不是2
+      我家门口停的这辆白色的车,是个对象
+      对象:特指的某个事物,具有一定的特征或者行为
+      面向对象的特性:封装,继承,多态,(抽象性)
+      封装:一个数据存放在变量中,多个函数放在一个对象中(方法),每个对象放在一个文件中,多个文件放在一个文件中,把属性或者方法放在一个对象(类中,js里面应该是在构造函数中,构造函数也是函数,也是对象,函数是对象,放在对象中也可以这么说)
+      继承:类与类之间关系,js不是一门真正的面向对象语言,js中没有类的概念,是通过构造函数来表述类的概念,通过原型的方式实现继承,继承的目的是为了多态,js是基于对象的一门语言,es6出现之后有了类的概念
+
+      多态:同一个行为针对不同的对象产生不同的行为结果,js中是没有多态的,否则代码会更麻烦,但是通过js代码可以实现多态,没有必要
+
+      js是什么语言
+      js是一门弱类型语言
+      js是一门脚本语言
+      js是一门解释型的语言
+      js是一门动态类型的语言,至关重要
+      js是一门基于对象的语言
+      面向对象的语言,类是一种数据类型,可以自己定义,js不是,js中的对象都是基于Object,(通过原型指向)
+
+
+
+
+    
+    
+    
+    */
+    // function Person(name,height,weight,gender){
+    //   this.name=name;
+    //   this.height= height;
+    //   this.weight =weight;
+    //   this.gender= gender
+    // }
+    // Person.prototype.cook=function(){
+    //   console.log('做饭')
+    // }
+    // Person.prototype.stirFry=function(){
+    //   console.log('炒菜')
+    // }
+    // Person.prototype.service=function(){
+    //   console.log('端上来')
+    // }
+
+    // var person = new Person('小华华','175','55kg','男')
+    // person.cook() // 做饭
+    // person.stirFry() // 炒菜
+    // person.service() // 端上来
+    // console.log('吃了')
+
+
+
+    // 数组的部分方法的自实现(自己实现数组中的部分方法)
+    // every方法,数组中的每个数据都要满足条件的情况下,则返回true,否则返回false
+    // var arr1 = [10, 20, 30, 40, 51]
+    // const result = arr1.every(item => {
+    //   return item % 2 == 0
+    // })
+    // console.log(result)
+
+    // 自己实现every方法
+    // Array.prototype.myEvery = function (callback) {
+    //   for (let i = 0; i < this.length; i++) {
+    //     if (!callback(this[i], i)) {
+    //       return false
+    //     }
+    //   }
+    //   return true
+    // }
+
+    // var arr1 = [10, 20, 30, 40, 50]
+    // const result = arr1.myEvery(item => {
+    //   return item % 2 == 0
+    // })
+    // console.log(result)
+
+
+    //=================================
+    // var arr = [10, 20, 30, 40, 50]
+    // console.log(arr.filter(item => item > 20))
+    // 自己实现filter方法
+    // Array.prototype.myFilter = function (callback) {
+    //   var arr2 = []
+    //   for (let i = 0; i < this.length; i++) {
+    //     if (callback(this[i], i)) {
+    //       arr2.push(this[i])
+    //     }
+    //   }
+    //   return arr2
+    // }
+    // var arr = [10, 20, 30, 40, 50]
+    // console.log(arr.myFilter(item => item > 20))
+    // 遍数的质量
+
+    // 做了四件事
+    /*
+     开辟内存空间(内存空间不是人为开辟的,而是本身就存在的,只不过是需要这块空间,系统给你分配一块新的空间),用来存储新创建的对象
+     内存空间和开房一样
+     确定this的指向
+     初始化属性及方法的初始值
+     返回当前实例对象
+    
+    
+    */
+    function Person(name) {
+      this.name = name
+    }
+    Person.prototype.sayHi=function(){
+      console.log(this)
+    }
+    var per = new Person('小明')
+    per.sayHi()
+    // 实例对象中有__proto__
+    // 函数中prototype
+    // Math是什么?
+    console.dir(Math)
+
+
+
+
+
+
+
+  </script>
+</body>
+
+</html>

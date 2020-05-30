@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>玉树临风美少年，揽镜自顾夜不眠 </title>
+</head>
+
+<body>
+  <div id="demo">
+    <p>华哥喜欢健哥</p>
+    <p>健哥喜欢禹哥</p>
+    <p>禹哥喜欢华哥</p>
+  </div>
+  <script type="text/javascript">
+    // 复习
+    // 1. 伪数组转真数组的方式
+    const list1 = document.getElementsByTagName('p')
+    // console.log(list1 instanceof Array) // 伪数组
+
+    const list2 = [...list1]
+    const list3 = Array.from(list1)
+    const list4 = Array.prototype.slice.call(list1)
+    const list5 = [].slice.call(list1)
+    console.log(list1 instanceof Array)
+    console.log(list2 instanceof Array)
+    console.log(list3 instanceof Array)
+    console.log(list4 instanceof Array)
+    console.log(list5 instanceof Array)
+
+    console.log('===============================')
+    // 2. nodeType节点:页面中所有的东西都可以叫节点, 标签,元素,文本,属性
+    // 获取当前节点的类型
+    // 标签:页面中的html标签,元素:标签也叫元素. 节点:标签,文本,属性
+    // 节点也有类型,可以通过nodeType这个属性获取, 1----标签节点,2---属性节点,3---文本节点
+    // 获取标签节点
+    const eleNode = document.getElementById('demo')
+    // 获取属性节点
+    const attrNode = eleNode.getAttributeNode('id')
+    // 获取文本节点
+    const txtNode = eleNode.firstChild
+    console.log(eleNode.nodeType)  // 1
+    console.log(attrNode.nodeType) // 2
+    console.log(txtNode.nodeType) // 3
+
+    console.log('===================')
+
+  </script>
+</body>
+
+</html>
