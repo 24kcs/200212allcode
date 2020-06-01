@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>05_模板解析_事件指令</title>
+  <script src="./js/mvvm.js"></script>
+  <script src="./js/compile.js"></script>
+  <script src="./js/observer.js"></script>
+  <script src="./js/watcher.js"></script>
+</head>
+<body>
+<div id="app">
+  <button v-on:click="showName">按钮</button>
+</div>
+<script type="text/javascript">
+  const vm = new MVVM({
+    el:'#app',
+    data:{
+      name:'小明'
+    },
+    methods: {
+      showName(){
+        console.log(this.name)
+      }
+    }
+  })
+
+
+  /*
+    面试题:说说你对事件指令的理解
+    创建Vue实例对象的时候,会进行模版解析操作,在模版编译的时候的内部,创建文档碎片对象(虚拟DOM),然后把html容器中所有的节点全部的放在文档碎片对象中,遍历所有的子节点,判断当前节点是不是标签节点,
+    如果是标签节点,获取当前节点上所有的属性,判断每个属性是不是指令,如果是指令,还要判断当前的指令是事件指令还是普通指令.如果是事件指令,获取该指令的名字，和值
+    去掉v-开头的指令,然后通过vm实例对象及判断vm对象下是否有methods对象,如果有则再获取methods中的对应的回调函数,最后通过addEventListener()方法为当前的标签节点,绑定对应的事件,最终把该标签节点上所有的属性全部的删除
+  
+  
+  
+  
+  */
+</script>
+</body>
+</html>
