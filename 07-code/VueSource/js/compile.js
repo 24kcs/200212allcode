@@ -170,7 +170,8 @@ var compileUtil = {
         // 调用该函数updaterFn ,传入{{msg}},和msg属性的值
         updaterFn && updaterFn(node, this._getVMVal(vm, exp));
 
-        // 监视-----
+        // 只要有一个表达式,就会创建一个watcher对象
+        // vm,exp---msg表达式,第三个参数是一个回调函数
         new Watcher(vm, exp, function(value, oldValue) {
             updaterFn && updaterFn(node, value, oldValue);
         });

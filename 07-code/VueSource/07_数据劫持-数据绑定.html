@@ -31,7 +31,10 @@
     const vm = new MVVM({
       el: '#app',
       data: {
-        msg: '男生还是要更努力一些啊'
+        msg: '男生还是要更努力一些啊',
+        // obj:{
+        //   name:'小明'
+        // }
       }
     })
     /*
@@ -43,6 +46,41 @@
 data对象中有一个属性msg,那么就会创建一个dep对象
 data对象中有一个属性(obj:{name:'小明'}------data:{obj:{name:'小明'}})----创建两个dep对象
   Object.defineProperty方法内部实际上是把vm.data对象中的所有的属性一个一个的遍历出来,然后一个一个的添加到observe(劫持)对象的data对象中(原来的关系observe.data=vm.data----->把vm.data的地址(引用给了observe.data)同时指向了一个地址),但是现在是observe.data中就有了一份和vm.data中相同的属性
+
+    一个属性会产生一个dep对象(dep对象中有uid和subs数组)----很关键
+    data中有多少个属性,就会产生多少个dep对象----这是一种依赖关系
+    一个表达式会产生一个watcher对象(depIds对象)-----很关键
+    html模版中有多少个表达式,就会产生多少个的watcher对象
+
+    劫持数据的时候,根据属性的个数产生对应个数的dep对象
+    模版解析的时候,根据表达式的个数产生对应个数的watcher对象
+
+    dep对象和watcher对象的关系-----Vue源码中最复杂的问题就搞定了
+
+    dep对象(uid和subs数组)和watcher对象(depIds对象)的关系
+
+    一对一的关系:一个dep对应一个watcher:data中定义了一个属性,html模版中用了一个表达式
+    一对多的关系:一个dep对应多个watcher:data中定义了一个属性,html模版中用了多个表达式
+    多对一的关系:多个dep对应一个watcher:data中定义了多个属性,html模版中用了一个表达式
+    多对多的关系:多个dep对应多个watcher:data中定义了多个属性,html模版中用了多个表达式
+
+    dep对象和watcher对象的关系如何建立
+    劫持的数据的时候仅仅是产生了dep对象,监视的时候才会创建watcher对象,并建立关系
+
+
+
+
+    &  a
+
+    \d 数字
+    \D 非数字
+    \s 空白符
+    \S 非空白符
+    \w 非特殊符号---可以这么理解
+    \W 特殊符号----可以这么理解
+
+
+
 
     */
 
