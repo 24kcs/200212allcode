@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>06_模板解析_一般指令</title>
+  <script src="./js/mvvm.js"></script>
+  <script src="./js/compile.js"></script>
+  <script src="./js/observer.js"></script>
+  <script src="./js/watcher.js"></script>
+  <style type="text/css">
+    .cls {
+      color: red;
+    }
+
+    .cls2 {
+      font-size: 50px;
+    }
+
+    .cls3 {
+      background-color: blue;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- <div id="app">
+    <p v-text="msg"></p>
+  </div> -->
+
+  <!-- <div id="app">
+    <p v-html="msg"></p>
+  </div> -->
+
+  <div id="app">
+    <p v-class="classA" class="cls2 cls3">hello</p>
+    <!-- <p v-bind:class="classA"></p> -->
+    <p v-class="classA" >hello</p>
+  </div>
+  <script type="text/javascript">
+
+    const vm = new MVVM({
+      el: '#app',
+      data: {
+       classA: 'cls'
+        // msg: '源码真香'
+        // msg: '<a href="http://www.baidu.com">百度</a>'
+      }
+    })
+
+
+    /*
+     面试题:说说你对一般指令的理解
+     实例化Vue的时候,传入配置对象(el,data,methods...)
+     创建编译对象,传入el及vm实例对象,内部开始模版解析(编译),创建文档碎片对象,把html容器中所有的节点全部的扔进文档碎片对象中,内部遍历所有的节点,判断当前的节点是不是标签,如果是标签,获取该标签上所有的属性,遍历所有的属性,判断当前的属性是不是指令,如果是指令再次判断是不是普通指令,如果是普通指令,进入到bind方法内部,找到对应的updater对象中textUpdater方法,把表达式的值赋值给当前的标签节点的textContent属性,进行替换,最后把该标签上所有的属性全部的删除------v-text这个普通指令的说明
+     v-html v-class 都加上
+
+
+
+    */
+  </script>
+</body>
+
+</html>

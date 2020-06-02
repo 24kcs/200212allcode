@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>06_模板解析_一般指令</title>
+  <script src="./js/mvvm.js"></script>
+  <script src="./js/compile.js"></script>
+  <script src="./js/observer.js"></script>
+  <script src="./js/watcher.js"></script>
+</head>
+
+<body>
+  <div id="app">
+    <input type="text" v-model="msg">
+    <p>{{msg}}</p>
+  </div>
+  <script type="text/javascript">
+    const vm = new MVVM({
+      el: '#app',
+      data: {
+        msg:'哈哈'
+      }
+    })
+
+    /*
+    
+      面试题:双向数据绑定的理解
+      在创建Vue实例对象的时候,内部会进行数据劫持操作,对应个数的属性会创建对应个数的dep对象,开始模版解析,模版解析内部会创建文档碎片对象,内部会把html容器中所有的节点全部的扔进文档碎片对象,在内存中进行操作,遍历所有的节点,判读当前的节点是不是标签,input标签,然后获取里面所有的属性,判断是不是指令,是不是普通指令,如果是普通指令,在调用bind方法,更新文本框的value属性的值,bind方法内部还要创建watcher对象,在为input标签通过addEventLister方法绑定input事件及对应的回调函数
+      一旦在页面中修改input标签的数据,会自动的进入input事件对应的回调函数内部,修改vm.data下面的msg属性,一旦修改vm.data.msg属性值,就会自动的进入mvvm.js文件的Object.defineProperty方法内部的set方法,就会自动的进入到objserver.js文件中的Object.defineProperty方法内部的set方法,然后就会调用dep.notify方法让当前的dep对象中的subs数组遍历里面每个sub,sub就是watcher对象,然后watcher对象中的update方法内部调用run方法,然后对比原来数据和新数据是否一致,进行数据的更新再次调用创建watcher对象传入的回调函数,内部实际上是updater对象中的相关方法modelUpdater更新input标签中的value属性的值,同时对应的p标签中的表达式的值也会自动更新.
+    
+    
+    
+    */
+   
+  </script>
+</body>
+
+</html>

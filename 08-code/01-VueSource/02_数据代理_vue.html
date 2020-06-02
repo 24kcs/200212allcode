@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>02_数据代理</title>
+  <script src="./js/vue.js"></script>
+</head>
+
+<body>
+  <div id="app">
+  </div>
+
+  <script type="text/javascript">
+    const vm = new Vue({
+      el: '#app',
+      data: {
+        msg: '123'
+      }
+    })
+    // 获取msg属性的值---下面的方式不可以
+    // console.log(vm.data.msg)
+    console.log(vm)
+    console.log(vm.$data.msg) // 可以获取
+    console.log(vm._data.msg) // 可以获取
+    console.log(vm.msg) // 可以获取----推荐这个---简单
+
+    // vm 代替了data可以直接获取data对象中的数据
+    // vm 代理了 data ,vm是代理者,data是被代理者
+    // Vue中是有数据代理的
+
+
+  </script>
+</body>
+
+</html>
