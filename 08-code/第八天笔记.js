@@ -18,3 +18,111 @@
  * 
  * 
  */
+
+ /**
+  * 
+  *  stylus的使用:
+  * 1. 全局安装stylus
+  * npm install -g stylus
+  * 
+  * 如果在静态页面中使用stylus,的方式(vscode开发软件中)
+  * index.styl 和css目录是同级别关系
+  *  stylus -w index.styl -o css目录
+  * css 目录中有index.styl 文件
+  * stylus -w index.styl css目录的绝对路径
+  * 打开终端肯定是在index.styl的父级目录中打开
+  * 
+  * 
+  * 
+  * 
+  * 
+  * 
+  *  如果电脑中已经安装了脚手架2,那么现在要安装脚手架3
+  * Vue CLI 的包名称由 vue-cli 改成了 @vue/cli。 如果你已经全局安装了旧版本的 vue-cli (1.x 或 2.x)，你需要* 先通过 npm uninstall vue-cli -g 或 yarn global remove vue-cli 卸载它。
+  * 安装脚手架3命令
+  * npm install -g @vue/cli
+  * 
+  * 
+  * 脚手架2的下载命令
+  * npm install -g vue-cli
+  * 脚手架3的下载命令
+  * npm install -g @vue/cli
+  * 注意:如果已经装了脚手架2
+  * npm uninstall vue-cli -g 干掉----先干掉脚手架2,然后再安装脚手架3
+  * 
+  * 通过脚手架2下载模版的命令
+  * vue init webpack app-client2
+  * 通过脚手架3下载模版的命令
+  * vue create app-client3
+  * 
+  * 注意: 我干掉了脚手架2,也安装了脚手架3,但是我就想通过脚手架2的命令下载模版!
+  * 你可以全局安装一个桥接工具
+  * npm install -g @vue/cli-init 此时就可以在电脑中又用脚手架2的命令下载模又可以用脚手架3的命令下载模版
+  * 
+  * 脚手架3启动项目的命令: npm run serve
+  * 
+  * 脚手架2运行项目命令:
+  * npm run dev 或者 npm start
+  * 打包  npm run build 
+  * 运行打包 serve dist
+  * 脚手架3运行项目命令；
+  * npm run serve
+  * 打包 npm run build 
+  * 运行打包 serve dist
+  * 
+  * 脚手架3 中运行命令后 自动打开浏览器
+  * package.json文件中设置
+  *  "serve": "vue-cli-service serve --open"
+  * 
+  * 将来做项目的时候,脚手架 运行项目的命令不一定就是npm run dev 或者 npm start 或者 npm run serve
+  * 具体是什么?看package.json文件的代码
+  * 
+  * 
+  * 脚手架2中浏览器自动打开的设置 config目录中的index.js文件中  第18行代码 设置为true
+  * 脚手架3中浏览器自动打开的设置 package.json 中  第六行代码 设置 --open
+  * 
+  * 脚手架2和脚手架3的目录的区别
+  * public公共资源及index.html目录(脚手架3)，static目录中公共资源(脚手架2)
+  * src目录中的main.js文件代码不一样
+  * 脚手架2和脚手架3中的eslint检查设置也不一样
+  * 脚手架3中package.json文件中第35行: "rules": {} 可以设置eslint语法检查关闭
+  * 脚手架3中的vue.config.js文件中也可以设置eslint语法检查关闭(现在没有vue.config.js文件---自己手动创建)
+  * 
+  * 
+  * 
+  * 
+  * 
+  * 
+  */
+
+
+  /**
+   * 
+   * 1. 路由传参的问题
+   * 2. 设置案例的效果的时候使用的是stylus 的方式进行样式操作
+   * 如果在脚手架对应的项目使用stylus进行样式操作,首先需要安装插件 npm install stylus stylus-loader 
+   * 此时在组件内部书写stylus 不需要手动编译,直接是写stylus代码，自动的编译成css项目可以直接使用
+   * 
+   * 
+   * 
+   * 
+   * 
+   * 路由组件传参:
+   * 1. params方式:
+   *  首先要在路由注册的时候,进行占位操作(:名字),同时通过组件对象调用$route来获取参数数据,params方式传参和组件的关系是很密切的(需要组件对象调用$route这个信息对象来获取相关的参数数据)-----和当前的组件对象耦合性比较高
+   * 2. query方式:
+   *   在注册路由的时候,不需要占位,只写地址,需要通过组件对象调用$route对象来获取参数数据,query方式传参和组件的关系依然是很密切的(需要组件对象调用$route这个信息对象来获取相关的参数数据)-----和当前的组件对象耦合性比较高
+   * 3. meta 方式 :该对象是vue提供的,可以供我们自己向内部传递数据,进行传参操作
+   *  在注册路由的时候添加一个meta对象(自带的meta对象,需要自己手动的进行书写),路由链接中不需要写任何内容,获取路由的参数需要$route对象来进行获取,和组件的关系依然很密切-----和当前的组件对象耦合性比较高
+   * 我希望我路由组件在传递参数的时候和当前的组件的耦合性不那么高-----解耦,推荐使用props的方式
+   * 4. props 
+   *  布尔的方式:
+   *     需要先在注册路由的时候设置props:true, 可以把params参数放在props对象中,直接进行获取参数数据,和$route进行解耦
+   *  对象的方式:
+   *     需要现在注册路由的时候设置props:{} 可以把参数数据直接放在props对象中,直接进行获取参数数据,和$route进行解耦
+   *  回调函数的方式:
+   *  在注册路由的时候把参数放在props的函数中,组件内部荣国props接收后可以直接使用,和$route进行解耦
+   * 
+   * 
+   * 
+   */

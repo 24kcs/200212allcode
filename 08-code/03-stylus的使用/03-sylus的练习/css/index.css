@@ -1,0 +1,55 @@
+@import './reset.css';
+@media only screen and (-webkit-device-pixel-ratio: 2) {
+  .border-1px::before {
+    transform: scaleY(0.5);
+  }
+}
+@media only screen and (-webkit-device-pixel-ratio: 3) {
+  .border-1px::before {
+    transform: scaleY(0.333333);
+  }
+}
+::after {
+  content: '';
+  display: block;
+  clear: both;
+}
+html,
+body {
+  width: 100%;
+  overflow: hidden;
+}
+html .app,
+body .app {
+  width: 100%;
+  height: 100%;
+}
+html .app .footer,
+body .app .footer {
+  width: 100%;
+  height: 50px;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  display: flex;
+}
+html .app .footer .footerItem,
+body .app .footer .footerItem {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+html .app .footer .footerItem.active,
+body .app .footer .footerItem.active {
+  color: #02a774;
+}
+html .app .footer .footerItem .iconfont,
+body .app .footer .footerItem .iconfont {
+  font-size: 20px;
+}
+html .app .footer .footerItem span,
+body .app .footer .footerItem span {
+  margin-top: 3px;
+}
