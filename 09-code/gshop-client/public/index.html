@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
     <title><%= htmlWebpackPlugin.options.title %></title>
-    <link rel="stylesheet" href="./css/reset.css">
+    <!--引入的样式文件应该使用绝对路径,原因:路由在跳转的时候查找该样式文件使用的是相对路径,会出现问题-->
+    <link rel="stylesheet" href="/css/reset.css">
   </head>
   <body>
     <noscript>

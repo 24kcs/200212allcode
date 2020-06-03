@@ -11,7 +11,7 @@
             <router-link to="/login">登录</router-link>
             <router-link to="/register" class="register">免费注册</router-link>
             <!-- <a href="###">登录</a>
-            <a href="###" class="register">免费注册</a> -->
+            <a href="###" class="register">免费注册</a>-->
           </p>
         </div>
         <div class="typeList">
@@ -31,12 +31,14 @@
       <h1 class="logoArea">
         <!-- <a class="logo" title="尚品汇" href="###" target="_blank">
           <router-link to="/"><img src="./images/Logo.png" alt /></router-link>
-        </a> -->
-         <router-link to="/" title="尚品汇" class="logo"><img src="./images/Logo.png" alt /></router-link>
+        </a>-->
+        <router-link to="/" title="尚品汇" class="logo">
+          <img src="./images/Logo.png" alt />
+        </router-link>
       </h1>
       <div class="searchArea">
         <form action="###" class="searchForm">
-          <input type="text" id="autocomplete" class="input-error input-xxlarge" />
+          <input type="text" id="autocomplete" class="input-error input-xxlarge" v-model="keyword" />
           <button class="sui-btn btn-xlarge btn-danger" type="button" @click="toSearch">搜索</button>
         </form>
       </div>
@@ -46,9 +48,14 @@
 <script>
 export default {
   name: 'Header',
+  data() {
+    return {
+      keyword: '' // 获取文本框中输入的数据
+    }
+  },
   methods: {
     // 点击搜索按钮实现路由的跳转
-    toSearch(){
+    toSearch() {
       // 编程式路由跳转----会出现bug
       // this.$router.push('/search')
       // 解决方式1:指定空的成功的回调和失败的回调
@@ -64,7 +71,32 @@ export default {
       // 解决方式5:指定catch是可以的
       // this.$router.push('/search').catch(()=>{})
       // 如果当前项目中很多位置都可以需要编程式的路由跳转,以上解决方式的代码需要写多次，所以,最好的解决方式,一次解决,多次使用,不必再重复解决该问题,进行统一的处理-----router目录中的index.js文件中解决
-      this.$router.push('/search')
+      // this.$router.push('/search')
+      // 点击当前搜索按钮,实现路由跳转并传递参数(点击按钮的时候,传递参数方式是params的方式)
+      // 如果鼠标点击的是分类信息实现路由跳转并传递参数(点击分类信息,传递参数方式是query的方式)
+      // 编程式路由在跳转的时候进行传递参数的操作
+      // 点击按钮 路由跳转的不同方式传参
+      // 以下是编程式路由传参的书写方式-----------------字符串拼接的方式
+      // params的方式进行路由传参
+      // this.$router.push(`/search/${this.keyword}`)
+      // query的方式进行路由传参
+      // this.$router.push(`/search?keyword=${this.keyword}`)
+
+      // 以下是编程式路由传参的书写方式----------------------对象的方式
+      // query 的方式传参
+      // this.$router.push({path:'/search',query:{keyword:this.keyword}})
+      // params 的方式传参
+      // this.$router.push({ name: 'search', params: { keyword: this.keyword } })
+
+      // 此时通过params 的对象的写法 进行路由跳转并传递参数,有bug,---如果文本框中有数据,可以直接跳转,并传递参数,如果文本框中没有数据,此时无法进行跳转
+      // 判断当前文本框中的数据是否存在
+      if(this.keyword){
+        // 文本框中有数据,则跳转,并传递参数
+        this.$router.push({ name: 'search', params: { keyword: this.keyword } })
+      }else{
+        // 文本框中没有数据,则跳转,不需要传递参数
+        this.$router.push({ name: 'search'})
+      }
     }
   }
 }

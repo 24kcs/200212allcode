@@ -11,12 +11,18 @@
 import Header from './components/Header'
 // 引入Footer组件
 import Footer from './components/Footer'
+// 引入接口函数文件api
+import { reqBaseCategoryList } from './api'
 export default {
   name: 'App',
   // 注册组件
   components: {
     Header,
     Footer
+  },
+  async mounted() {
+    const result1 = await reqBaseCategoryList()
+    console.log(result1)
   }
 }
 </script>
