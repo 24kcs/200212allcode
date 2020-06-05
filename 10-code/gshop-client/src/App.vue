@@ -28,7 +28,8 @@ export default {
   //     baseCategoryList:state=>state.home.baseCategoryList
   //   })
   // },
-  async mounted() {
+  mounted() {
+    this.$store.dispatch('getBaseCategoryList')
     // const result1 = await reqBaseCategoryList()
     // console.log(result1)
     // this.$store.dispatch('getBaseCategoryList')

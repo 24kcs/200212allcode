@@ -1,27 +1,57 @@
 <template>
   <!-- 商品分类导航 -->
   <div class="type-nav">
-    <div class="container">
-      <h2 class="all">全部商品分类</h2>
-
-      <div class="sort">
-        <div class="all-sort-list2">
-          <div class="item" v-for="(c1,index) in baseCategoryList" :key="index">
-            <h3>
-              <a href>{{c1.categoryName}}</a>
-            </h3>
-            <div class="item-list clearfix">
-              <div class="subitem">
-                <dl class="fore" v-for="(c2, index) in c1.categoryChild" :key="index">
-                  <dt>
-                    <a href>{{c2.categoryName}}</a>
-                  </dt>
-                  <dd>
-                    <em v-for="(c3,index) in c2.categoryChild" :key="index">
-                      <a href>{{c3.categoryName}}</a>
-                    </em>
-                  </dd>
-                </dl>
+    <div class="container" >
+      <div @mouseenter="isShowFirst=true" @mouseleave="firstHide">
+        <h2 class="all">全部商品分类</h2>
+        <!--优化代码的操作,父级标签应用鼠标离开的事件-->
+        <!--通过v-if指令来控制分类列表展示或者隐藏操作-->
+        <div class="sort" @mouseleave="currentIndex=-2" @click="toSearch" v-if="isShowFirst">
+          <div class="all-sort-list2">
+            <div
+              class="item"
+              v-for="(c1,index) in baseCategoryList"
+              :key="index"
+              :class="{item_on:currentIndex===index}"
+              @mouseenter="showSubCategorys(index)"
+            >
+              <h3>
+                <a
+                  href="javascript:;"
+                  :data-categoryName="c1.categoryName"
+                  :data-category1Id="c1.categoryId"
+                >{{c1.categoryName}}</a>
+                <!-- <router-link
+                :to="{path:'search',query:{categoryName:c1.categoryName,category1Id:c1.categoryId}}"
+                >{{c1.categoryName}}</router-link>-->
+              </h3>
+              <div class="item-list clearfix">
+                <div class="subitem">
+                  <dl class="fore" v-for="(c2, index) in c1.categoryChild" :key="index">
+                    <dt>
+                      <a
+                        href="javascript:;"
+                        :data-categoryName="c2.categoryName"
+                        :data-category2Id="c2.categoryId"
+                      >{{c2.categoryName}}</a>
+                      <!-- <router-link
+                      :to="{path:'search',query:{categoryName:c2.categoryName,category2Id:c2.categoryId}}"
+                      >{{c2.categoryName}}</router-link>-->
+                    </dt>
+                    <dd>
+                      <em v-for="(c3,index) in c2.categoryChild" :key="index">
+                        <a
+                          href="javascript:;"
+                          :data-categoryName="c3.categoryName"
+                          :data-category3Id="c3.categoryId"
+                        >{{c3.categoryName}}</a>
+                        <!-- <router-link
+                        :to="{path:'search',query:{categoryName:c3.categoryName,category3Id:c3.categoryId}}"
+                        >{{c3.categoryName}}</router-link>-->
+                      </em>
+                    </dd>
+                  </dl>
+                </div>
               </div>
             </div>
           </div>
@@ -43,8 +73,18 @@
 <script>
 // 引入Vuex的辅助函数
 import { mapState } from 'vuex'
+// 引入lodash----为了使用一个方法,引入了这个的js库,不合适
+// import _ from 'lodash'
+// 按需引入
+import throttle from 'lodash/throttle'
 export default {
   name: 'TypeNav',
+  data() {
+    return {
+      currentIndex: -2, // 默认值,用来存储鼠标进入到div(class为item)的时候设置的索引值
+      isShowFirst: true // 默认只有在首页是显示的
+    }
+  },
   computed: {
     ...mapState({
       baseCategoryList: state => state.home.baseCategoryList
@@ -52,7 +92,59 @@ export default {
   },
   mounted() {
     // 当分类信息组件TypeNav组件加载后,发送异步请求,获取数据
-    this.$store.dispatch('getBaseCategoryList')
+    // this.$store.dispatch('getBaseCategoryList')
+    // 每次组件重新加载后,判断当前页面是不是首页---home----/,如果不是首页/--则隐藏
+    if (this.$route.path !== '/') {
+      this.isShowFirst = false
+    }
+  },
+  methods: {
+    // 鼠标进入的事件----通过函数节流的方式来进行优化操作
+    showSubCategorys: throttle(function(index) {
+      // 该事件会被触发n次----不合理
+      this.currentIndex = index
+      // console.log(index)
+    }, 300),
+    // 通过事件委托的方式实现点击a标签跳转到search组件
+    toSearch(event) {
+      //  console.log('预成大树,莫与草争,将军有剑,不斩苍蝇')
+      // 此时点击a确实可以触发该点击事件,但是点击其他的标签也会触发该事件
+      // console.log(event)
+      if (event.target.tagName === 'A') {
+        //  console.log('点的是a,如果争吵可以解决问题,那么poxx 一定是个高薪职业')
+        // 如何传递参数数据
+        // console.log(event.target.dataset)
+        // 解构出dataset对象中的数据
+        const {
+          categoryname,
+          category1id,
+          category2id,
+          category3id
+        } = event.target.dataset
+
+        // 准备路由跳转的过程中需要传递的参数数据
+        const query = { categoryName: categoryname }
+        // 判断对应的参数数据中是否有数据,就携带当前的这个数据
+        if (category1id) {
+          query.category1Id = category1id
+        } else if (category2id) {
+          query.category2Id = category2id
+        } else if (category3id) {
+          query.category3Id = category3id
+        }
+        // console.log(query)
+        // 实现路由的跳转
+        this.$router.push({ path: 'search', query })
+      }
+    },
+    // 鼠标离开分类信息菜单,设置是否隐藏当前的信息列表
+    firstHide() {
+      // 把表达式的索引值清空一下
+      this.currentIndex = -2
+      if (this.$route.path !== '/') {
+        this.isShowFirst = false
+      }
+    }
   }
 }
 </script>
@@ -153,7 +245,8 @@ export default {
               }
             }
           }
-          &:hover {
+          &.item_on {
+            background-color: #02a774;
             .item-list {
               display: block;
             }

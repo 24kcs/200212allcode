@@ -19,6 +19,7 @@ const actions = {
     const result = await reqBaseCategoryList()
     if (result.code === 200) {
       const baseCategoryList = result.data
+      // console.log(baseCategoryList)
       // 提交mutation
       commit('RECEIVE_CATEGORY_LIST', baseCategoryList)
     }
