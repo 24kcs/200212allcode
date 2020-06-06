@@ -44,12 +44,16 @@ export default {
     Floor,
     Brand
   },
-  async mounted () {
+  // 页面加载的生命周期回调函数
+   mounted () {
+    //console.log('home')
     // 调用接口进行测试
-    const result1 = await reqBanners()
-    const result2 = await reqFloors()
-    console.log(result1)
-    console.log(result2)
+    // const result1 = await reqBanners()
+    // const result2 = await reqFloors()
+    // console.log(result1)
+    // console.log(result2)
+    this.$store.dispatch('getBanners')
+    this.$store.dispatch('getFloors')
   }
 }
 </script>

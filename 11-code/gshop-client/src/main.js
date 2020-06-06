@@ -12,6 +12,8 @@ import TypeNav from './components/TypeNav'
 
 // 引入mockServer.js文件,执行一次
 import './mock/mockServer'
+// 引入Swiper的样式
+import 'swiper/css/swiper.css'
 // 设置浏览器控制台默认的提示信息不显示
 Vue.config.productionTip = false
 

@@ -10,4 +10,4 @@ Mock.mock('/mock/banners',{code:200,message:'成功',data:banners})
 Mock.mock('/mock/floors',{code:200,message:'成功',data:floors})
 
 // 不需要进行暴露 ,让当前的代码必须执行一次即可
-console.log('站住,留下买路钱')
+// console.log('站住,留下买路钱')

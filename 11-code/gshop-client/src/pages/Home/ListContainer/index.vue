@@ -3,10 +3,10 @@
     <div class="sortList clearfix">
       <div class="center">
         <!--banner轮播-->
-        <div class="swiper-container" id="mySwiper">
+        <div class="swiper-container" id="sw1" ref="sw">
           <div class="swiper-wrapper">
-            <div class="swiper-slide">
-              <img src="./images/banner3.jpg" />
+            <div class="swiper-slide" v-for="(banner,index) in banners" :key="banner.id">
+              <img :src="banner.imgUrl" alt />
             </div>
           </div>
           <!-- 如果需要分页器 -->
@@ -15,6 +15,9 @@
           <!-- 如果需要导航按钮 -->
           <div class="swiper-button-prev"></div>
           <div class="swiper-button-next"></div>
+
+          <!-- 如果需要滚动条 -->
+          <!-- <div class="swiper-scrollbar"></div> -->
         </div>
       </div>
       <div class="right">
@@ -100,8 +103,83 @@
   </div>
 </template>
 <script>
+// 引入Swiper
+import Swiper from 'swiper'
+// // 引入Swiper的样式
+// import 'swiper/css/swiper.css'
+// 引入vuex的辅助函数
+import { mapState } from 'vuex'
+// 引入Vue
+// import Vue from 'vue'
 export default {
-  name: 'ListContainer'
+  name: 'ListContainer',
+  computed: {
+    ...mapState({
+      banners: state => state.home.banners
+    })
+  },
+  // 页面加载后的生命周期回调
+  // mounted() {
+  //   // console.log('ListContainer')
+  //   // 参数1: 选择器
+  //   // 参数2:配置对象
+  //   // var mySwiper = new Swiper('.swiper-container', {
+  //   // var mySwiper = new Swiper('#sw1', {
+  //   setTimeout(() => {
+  //     var mySwiper = new Swiper(this.$refs.sw, {
+  //       loop: true, // 循环模式选项
+  //       // 如果需要分页器
+  //       pagination: {
+  //         el: '.swiper-pagination'
+  //       },
+  //       // 如果需要前进后退按钮
+  //       navigation: {
+  //         nextEl: '.swiper-button-next',
+  //         prevEl: '.swiper-button-prev'
+  //       }
+  //     })
+  //   }, 1000)
+  //   // 定时器,延迟Swiper的创建
+  // }
+  watch: {
+    // banners() {
+    //    setTimeout(() => {
+    //     var mySwiper = new Swiper(this.$refs.sw, {
+    //       loop: true, // 循环模式选项
+    //       // 如果需要分页器
+    //       pagination: {
+    //         el: '.swiper-pagination'
+    //       },
+    //       // 如果需要前进后退按钮
+    //       navigation: {
+    //         nextEl: '.swiper-button-next',
+    //         prevEl: '.swiper-button-prev'
+    //       }
+    //     })
+    //    }, 500)
+    //   // 定时器,延迟Swiper的创建
+    // }
+
+    banners() {
+      // console.log(val)
+      this.$nextTick(() => {
+        //console.log('1')
+        // 将回调延迟到下次 DOM 更新循环之后执行。在修改数据之后立即使用它，然后等待 DOM 更新
+        var mySwiper = new Swiper(this.$refs.sw, {
+          loop: true, // 循环模式选项
+          // 如果需要分页器
+          pagination: {
+            el: '.swiper-pagination'
+          },
+          // 如果需要前进后退按钮
+          navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev'
+          }
+        })
+      })
+    }
+  }
 }
 </script>
 <style lang="less" rel="stylesheet/less" scoped>
