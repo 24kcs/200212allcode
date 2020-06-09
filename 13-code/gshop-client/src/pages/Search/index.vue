@@ -7,28 +7,30 @@
         <div class="bread">
           <ul class="fl sui-breadcrumb">
             <li>
-              <a href="#">全部结果</a>
+              <a href="javascript:;">全部结果</a>
             </li>
           </ul>
           <ul class="fl sui-tag">
-            <li class="with-x">手机</li>
-            <li class="with-x">
-              iphone
-              <i>×</i>
+            <!--显示的是分类的信息名字-->
+            <li class="with-x" v-if="options.categoryName">
+              {{options.categoryName}}
+              <i @click="removeCategoryName">×</i>
             </li>
-            <li class="with-x">
-              华为
-              <i>×</i>
+            <!--显示的是搜索关键字-->
+            <li class="with-x" v-if="options.keyword">
+              {{options.keyword}}
+              <i @click="removeKeyword">×</i>
             </li>
-            <li class="with-x">
-              OPPO
-              <i>×</i>
+            <!--显示的是品牌信息数据-->
+              <li class="with-x" v-if="options.trademark">
+              {{options.trademark}}
+              <i @click="removeTrademark">×</i>
             </li>
           </ul>
         </div>
 
         <!--selector-->
-        <SearchSelector />
+        <SearchSelector :setTrademark="setTrademark" />
 
         <!--details-->
         <div class="details clearfix">
@@ -185,6 +187,45 @@ export default {
     getProductList() {
       // 提交action,获取产品信息数据
       this.$store.dispatch('getProductList', this.options)
+    },
+    // 重置分类信息操作
+    removeCategoryName() {
+      this.options.category1Id = '' // 重置
+      this.options.category2Id = '' // 重置
+      this.options.category3Id = '' // 重置
+      this.options.categoryName = '' // 重置
+      // 重新获取数据
+      // this.getProductList()
+      // 地址栏的参数没有清理
+      // 重新的跳转当前界面,用于删除query参数,path 可能包含keyword
+      this.$router.replace(this.$route.path)
+      // console.log(this.$route.path)
+    },
+    // 重置搜索关键字操作
+    removeKeyword() {
+      // 分发事件总线中的事件
+      this.$bus.$emit('removeKeyword')
+      this.options.keyword = '' // 重置
+
+      // 重新获取数据
+      // this.getProductList()
+      // 地址栏的参数没有清理
+      // 重新跳转当前的页面,用于删除params参数,也可能包含query参数
+      this.$router.replace({ path: '/search', query: this.$route.query })
+    },
+    // 获取品牌信息数据,更新当前组件内的options中的trademark数据
+    setTrademark(trademarkId, trademarkName) {
+      // 设置id和名字--- "245:华为"
+      this.options.trademark = trademarkId + ':' + trademarkName
+      // 重新的获取产品的信息数据
+      this.getProductList()
+    },
+    // 重置品牌信息的操作
+    removeTrademark(){
+      // 先清空品牌信息的数据
+      this.options.trademark = ''
+      // 重新获取产品信息数据
+      this.getProductList()
     }
   },
   watch: {
@@ -194,6 +235,10 @@ export default {
       const { query, params } = to
       const options = {
         ...this.options,
+        category1Id: '', // 重置
+        category2Id: '', // 重置
+        category3Id: '', // 重置
+        categoryName: '', // 重置
         ...query,
         ...params
       }

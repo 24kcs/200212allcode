@@ -90,14 +90,48 @@ export default {
 
       // 此时通过params 的对象的写法 进行路由跳转并传递参数,有bug,---如果文本框中有数据,可以直接跳转,并传递参数,如果文本框中没有数据,此时无法进行跳转
       // 判断当前文本框中的数据是否存在
-      if(this.keyword){
+      // if(this.keyword){
+      //   // 文本框中有数据,则跳转,并传递参数
+      //   this.$router.push({ name: 'search', params: { keyword: this.keyword } })
+      // }else{
+      //   // 文本框中没有数据,则跳转,不需要传递参数
+      //   this.$router.push({ name: 'search'})
+      // }
+
+      // Header组件跳转到Search组件的时候,没有考虑path的问题,还有query参数的
+      const { query, path } = this.$route
+      if (this.keyword) {
+        // 搜索框中有数据的情况下,还要考虑一下path路径中有没有/search地址,如果有说明此时应该就在search界面,而且分类信息有可能有数据
+        if (path.indexOf('/search') === 0) {
+          this.$router.push({
+            name: 'search',
+            params: { keyword: this.keyword },
+            query
+          })
+        } else {
+          // 此时不在搜索页面,只需要携带params参数
+          this.$router.push({
+            name: 'search',
+            params: { keyword: this.keyword }
+          })
+        }
         // 文本框中有数据,则跳转,并传递参数
-        this.$router.push({ name: 'search', params: { keyword: this.keyword } })
-      }else{
-        // 文本框中没有数据,则跳转,不需要传递参数
-        this.$router.push({ name: 'search'})
+      } else {
+        // 说明此时跳转的时候,文本框中没有数据,还要判断此时是否已经在Search界面了
+        if (path.indexOf('/search') === 0) {
+          this.$router.push({ name: 'search', query })
+        } else {
+          // 文本框中没有数据,则跳转,不需要传递参数
+          this.$router.push({ name: 'search' })
+        }
       }
     }
+  },
+  mounted () {
+    // 通过事件总线绑定清空搜索关键字的事件
+    this.$bus.$on('removeKeyword',()=>{
+      this.keyword=''
+    })
   }
 }
 </script>

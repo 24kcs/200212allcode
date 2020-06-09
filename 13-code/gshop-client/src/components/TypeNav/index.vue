@@ -1,9 +1,9 @@
 <template>
   <!-- 商品分类导航 -->
   <div class="type-nav">
-    <div class="container" >
-      <div @mouseenter="isShowFirst=true" @mouseleave="firstHide">
-        <h2 class="all">全部商品分类</h2>
+    <div class="container">
+      <div @mouseenter="isShowFirst = true" @mouseleave="firstHide">
+        <h2 class="all" @mouseenter="hideCategory">全部商品分类</h2>
         <!--优化代码的操作,父级标签应用鼠标离开的事件-->
         <!--通过v-if指令来控制分类列表展示或者隐藏操作-->
         <div class="sort" @mouseleave="currentIndex=-2" @click="toSearch" v-if="isShowFirst">
@@ -77,6 +77,7 @@ import { mapState } from 'vuex'
 // import _ from 'lodash'
 // 按需引入
 import throttle from 'lodash/throttle'
+import debounce from 'lodash/debounce'
 export default {
   name: 'TypeNav',
   data() {
@@ -134,7 +135,22 @@ export default {
         }
         // console.log(query)
         // 实现路由的跳转
-        this.$router.push({ path: 'search', query })
+        // this.$router.push({ path: 'search', query })
+        // TypeNav组件中路由跳转的时候,query传参的时候需要考虑path问题
+        // console.log(this.$route.path)
+        // console.log(this.$route.params)
+        const { path, params } = this.$route
+        // 判断当前的path路径中是否有/search
+        if (path.indexOf('/search') === 0) {
+          // 需求: Home--->Search--->Search,如果回退,能够直接回到Home,使用replace的方法
+          this.$router.replace({ path, query, params })
+        } else {
+          this.$router.push({ path: '/search', query })
+        }
+
+        // 点击分类信息后,当前的分类菜单能够隐藏
+        this.currentIndex = -2
+        this.isShowFirst = false
       }
     },
     // 鼠标离开分类信息菜单,设置是否隐藏当前的信息列表
@@ -144,7 +160,13 @@ export default {
       if (this.$route.path !== '/') {
         this.isShowFirst = false
       }
-    }
+    },
+    // 全部商品分类
+    hideCategory: debounce(function() {
+      // 该事件会被触发n次----不合理
+      this.currentIndex = -1
+      // console.log(this.currentIndex)
+    }, 300)
   }
 }
 </script>

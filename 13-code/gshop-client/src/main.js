@@ -22,8 +22,15 @@ Vue.config.productionTip = false
 // 注册全局组件
 Vue.component('TypeNav',TypeNav)
 Vue.component('Carousel',Carousel)
+
+// 数据初始化之前定义事件总线
+// Vue.prototype.$bus = new Vue()
 // 实例化Vue
 new Vue({
+  // 数据初始化之前的生命周期回调
+  beforeCreate () {
+    Vue.prototype.$bus = this
+  },
   render: h => h(App),
   // 注册路由器
   router,
