@@ -1,27 +1,23 @@
 <template>
   <!--分页组件-->
-  <div class="pagination">
+  <div class="pagination" v-if="pageConfig.total>0">
     <!--上一页-->
     <button :disabled="currentPage===1" @click="changeCurrentPage(currentPage-1)">上一页</button>
     <!-- 第1页 -->
-    <button @click="changeCurrentPage(1)">1</button>
-    <!-- 省略号 -->
-    <button disabled>···</button>
-    <!-- 连续页码 -->
-    <button>3</button>
-    <button>4</button>
-    <button class="active">5</button>
-    <button>6</button>
-    <button>7</button>
-
-    <!-- 省略号 -->
-    <button disabled>···</button>
+    <button v-if="startEnd.start>1" @click="changeCurrentPage(1)">1</button>
+    <!-- 第一个:省略号 开始页码数大于2的情况 -->
+    <button disabled v-if="startEnd.start>2">···</button>
+    <!-- 连续页码  :class="{active:}"-->
+      <!--连续页码是5个  3  4  5  6  7  --> 
+    <button v-for="no in startEnd.end" v-if="no>=startEnd.start" :key="no" :class="{active:currentPage===no}" @click="changeCurrentPage(no)">{{no}}</button>
+    <!-- 第二个:省略号 结束页码小于总页码数-1的情况 -->
+    <button disabled v-if="startEnd.end<totalPages-1">···</button>
     <!-- 最后一页 -->
-    <button>9</button>
+    <button v-if="startEnd.end<totalPages" @click="changeCurrentPage(totalPages)">{{totalPages}}</button>
     <!--下一页-->
-    <button>下一页</button>
+    <button :disabled="currentPage===totalPages"  @click="changeCurrentPage(currentPage+1)">下一页</button>
     <!-- 总记录数 -->
-    <button disabled style="margin-left: 30px">共 30 条</button>
+    <button disabled style="margin-left: 30px">共 {{pageConfig.total}}条</button>
   </div>
 </template>
 
@@ -37,7 +33,7 @@ export default {
         total: 0, // 总的数据条数
         pageSize: 5, // 每页显示多少条数据
         pageNo: 1, // 默认显示第几页的数据---第一页
-        showPages: 5 // 连续的页码数(一般连续页码是奇数)
+        showPageNo: 5 // 连续的页码数(一般连续页码是奇数)
       }
     }
   },
@@ -66,8 +62,51 @@ export default {
       // 判断: 总条数和每页的数据条数都应该保证数据的正确性:数据不该小于等于0
       if (total <= 0 || pageSize < 0) return 0
       return Math.ceil(total / pageSize)
+    },
+    // 计算连续页码的开始页码和结束页码
+    startEnd() {
+      // 开始页码
+      let start = 0
+      // 结束页码
+      let end = 0
+      // 当前页码
+      const currentPage = this.currentPage
+      // 连续页码数
+      const showPageNo = this.pageConfig.showPageNo
+      // 总的页码数
+      const totalPages = this.totalPages
+      // 简写,下面的写法到了公司后,如果看见了,能够认识就可以了
+      // const {currentPage,totalPages,pageConfig:{showPageNo}} = this
+      // 例子:5 6 7 8 9
+      // 连续页码的 开始页码数 = 当前页码 - 向下取整(连续页码/2)
+      //  开始页码 = 7 - 5/2  = 5
+      start = currentPage - Math.floor(showPageNo / 2)
+      // 如果开始页码小于1会怎样 0 1 2 3 4 ,不可能出现0的,默认就变成1吧,已经重新修正
+      if (start < 1) {
+        start = 1
+      }
+      // 连续页码的 结束页码数 = 当前页码 + 向下取整(连续页码/2)
+      //  结束页码 = 7 + 5/2 = 9
+      // end = currentPage + Math.floor(showPageNo/2)
+      end = start + showPageNo - 1
+      // 结束页码大于总页码,需要重新修正, 总页码数:9  当前页码是8      5 6 7 8 9
+      if (end > totalPages) {
+        // 如果结束页码大于总的页码需要修正
+        end = totalPages
+        // 如果结束页码最终因为大于总的页码数,当前的结束页码就是总的页码数,那开始的页码数就需要重新修正
+        // 总页码数:9  当前页码是8    最终的效果为:   5 6 7 8 9
+        start = end - showPageNo + 1
+        // 如果只有3页, 连续的页码是5 ,  1 ,2 ,3
+        if (start < 1) {
+          start = 1
+        }
+      }
+      return { start, end }
     }
-  }
+  },
+  // mounted () {
+  //   console.log(this.pageConfig.total)
+  // }
   // 初始化之前的生命周期回调
   // beforeCreate () {
   //   console.log('a',this.currentPage)  // a

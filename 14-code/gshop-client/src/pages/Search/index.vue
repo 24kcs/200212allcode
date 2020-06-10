@@ -98,7 +98,7 @@
             </ul>
           </div>
           <!--分页标签结构-->
-          <Pagination :pageConfig="{total:productList.total,showPageNo:3,pageNo:options.pageNo,pageSize:2}" @changeCurrentPage="changeCurrentPage" />
+          <Pagination :pageConfig="{total:productList.total,showPageNo:5,pageNo:options.pageNo,pageSize:options.pageSize}" @changeCurrentPage="changeCurrentPage" />
         </div>
       </div>
     </div>
