@@ -70,9 +70,11 @@
               <li class="yui3-u-1-5" v-for="goods in goodsList" :key="goods.id">
                 <div class="list-wrap">
                   <div class="p-img">
-                    <a href="javascript:;">
+                    <!-- <a href="javascript:;">
                       <img :src="goods.defaultImg" />
-                    </a>
+                    </a> -->
+                    <!-- <router-link :to="{name:'detail',params:{skuId:goods.id}}"> <img :src="goods.defaultImg" /></router-link> -->
+                     <router-link :to="`/detail/${goods.id}`"> <img :src="goods.defaultImg" /></router-link>
                   </div>
                   <div class="price">
                     <strong>
@@ -81,7 +83,8 @@
                     </strong>
                   </div>
                   <div class="attr">
-                    <a href="javascript:;" :title="goods.title">{{goods.title}}</a>
+                    <!-- <a href="javascript:;" :title="goods.title">{{goods.title}}</a> -->
+                       <router-link :to="`/detail/${goods.id}`"> {{goods.title}}</router-link>
                   </div>
                   <div class="commit">
                     <i class="command">
@@ -98,7 +101,7 @@
             </ul>
           </div>
           <!--分页标签结构-->
-          <Pagination :pageConfig="{total:productList.total,showPageNo:5,pageNo:options.pageNo,pageSize:options.pageSize}" @changeCurrentPage="changeCurrentPage" />
+          <Pagination :pageConfig="{total:productList.total,showPageNo:3,pageNo:options.pageNo,pageSize:options.pageSize}" @changeCurrentPage="getProductList" />
         </div>
       </div>
     </div>
@@ -126,7 +129,7 @@ export default {
         // trademark: '', // '245:华为'  '品牌id:品牌的名字'
         order: '1:desc', // 排序的方式   1---综合, 2---价格, asc---升序   , desc---降序
         pageNo: 1, // 当前第几页
-        pageSize: 2, // 每页显示多少条数据
+        pageSize: 5, // 每页显示多少条数据
         keyword: '', // 搜索关键字
         props: [] // ['383:6.75-6.84英寸:屏幕尺寸", "385:16GB:机身存储']  多个属性条件组成的一个数组 [属性id:属性值:属性名字]
       }
@@ -160,7 +163,8 @@ export default {
   },
   methods: {
     // 发送异步请求获取产品信息数据
-    getProductList() {
+    getProductList(pageNo=1) {
+      this.options.pageNo =pageNo
       // 提交action,获取产品信息数据
       this.$store.dispatch('getProductList', this.options)
     },
@@ -281,11 +285,11 @@ export default {
        }
     },
     // 分页组件分发的事件对应的回调函数
-    changeCurrentPage(page){
-      // 子级组件点击分页按钮,修改父级组件中的页码数(第几页)
-      this.options.pageNo = page
-      this.getProductList()
-    }
+    // changeCurrentPage(page){
+    //   // 子级组件点击分页按钮,修改父级组件中的页码数(第几页)
+    //   // this.options.pageNo = page
+    //   this.getProductList(page)
+    // }
   },
   watch: {
     // to是个对象,目标路由信息对象---你要去哪里

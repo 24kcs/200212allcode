@@ -8,20 +8,43 @@
     <!-- 第一个:省略号 开始页码数大于2的情况 -->
     <button disabled v-if="startEnd.start>2">···</button>
     <!-- 连续页码  :class="{active:}"-->
-      <!--连续页码是5个  3  4  5  6  7  --> 
-    <button v-for="no in startEnd.end" v-if="no>=startEnd.start" :key="no" :class="{active:currentPage===no}" @click="changeCurrentPage(no)">{{no}}</button>
+    <!--连续页码是5个  3  4  5  6  7  -->
+    <button
+      v-for="no in startEnd.end"
+      v-if="no>=startEnd.start"
+      :key="no"
+      :class="{active:currentPage===no}"
+      @click="changeCurrentPage(no)"
+    >{{no}}</button>
     <!-- 第二个:省略号 结束页码小于总页码数-1的情况 -->
     <button disabled v-if="startEnd.end<totalPages-1">···</button>
     <!-- 最后一页 -->
     <button v-if="startEnd.end<totalPages" @click="changeCurrentPage(totalPages)">{{totalPages}}</button>
     <!--下一页-->
-    <button :disabled="currentPage===totalPages"  @click="changeCurrentPage(currentPage+1)">下一页</button>
+    <button :disabled="currentPage===totalPages" @click="changeCurrentPage(currentPage+1)">下一页</button>
     <!-- 总记录数 -->
     <button disabled style="margin-left: 30px">共 {{pageConfig.total}}条</button>
   </div>
 </template>
 
 <script>
+
+// var obj2 ={
+//   "name":"小浩"
+// }
+// var obj3={
+//   'name':'小浩',
+//   'sayHi'(){console.log('好开心啊')}
+// }
+// console.log(obj3['name'])
+// obj3['sayHi']()
+
+// var obj={
+//   name:'小浩'
+// }
+// obj.name
+// console.log(obj.name)
+
 export default {
   name: 'Pagination',
   props: {
@@ -35,6 +58,14 @@ export default {
         pageNo: 1, // 默认显示第几页的数据---第一页
         showPageNo: 5 // 连续的页码数(一般连续页码是奇数)
       }
+    }
+  },
+  watch: {
+    // 这是特殊的写法,因为内部是对象.属性的写法,所以需要使用单引号括起来.
+    'pageConfig.pageNo'(val) {
+      // val----pageConfig.pageNo 的数据
+      // 当前页面指定外部传入的值-----如果页码数发生变化,立刻更新当前组件的页码数
+      this.currentPage = val
     }
   },
   data() {
@@ -52,6 +83,8 @@ export default {
     // 修改当前选中页码的方法
     changeCurrentPage(page) {
       this.currentPage = page
+      // 通知父级组件Search,需要改变当前的页码,同时调用接口发送请求
+      this.$emit('changeCurrentPage', page)
     }
   },
   computed: {
@@ -103,7 +136,8 @@ export default {
       }
       return { start, end }
     }
-  },
+  }
+
   // mounted () {
   //   console.log(this.pageConfig.total)
   // }

@@ -7,6 +7,8 @@ import Login from '@/pages/Login'
 import Register from '@/pages/Register'
 // 引入Search组件
 import Search from '@/pages/Search'
+// 引入Detail组件
+import Detail from '@/pages/Detail'
 export default [
   // 注册路由组件
   // 主体路由组件
@@ -55,6 +57,11 @@ export default [
     path: '/search/:keyword?',
     component: Search,
     name: 'search'
+  },
+  {
+    name:'detail',
+    path:'/detail/:skuId', // 大小写都可以
+    component:Detail
   },
 
   // 重定向的设置
