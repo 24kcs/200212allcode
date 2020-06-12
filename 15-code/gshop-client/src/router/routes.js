@@ -11,6 +11,8 @@ import Search from '@/pages/Search'
 import Detail from '@/pages/Detail'
 // 引入AddCartSuccess组件
 import AddCartSuccess from '@/pages/AddCartSuccess'
+// 引入ShopCart组件
+import ShopCart from '@/pages/ShopCart'
 export default [
   // 注册路由组件
   // 主体路由组件
@@ -66,9 +68,14 @@ export default [
     path:'/detail/:skuId', // 大小写都可以
     component:Detail
   },
+  // 添加购物车成功的组件
   {
     path:'/addcartsuccess',
     component:AddCartSuccess
+  },
+  {
+    path:'/shopcart',
+    component:ShopCart
   },
   // 重定向的设置
   {

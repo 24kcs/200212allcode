@@ -23,3 +23,13 @@ export const reqDetailInfo =(skuId)=>ajax.get(`/item/${skuId}`)
 
 // 添加购物车成功的接口
 export const reqAddToCart=(skuId,skuNum)=>ajax.post(`/cart/addToCart/${skuId}/${skuNum}`)
+
+// 获取购物车列表数据的接口
+
+export const reqCartList=()=>ajax.get(`/cart/cartList`)
+
+// 指定购物车中的某一个数据项选中状态的接口
+export const reqCheckCartItem =(skuId,isChecked)=>ajax.get(`/cart/checkCart/${skuId}/${isChecked}`)
+
+// 删除购物车中的商品项
+export const reqDeleteItem=(skuId)=>ajax.delete(`/cart/deleteCart/${skuId}`)

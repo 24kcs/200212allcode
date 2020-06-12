@@ -1,6 +1,10 @@
-
+// 引入storageUtils
+import {getUUID} from '@/utils/storageUtils'
 const state = {
-  userInfo: {}
+  // 用户信息对象
+  userInfo: {},
+  // 用户临时凭证id
+  userTempId:getUUID()
 }
 const mutations = {
   // 直接修改userInfo的方法

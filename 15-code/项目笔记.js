@@ -475,9 +475,64 @@ trademark: "245:华为"
   解决bug:
 
 
-3. 通过分页组件实现项目的分页效果
 
-6.详情页的api接口的封装及vuex的封装
+  在详情页点击 添加购物车按钮,需要调用 添加购物车的api接口,同时需要跳转到 添加购物车成功  的界面
+  此时出现bug
+  1. 调用接口发送请求
+  2. 跳转路由
+
+  无论是添加成功还是 失败 都会跳转到 添加购物车成功 的界面
+  bug :
+  解决方案:
+  1. callback 回调
+       在提交action的时候,传入一个回调,回调内部传入 成功或者失败的信息数据,外部判断该信息是否存在则进行路由的跳转
+       1)组件中:在dispatch的时候需要指定一个回调函数
+       2)在异步的action中,在请求成功和失败的判断中,调用callback,传入errorMsg(可能有值也可能没有值)
+       3) 在回调函数内部: 判断如果接收的errorMsg没有数据则添加成功,如果有数据证明是添加失败,那么就提示错误信息即可
+
+  2. async + await  promise 的方式
+
+      利用的是async 函数
+      前提: async函数执行的返回值是个promise对象
+      promise成功的value:函数体执行没有出错,那么return 的就是value(不能是失败的promise)
+      promise失败的reason:函数体执行出错,抛出错误error/返回的是一个失败的promise
+      组件内部:store.dispatch()返回值就是action函数的返回值
+
+      1) 在组件中: 正常的提交action: this.$store.dispatch('addToCart', query)
+      2) 在异步的action中: 在请求处理成功或者失败后,返回的相关的errorMsg(有可能有中或者有可能没有值)
+      return result.code===200?'':(result.message||'添加失败')
+      3) 组件中,通过await 来得到错误信息errorMsg,根据errorMsg来做对应的处理
+
+
+
+      localStorage和sessionStorage的区别
+      相同点:
+        1)都需要浏览器进行存储数据
+        2)语法相同
+          setItem()/getItem()/removeItem()
+        都可以人为的清空数据
+      不同点:
+        sessionStorage
+          存在于浏览器的运行内存中---->浏览器关闭,数据被清除,浏览器重新打开,数据是读取不到的
+          操作数据相对的快一些
+        localStorage
+          存在于浏览器管理的本地文件中---->浏览器关闭再打开,数据依然存在,还可以进行读取操作
+          操作数据相对的慢一些
+
+
+          接下来的操作:
+
+          删除指定的购物车中的商品
+
+          删除所有选中的购物车商品
+
+          改变某个购物车中商品的选中状态
+
+          改变购物车所有的商品的选中状态
+
+          修改购物车中商品的数量
+
+
 
 
 

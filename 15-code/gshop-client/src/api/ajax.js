@@ -5,7 +5,8 @@ import axios from 'axios'
 // 引入nprogress插件及样式
 import Nprogress from 'nprogress'
 import 'nprogress/nprogress.css'
-
+// 引入store
+import store from '../store'
 // 1.设置通用的一个基础路径和请求的超时时间
 const ajax = axios.create({
   baseURL: '/api', // 前缀路径
@@ -16,6 +17,9 @@ const ajax = axios.create({
 ajax.interceptors.request.use(config => {
   // 3.请求的时候显示进度条
   Nprogress.start() // 此时是显示进度条(响应成功了,或者是失败的时候需要隐藏进度条)
+  // 把用户的临时凭证放在请求头中
+  config.headers['userTempId']= store.state.user.userTempId
+  console.log(config)
   return config
 })
 

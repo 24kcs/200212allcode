@@ -376,19 +376,50 @@ export default {
       // 更新轮播图数组中的索引值
       this.currentImageIndex = index
     },
-    // 跳转到 添加购物车成功的界面
-    addToCart() {
+    // 方式2:
+    async addToCart() {
       // 准备query的参数的
       const query = { skuId: this.skuInfo.id, skuNum: this.skuNum }
       // 先提交action,成功才能跳转界面
-      this.$store.dispatch('addToCart',query)
-      // 路由的跳转---跳转到添加购物车成功的界面
-      this.$router.push({ path: '/addcartsuccess', query })
-
-      // 此时出现了bug,无论添加成功还是失败,都可以直接跳转到添加购物车成功的界面(这是bug)
-
-      // 如何解决?  下午再讲
+      const errorMsg = await this.$store.dispatch('addToCart', query)
+      if (!errorMsg) {
+        // 存储商品信息到缓存中
+        window.sessionStorage.setItem('SKU_INFO',JSON.stringify(this.skuInfo))
+        // 路由跳转
+        this.$router.push({ path: '/addcartsuccess', query })
+      } else {
+        alert(errorMsg || '添加失败')
+      }
+      // this.callback(errorMsg)
     }
+    // callback(errorMsg) {
+    //   const query = { skuId: this.skuInfo.id, skuNum: this.skuNum }
+    //   // 判断
+    //   if (!errorMsg) {
+    //     // 添加购物车成功了(说明提交的action是成功的)
+    //     this.$router.push({ path: '/addcartsuccess', query })
+    //   } else {
+    //     alert(errorMsg || '添加失败')
+    //   }
+    // }
+    // 方式1:
+    // 跳转到 添加购物车成功的界面
+    // addToCart() {
+    //   // 准备query的参数的
+    //   const query = { skuId: this.skuInfo.id, skuNum: this.skuNum }
+    //   // 先提交action,成功才能跳转界面
+    //   this.$store.dispatch('addToCart', { ...query, callback: this.callback })
+    // },
+    // callback(errorMsg) {
+    //    const query = { skuId: this.skuInfo.id, skuNum: this.skuNum }
+    //   // 判断
+    //   if (!errorMsg) {
+    //     // 添加购物车成功了(说明提交的action是成功的)
+    //     this.$router.push({ path: '/addcartsuccess', query })
+    //   } else {
+    //     alert(errorMsg||'添加失败')
+    //   }
+    // }
   }
 }
 </script>
