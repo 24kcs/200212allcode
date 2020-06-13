@@ -5,8 +5,7 @@ import ajax from './ajax'
 import mockAjax from './mockAjax'
 // 获取三级分类信息数据列表的接口地址 http://47.93.148.192/api/product/getBaseCategoryList
 export const reqBaseCategoryList = () => ajax(`/product/getBaseCategoryList`)
-// 登录接口
-export const reqLogin = (mobile, password) => ajax.post(`/user/passport/login`, { mobile, password })
+
 
 
 // 定义接口
@@ -33,3 +32,11 @@ export const reqCheckCartItem =(skuId,isChecked)=>ajax.get(`/cart/checkCart/${sk
 
 // 删除购物车中的商品项
 export const reqDeleteItem=(skuId)=>ajax.delete(`/cart/deleteCart/${skuId}`)
+
+// 登录接口
+export const reqLogin = (mobile, password) => ajax.post(`/user/passport/login`, { mobile, password })
+// 注册接口
+// export const reqRegister=(mobile, password,code)=>ajax.post(`/user/passport/register`,{mobile,password,code})
+export const reqRegister=(userInfo)=>ajax.post(`/user/passport/register`,userInfo)
+// 退出
+export const reqLogout = ()=>ajax.get(`/user/passport/logout`)

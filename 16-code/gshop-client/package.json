@@ -17,6 +17,7 @@
     "nprogress": "^0.2.0",
     "swiper": "^5.4.2",
     "uuidjs": "^4.2.5",
+    "vee-validate": "^2.2.13",
     "vue": "^2.6.11",
     "vue-router": "^3.3.2",
     "vuex": "^3.4.0"

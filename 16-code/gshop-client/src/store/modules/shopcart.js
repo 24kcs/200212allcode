@@ -31,6 +31,14 @@ const actions = {
     // 判断成功或者失败,把字符串的结果进行返回操作(成功:空字符串,失败:非空字符串)
     return result.code === 200 ? '' : (result.message || '添加失败')
   },
+  async addToCart2 ({ commit, dispatch }, { skuId, skuNum }) {
+    const result = await reqAddToCart(skuId, skuNum)
+    if (result.code === 200) {
+      dispatch('getShopCartList')
+    } else {
+      alert(result.message || '添加购物车失败')
+    }
+  },
   // 获取购物车中商品列表数据
   async getShopCartList ({ commit }) {
     const result = await reqCartList()

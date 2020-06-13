@@ -19,6 +19,8 @@ import Carousel from './components/Carousel'
 
 // 引入分页组件Pagination
 import Pagination from './components/Pagination'
+// 引入veevalidate.js插件,执行一次该文件中的代码
+import './veevalidate'
 // 设置浏览器控制台默认的提示信息不显示
 Vue.config.productionTip = false
 

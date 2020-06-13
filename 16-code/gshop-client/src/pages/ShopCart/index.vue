@@ -34,18 +34,21 @@
           <li class="cart-list-con4">
             <span class="price">{{item.skuPrice}}</span>
           </li>
+
           <li class="cart-list-con5">
-            <a href="javascript:void(0)" class="mins">-</a>
+            <a href="javascript:void(0)" class="mins" @click="changeItemCount2(item,-1)">-</a>
+            <!--change事件:失去焦点后触发,input事件:数据发生变化就触发-->
             <input
               autocomplete="off"
               type="text"
-              value="1"
               minnum="1"
               class="itxt"
-              v-model="item.skuNum"
+              :value="item.skuNum"
+              @change="changeItemCount2(item,$event.target.value*1-item.skuNum)"
             />
-            <a href="javascript:void(0)" class="plus">+</a>
+            <a href="javascript:void(0)" class="plus" @click="changeItemCount2(item,1)">+</a>
           </li>
+
           <li class="cart-list-con6">
             <!--价格*数量-->
             <span class="sum">{{item.skuPrice*item.skuNum}}</span>
@@ -233,6 +236,36 @@ export default {
         this.getCartList() // 重新获取数据
       } catch (error) {
         alert(error.message)
+      }
+    },
+    // 修改当前商品的数量操作
+    async changeItemCount1(item, changeNum) {
+      // 先获取当前商品的skuId
+      const { skuId } = item
+      // 判断最后修改后的数量是否是大于0的
+      if (item.skuNum + changeNum > 0) {
+        // console.log(changeNum)
+        // 分发事件了
+        const errorMsg = await this.$store.dispatch('addToCart', {
+          skuId,
+          skuNum: changeNum
+        })
+        // 判断
+        if (!errorMsg) {
+          this.getCartList()
+        } else {
+          alert(errorMsg)
+        }
+      }
+    },
+    changeItemCount2(item, changeNum) {
+      // 先获取当前商品的skuId
+      const { skuId } = item
+      // 判断最后修改后的数量是否是大于0的
+      if (item.skuNum + changeNum > 0) {
+        // console.log(changeNum)
+        // 分发事件了
+        this.$store.dispatch('addToCart2', { skuId, skuNum: changeNum })
       }
     }
   }
