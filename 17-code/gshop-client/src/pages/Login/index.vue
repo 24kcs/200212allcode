@@ -55,37 +55,55 @@
   </div>
 </template>
 <script>
-
 export default {
   name: 'Login',
-  data () {
+  data() {
     return {
-      mobile:'13700000000' , // 手机号码
-      password:'111111' // 密码  
+      mobile: '13700000000', // 手机号码
+      password: '111111' // 密码
     }
   },
- 
+
   methods: {
     // 登录功能------自己去实现登录界面中的 手机号和密码的表单的校验功能
-    login(){
+    login() {
       // 获取手机号码和密码
-      const {mobile,password} = this
+      const { mobile, password } = this
       // 判断帐号和密码不能为空
-      if(mobile!=='' && password!==''){
+      if (mobile !== '' && password !== '') {
         // 提交异步action
-        this.$store.dispatch('login',{mobile,password})
-        .then(()=>{
-          // 跳转到首页
-          this.$router.replace('/')
-        })
-        .catch(error=>{
-          alert(error)
-        })
-      }else{
+        this.$store
+          .dispatch('login', { mobile, password })
+          .then(() => {
+            // 跳转到首页
+            // 先获取地址栏上保存过的地址
+            const {redirect}= this.$route.query
+            this.$router.replace(redirect||'/')
+          })
+          .catch(error => {
+            alert(error)
+          })
+      } else {
         alert('手机号码或者密码不能为空')
       }
     }
-  }
+  },
+  // // 组件内的路由守卫---前置守卫
+  // beforeRouteEnter(to, from, next) {
+  //   // 在渲染该组件的对应路由被 confirm 前调用
+  //   // 不！能！获取组件实例 `this`
+  //   // console.log(this)
+  //   // 因为当守卫执行前，组件实例还没被创建
+  //   //
+  //   next(vm => {
+  //     // vm 就是当前的这个组件实例对象
+  //     if (vm.$store.state.user.userInfo.name) {
+  //       next('/')
+  //     } else {
+  //       next()
+  //     }
+  //   })
+  // }
 }
 </script>
 <style lang="less" rel="stylesheet/less" scoped>

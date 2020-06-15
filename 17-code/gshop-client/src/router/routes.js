@@ -26,43 +26,74 @@ import Center from '@/pages/Center'
 import MyOrder from '@/pages/Center/MyOrder'
 // 引入GroupBuy--团购
 import GroupBuy from '@/pages/Center/GroupBuy'
+// 引入store
+import store from '@/store'
 
 export default [
   // 注册路由组件
   // 结算路由组件
   {
     path: '/trade',
-    component: Trade
+    component: Trade,
+    // 4. 只能从购物车的界面,才能跳转到交易界面(trade)
+    beforeEnter (to, from, next) {
+      // 是不是从购物车的界面过来的
+      if (from.path === '/shopcart') {
+        next() // 放行
+      } else {
+        // 不是从购物车界面来的,那就给跳到购物车界面去
+        next('/shopcart')
+      }
+    }
+
   },
 
   // 支付路由组件
   {
     path: '/pay',
-    component: Pay
+    component: Pay,
+    // 5. 只能从交易的界面,才能跳转到支付的界面(pay)
+    beforeEnter (to, from, next) {
+      // 是不是从交易界面过来的
+      if (from.path === '/trade') {
+        next()
+      } else {
+        next('/trade')
+      }
+    }
   },
 
   // 支付成功路由组件
   {
     path: '/paysuccess',
-    component: PaySuccess
+    component: PaySuccess,
+    // 6. 只能从支付的界面,才能跳转到支付成功的界面(paysuccess)
+    beforeEnter (to, from, next) {
+      // 是不是从pay界面过来的
+      if (from.path === '/pay') {
+        next()
+      } else {
+        next('/pay')
+      }
+    }
   },
 
   // 个人中心路由组件
   {
     path: '/center',
     component: Center,
-    children:[
+    children: [
       {
-        path:'/center/myorder',
-        component:MyOrder
+        path: '/center/myorder',
+        component: MyOrder
       },
       {
-        path:'groupbuy',  // 这是一种简写的方式
-        component:GroupBuy
+        path: 'groupbuy',  // 这是一种简写的方式
+        component: GroupBuy
       },
       {
-        path:'/center',
-        redirect:'/center/myorder'
+        path: '/center',
+        redirect: '/center/myorder'
       }
     ]
   },
@@ -80,6 +111,16 @@ export default [
     // 默认隐藏底部
     meta: {
       isHideFooter: true
+    },
+    // // 路由独享守卫
+    beforeEnter: (to, from, next) => {
+      // 2.只有在没有登录的情况下,才能看到登录界面
+      if (store.state.user.userInfo.name) {
+        next('/')
+      } else {
+        // 没有登录可以正常的访问其他的界面
+        next()
+      }
     }
   },
   // 注册路由组件
@@ -124,7 +165,19 @@ export default [
   // 添加购物车成功的组件
   {
     path: '/addcartsuccess',
-    component: AddCartSuccess
+    component: AddCartSuccess,
+    beforeEnter (to, from, next) {
+      // 3. 只有携带了skuId和skuNum以及sessionStorage中有skuInfo对象信息,才能看到添加购物车成功的界面addcartsuccess
+      const skuInfo = JSON.parse(window.sessionStorage.getItem('SKU_INFO'))
+      const { skuId, skuNum } = to.query
+      // 判断三个数据是否都存在
+      if (skuInfo && skuId && skuNum) {
+        next() // 放行
+      } else {
+        // 如果某个数据不存在,从哪里来的就给我回到哪里去
+        next(from.path)
+      }
+    }
   },
   {
     path: '/shopcart',

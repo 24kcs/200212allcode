@@ -10,11 +10,13 @@
   "dependencies": {
     "axios": "^0.19.2",
     "core-js": "^3.6.5",
+    "element-ui": "^2.13.2",
     "less": "^3.11.2",
     "less-loader": "^6.1.0",
     "lodash": "^4.17.15",
     "mockjs": "^1.1.0",
     "nprogress": "^0.2.0",
+    "qrcode": "^1.4.4",
     "swiper": "^5.4.2",
     "uuidjs": "^4.2.5",
     "vee-validate": "^2.2.13",
@@ -27,6 +29,7 @@
     "@vue/cli-plugin-eslint": "^4.4.0",
     "@vue/cli-service": "^4.4.0",
     "babel-eslint": "^10.1.0",
+    "babel-plugin-component": "^1.1.1",
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^6.2.2",
     "vue-template-compiler": "^2.6.11"
