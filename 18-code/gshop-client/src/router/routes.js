@@ -25,7 +25,10 @@ import Center from '@/pages/Center'
 // 引入MyOrder---我的订单
 import MyOrder from '@/pages/Center/MyOrder'
 // 引入GroupBuy--团购
-import GroupBuy from '@/pages/Center/GroupBuy'
+// import GroupBuy from '@/pages/Center/GroupBuy'
+
+// 路由懒加载---按需的加载
+const GroupBuy = () => import('@/pages/Center/GroupBuy')
 // 引入store
 import store from '@/store'
 
@@ -53,7 +56,7 @@ export default [
     path: '/pay',
     component: Pay,
     // 通过路由信息对象把传递过来的参数数据直接塞进props对象中
-    props:route=>({orderId:route.query.orderId}),
+    props: route => ({ orderId: route.query.orderId }),
     // 5. 只能从交易的界面,才能跳转到支付的界面(pay)
     beforeEnter (to, from, next) {
       // 是不是从交易界面过来的

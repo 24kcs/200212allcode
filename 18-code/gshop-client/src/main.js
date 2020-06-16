@@ -23,6 +23,16 @@ import Pagination from './components/Pagination'
 import './veevalidate'
 // 引入api
 import * as API from '@/api'
+// 引入elements.js文件
+import './elements'
+// 图片的懒加载
+import VueLazyload from 'vue-lazyload'
+// 引入懒加载的图片
+import loading from  './assets/images/loading.gif'
+Vue.use(VueLazyload, {
+  loading
+})
+
 // 将API挂载到Vue的原型上
 Vue.prototype.$API = API // 所有的组件都可以通过this.$API访问里面的接口函数了
 

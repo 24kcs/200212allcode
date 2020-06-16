@@ -74,7 +74,8 @@
                       <img :src="goods.defaultImg" />
                     </a> -->
                     <!-- <router-link :to="{name:'detail',params:{skuId:goods.id}}"> <img :src="goods.defaultImg" /></router-link> -->
-                     <router-link :to="`/detail/${goods.id}`"> <img :src="goods.defaultImg" /></router-link>
+                     <!-- <router-link :to="`/detail/${goods.id}`"> <img :src="goods.defaultImg" /></router-link> -->
+                     <router-link :to="`/detail/${goods.id}`"> <img v-lazy="goods.defaultImg" /></router-link>
                   </div>
                   <div class="price">
                     <strong>
@@ -129,7 +130,7 @@ export default {
         // trademark: '', // '245:华为'  '品牌id:品牌的名字'
         order: '1:desc', // 排序的方式   1---综合, 2---价格, asc---升序   , desc---降序
         pageNo: 1, // 当前第几页
-        pageSize: 5, // 每页显示多少条数据
+        pageSize: 10, // 每页显示多少条数据
         keyword: '', // 搜索关键字
         props: [] // ['383:6.75-6.84英寸:屏幕尺寸", "385:16GB:机身存储']  多个属性条件组成的一个数组 [属性id:属性值:属性名字]
       }

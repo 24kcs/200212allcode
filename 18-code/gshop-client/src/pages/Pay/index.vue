@@ -148,11 +148,64 @@ export default {
   methods: {
     // 支付操作
     pay() {
-      const result = QRCode.toDataURL(this.payInfo.codeUrl)
+      // 通过插件调用方法传入codeUrl 获取支付的二维码图片
+      QRCode.toDataURL(this.payInfo.codeUrl)
         .then(imgUrl => {
-          console.log(imgUrl)
+          // 显示二维码图片
+          this.$alert(`<img src="${imgUrl}" />`, '请使用微信扫码支付', {
+            // 这里是一个配置对象
+            dangerouslyUseHTMLString: true, // 解析html标签内容
+            showCancelButton: true, // 显示取消按钮
+            cancelButtonText: '支付中遇到问题',
+            confirmButtonText: '已成功支付',
+            center: true, // 居中显示
+            showClose: true // 是否显示右上角的x
+          })
+            .then(() => {
+              // 清理定时器
+              clearInterval(this.timeId)
+              // 关闭二维码对话框-----
+              this.$msgbox.close()
+              // 跳转界面
+              this.$router.push('/paysuccess')
+            })
+            .catch(error => {
+              // console.log('点的是关闭')
+              clearInterval(this.timeId)
+               this.$message.warning('请联系前台的漂亮妹妹客服')
+            })
+
+          // 支付的操作---可以获取当前支付的状态,但是不能做到实时更新的获取支付的状态
+          this.timeId = setInterval(() => {
+            this.$API
+              .reqOrderStatus(this.orderId)
+              .then(result => {
+                // console.log(result.code, result.message)
+                // 支付成功
+                if (result.code === 200) {
+                  // 清理定时器
+                  clearInterval(this.timeId)
+                  // 关闭二维码对话框-----
+                  this.$msgbox.close()
+                  // 跳转界面
+                  this.$router.push('/paysuccess')
+                  // 支付成功的提示
+                  this.$message.success('支付成功')
+                }
+              })
+              .catch(error => {
+                // 清理定时器
+                clearInterval(this.timeId)
+                this.$message.error('支付失败了')
+              })
+          }, 3000)
+
+          //  跳转界面到支付成功的界面
+          // this.$router.push('/paysuccess')
         })
-        .catch(error => {})
+        .catch(error => {
+          this.$message.error('支付二维码生成失败了喽')
+        })
 
       // 最终要跳转到支付成功的界面
     }
