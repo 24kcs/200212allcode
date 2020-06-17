@@ -1,26 +1,21 @@
-// 1. 默认导出(只能有一个)
+// 1.默认导出(只能是一个)
 export default {
-  m: 1
+  age: 18
 }
-
-// 2. 分别导出(可以有多个)
-export const yyy = 3
-export function zzz() {
-
+// 2. 分别导出(可以是多个)
+export const num1 = 100
+export function f1 () { }
+// 3. 统一导出(可以是多个)
+const name1 = '花花'
+const name2 = '华华'
+export{
+  name1,
+  name2
 }
-
-// 3. 统一导出(可以有多个)
-const a = 1
-const b = 2
-const c = 3
+const name3 = '强强'
+const name4 = '圆圆'
 export {
-  a,
-  b,
-  c
+  name3,
+  name4
 }
-const d = 4
-const e = 5
-export {
-  d,
-  e
-}
+

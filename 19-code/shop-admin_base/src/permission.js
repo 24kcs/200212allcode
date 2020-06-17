@@ -43,7 +43,7 @@ router.beforeEach(async(to, from, next) => {
           const asyncRoutes = await store.dispatch('permission/generateRoutes')
           // 动态添加可访问的权限路由, 注意将lastRoute放在最后
           router.addRoutes(asyncRoutes.concat(lastRoute))
-          console.log('asyncRoutes', asyncRoutes.concat(lastRoute))
+          // console.log('asyncRoutes', asyncRoutes.concat(lastRoute))
           // 跳转到目标路由去, 只是强制用替换模式
           next({ ...to, replace: true })
         } catch (error) { // 如果请求处理过程中出错 

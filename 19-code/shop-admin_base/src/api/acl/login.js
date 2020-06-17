@@ -1,6 +1,8 @@
+// 引入ajax(二次封装axios),内部有请求拦截器和响应拦截
 import request from '@/utils/request'
+// 封装公共的基础路径
 const API_NAME = '/admin/acl/index'
-
+// 默认暴露
 export default {
   /* 
   登录
