@@ -31,25 +31,29 @@ export default {
     Daughter
   },
   methods: {
-    // 找儿子借钱
+    // 向儿子借钱
     borrowMoney1() {
-      // 直接修改子级组件中的数据
-      // this.$refs.son.money-=100
-      // 让子级组件子级修改数据
+      // 父级组件直接操作子级组件中的数据----不推荐
+      // this.$refs.son.money -= 100
+      // 操作数据的组件是子级组件本身
       this.$refs.son.pullMoney(100)
       this.money += 100
     },
-    // 找女儿借钱
     borrowMoney2() {
       this.$refs.dau.pullMoney(200)
       this.money += 200
     },
-    // 找所有孩子借钱
+    // 向所有的孩子借钱
     borrowMoney3() {
+      // 如果有多个子级组件
+      // this.$refs.son.pullMoney(500)
+      // this.$refs.dau.pullMoney(500)
+      // 获取的是所有的子级组件
       this.$children.forEach(child=>{
         child.pullMoney(500)
         this.money+=1000
       })
+     
     }
   }
 }

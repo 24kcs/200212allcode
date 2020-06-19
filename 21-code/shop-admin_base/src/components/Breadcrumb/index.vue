@@ -36,7 +36,7 @@ export default {
         matched = [{ path: '/dashboard', meta: { title: '首页' }}].concat(matched)
       }
       this.levelList = matched.filter(item => item.meta && item.meta.title && item.meta.breadcrumb !== false)
-      console.log('levelList', this.levelList)
+      // console.log('levelList', this.levelList)
     },
     isDashboard(route) {
       const name = route && route.name

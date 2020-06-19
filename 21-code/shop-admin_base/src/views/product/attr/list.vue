@@ -1,6 +1,6 @@
 <template>
   <div>
-    平台属性管理
+    <CategorySelector />
   </div>
 </template>
 

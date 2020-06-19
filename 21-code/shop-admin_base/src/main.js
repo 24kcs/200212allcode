@@ -25,10 +25,14 @@ import { hasBtnPermission } from './utils/permission'
 // 引入api接口
 import * as API from '@/api'
 import HintButton from '@/components/HintButton'
-import CategorySelector from '@/components/CategorySelector'
+// import CategorySelector from '@/components/CategorySelector'
+
+// 引入三级分类组件
+import CategorySelector from '@/views/product/components/CategorySelector'
 
 // 注册全局组件
 Vue.component('HintButton', HintButton)
+// 注册全局组件
 Vue.component('CategorySelector', CategorySelector)
 
 Vue.prototype.$hasBP = hasBtnPermission
