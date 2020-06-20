@@ -10,6 +10,7 @@ export default {
   },
   // 添加或者修改平台属性
   addOrUpdateAttr (attr) {
+    console.log(attr)
     return request.post(`${api_name}/saveAttrInfo`, attr)
   },
   // 删除平台属性
