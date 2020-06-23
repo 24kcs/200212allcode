@@ -7,7 +7,7 @@
 
     <el-card>
       <!--添加属性按钮和表格-->
-      <div v-show="!isShowSpuForm">
+      <div v-show="!isShowSpuForm&&!isShowSkuForm">
         <!--按钮-->
         <el-button
           type="primary"
@@ -23,7 +23,7 @@
           <el-table-column label="SPU描述" prop="description"></el-table-column>
           <el-table-column label="操作" align="center">
             <template slot-scope="{row,$index}">
-              <HintButton title="添加SKU" type="primary" icon="el-icon-plus" size="mini" />
+              <HintButton title="添加SKU" type="primary" icon="el-icon-plus" size="mini" @click="showAddSku(row)" />
               <HintButton
                 title="修改SPU"
                 type="primary"
@@ -58,13 +58,15 @@
           background
         ></el-pagination>
       </div>
-
+      <!--添加或者修改Spu的界面-->
       <SpuForm
         :visible.sync="isShowSpuForm"
         ref="spuForm"
         @saveSuccess="saveSuccess"
         @cancel="cancel"
       />
+
+      <SkuForm v-show="isShowSkuForm" />
     </el-card>
   </div>
 </template>
@@ -72,10 +74,13 @@
 <script>
 // 引入SpuForm组件
 import SpuForm from '../components/SpuForm'
+// 引入SkuForm组件
+import SkuForm from '../components/SkuForm'
 export default {
   name: 'SpuList',
   components: {
-    SpuForm
+    SpuForm,
+    SkuForm
   },
   data() {
     return {
@@ -87,7 +92,8 @@ export default {
       limit: 3, // 每页的条数
       total: 0, // 总条数数据
       isShowSpuForm: false, // 设置spuform组件隐藏或者显示的属性
-      spuId: '' // 用来存储spuId数据的
+      spuId: '', // 用来存储spuId数据的
+      isShowSkuForm:false
     }
   },
   watch: {
@@ -197,6 +203,15 @@ export default {
       } else {
         this.$message.error('删除SPU失败')
       }
+    },
+
+
+
+
+    // 点击添加Sku按钮
+    showAddSku(spuInfo){
+      // 设置SkuForm界面展示出来
+      this.isShowSkuForm =true
     }
   }
 }
