@@ -24,7 +24,7 @@ Vue.use(VueRouter)
 // 创建路由器对象,并暴露出去
 const router = new VueRouter({
   // 设置路由地址是否携带#
-  mode: 'history', // 不带#
+  // mode: 'history', // 不带#
   // 注册路由组件
   routes,
   // 设置路由跳转的时候,滚动的位置操作
