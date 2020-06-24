@@ -37,7 +37,7 @@
                 size="mini"
                 @click="showUpdateSpuForm(row)"
               />
-              <HintButton title="查看已有的SKU" type="info" icon="el-icon-info" size="mini" />
+              <HintButton title="查看已有的SKU" type="info" icon="el-icon-info" size="mini" @click="showSkuList(row)" />
 
               <el-popconfirm :title="`确定删除属性 ${row.spuName} 吗?`" @onConfirm="deleteSpu(row)">
                 <HintButton
@@ -72,8 +72,27 @@
         @cancel="cancel"
       />
 
-      <SkuForm v-show="isShowSkuForm" ref="skuForm" />
+      <SkuForm
+        v-show="isShowSkuForm"
+        ref="skuForm"
+        @saveSuccess="isShowSkuForm=false"
+        @cancel="isShowSkuForm=false"
+      />
     </el-card>
+
+    <!--对话框,用来展示Sku列表数据-->
+    <el-dialog :title="spuName+'---->'+'SKU列表'" :visible.sync="isShowSkuList">
+      <el-table :data="skuList">
+        <el-table-column property="skuName" label="名称" width="150"></el-table-column>
+        <el-table-column property="price" label="价格(元)" width="200"></el-table-column>
+        <el-table-column property="weight" label="重量(KG)"></el-table-column>
+        <el-table-column property="skuDefaultImg" label="默认图片">
+          <template slot-scope="{row,$index}">
+            <img :src="row.skuDefaultImg" alt="图片" style="width:100px;height:100px">
+          </template>
+        </el-table-column>
+      </el-table>
+    </el-dialog>
   </div>
 </template>
 
@@ -99,7 +118,12 @@ export default {
       total: 0, // 总条数数据
       isShowSpuForm: false, // 设置spuform组件隐藏或者显示的属性
       spuId: '', // 用来存储spuId数据的
-      isShowSkuForm: false
+      isShowSkuForm: false,
+
+
+      spuName:'' , // spu的名字
+      skuList:[], // sku列表数据
+      isShowSkuList:false  // 用来显示或者隐藏当前对话框的
     }
   },
   watch: {
@@ -224,6 +248,17 @@ export default {
       }
       // 获取SkuForm组件对象,调用方法
       this.$refs.skuForm.initAddData(spuInfo)
+    },
+
+    // 点击查看SKU按钮,展示sku列表数据
+    async showSkuList(spuInfo){
+      // spu的名字
+      this.spuName = spuInfo.spuName
+      // 设置对话框显示
+      this.isShowSkuList = true
+      // 获取当前spu对应的所有的sku的数据
+      const result = await this.$API.sku.getSkuListBySpuId(spuInfo.id)
+      this.skuList = result.data
     }
   }
 }
